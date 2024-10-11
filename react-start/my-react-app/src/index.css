@@ -1,0 +1,58 @@
+/* NavigĂĄviĂłs felĂźletre vonatkozĂł beĂĄllĂ­tĂĄsok */
+body{
+  margin: 0;
+
+}
+ul {
+  width: 100%;
+  list-style-type: none;
+  overflow: hidden;
+  background-color: #F6F5F2;
+  outline: 0;
+  border: 0;
+  position: fixed;
+  top: 0;
+  position: sticky;
+  height: 60px !important;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+
+}
+
+
+li {
+  padding: 0px;
+  
+}
+
+
+/* BetĂźk  */
+li a {
+  margin: 0px;
+  display: flex;
+  color: rgb(33, 33, 33);
+  text-align: center;
+  text-decoration: none;
+  outline: 0;
+  border: 0;
+  padding: 0px 20px 0px 20px !important;
+  line-height: 400% !important;
+}
+
+
+li a:hover {
+  height: 100%;
+  background-color: #FF0074;
+}
+
+.active{
+  background-color: hsl(0, 1%, 35%);
+  color: white;
+  float: right;
+}
+
+.bal{
+  float: left;
+
+}
