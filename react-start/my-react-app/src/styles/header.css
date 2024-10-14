@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+
+header{
+    height: 100vh; /* A header kitölti a teljes képernyőt */
+   
+    justify-content: center; /* Középre igazítás vízszintesen */
+    align-items: center;
+    background-color: hsl(310, 79%, 85%);
+    margin: 0;
+    padding: 200px;
+    text-align: center;
+    max-height:800px;
+    
+}
+
+h1 { 
+    color: rgb(62, 62, 62);
+    font-size: 50px;
+}
+
+p{
+    color: rgb(62, 62, 62);
+    font-size: 20px;
+}

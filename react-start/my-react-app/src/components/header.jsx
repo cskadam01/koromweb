@@ -1,4 +1,4 @@
-import sytles from './header.module.css'
+import '../styles/header.css';
 
 function Header (){
     
@@ -6,7 +6,7 @@ function Header (){
 
 
     return(
-        <header className={sytles.header}>
+        <header className='header'>
             <h1>Zsuzsa Körömműhelye</h1>
             <p>Manikür | Pedikür | Képzések</p> 
         </header>

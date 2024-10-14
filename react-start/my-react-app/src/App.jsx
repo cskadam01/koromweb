@@ -1,5 +1,5 @@
-import KartyaOne from "./kartya1"
-import Header from "./header";
+import KartyaOne from "./components/kartya1";
+import Header from "./components/header";
 
 
 
@@ -7,7 +7,7 @@ function App() {
   return(
 
     <>
-   
+    
     <Header/>
     <KartyaOne/>
     </>
