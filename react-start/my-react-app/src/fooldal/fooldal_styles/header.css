@@ -10,7 +10,7 @@ header{
    
     justify-content: center; /* Középre igazítás vízszintesen */
     align-items: center;
-    background-color: hsl(310, 79%, 85%);
+    background-color: #f7bbed;
     margin: 0;
     padding: 200px;
     text-align: center;

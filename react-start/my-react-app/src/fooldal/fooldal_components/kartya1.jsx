@@ -1,6 +1,6 @@
-import '../styles/kartyak.css';
+import '../fooldal_styles/kartyak.css';
 
-function Kartyaone() {
+function Kartya() {
 
     return (
         <div class="wrapper">
@@ -23,4 +23,4 @@ function Kartyaone() {
     );
 
 }
-export default Kartyaone
+export default Kartya

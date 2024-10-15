@@ -1,4 +1,4 @@
-import '../styles/header.css';
+import '../fooldal_styles/header.css';
 
 function Header (){
     
