@@ -3,7 +3,7 @@ body{
   margin: 0;
   padding: 0;
 }
-ul {
+.ul-nav {
   width: 100%;
   list-style-type: none;
   overflow: hidden;
@@ -46,13 +46,13 @@ li a:hover {
   background-color: #FF0074;
 }
 
-.active{
+.active-nav{
   background-color: hsl(0, 1%, 35%);
   color: white;
   float: right;
 }
 
-.bal{
+.bal-nav{
   float: left;
 
 }

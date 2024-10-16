@@ -4,13 +4,13 @@ function Navbar() {
        
             
             <nav>
-                <ul>
-                    <li><a className="bal" href="">Főoldal</a></li>
-                    <li><a className="bal" href="">Galléria</a></li>
-                    <li><a className="bal" href="">Képzés</a></li>
-                    <li><a className="bal" href="">Szolgáltatás</a></li>
-                    <li><a className="active" href="">Bejelentkezés</a></li>
-                    <li><a className="active" href="">Regisztráció</a></li>
+                <ul className="ul-nav">
+                    <li><a className="bal-nav" href="">Főoldal</a></li>
+                    <li><a className="bal-nav" href="">Galléria</a></li>
+                    <li><a className="bal-nav" href="">Képzés</a></li>
+                    <li><a className="bal-nav" href="">Szolgáltatás</a></li>
+                    <li><a className="active-nav" href="">Bejelentkezés</a></li>
+                    <li><a className="active-nav" href="">Regisztráció</a></li>
 
                 </ul>
             </nav>

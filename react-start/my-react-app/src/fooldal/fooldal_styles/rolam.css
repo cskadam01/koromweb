@@ -1,1 +1,65 @@
+.rolam-container {
+    background-color: rgb(105, 105, 105);
+    color: aliceblue;
+    
+    padding: 1%;
 
+
+}
+
+.jobb-rolam, .bal-rolam{
+    padding: 3% 10%;
+
+}
+
+.rolam-profil{
+    border-radius: 50%;  
+    margin: 0 auto;
+    width: 250px;
+    height: 250px;
+}
+
+
+
+.elvalaszto{
+    height: 1px;
+    width: 80%;
+    
+    background-color: antiquewhite;
+    border-radius: 40%;
+    margin: 0 auto;
+
+
+}
+
+
+
+.Social a{
+    color: wheat;
+    text-decoration: none;
+
+}
+
+.Social{
+    width: 80%; /* Ugyanolyan szélességű, mint a felette lévő tartalom */
+    margin: 0 auto; /* Középre igazítja a social média konténert */
+    text-align: center; /* Középre igazítja a tartalmat belül */
+    
+}
+
+.jobb-rolam{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-left: 10%;       
+}
+
+.jobb-rolam-text h4, .jobb-rolam-text p {
+    margin: 0;
+}
+
+.Social .row {
+    justify-content: space-around; /* Egyenletesen osztja el a linkeket */
+}
