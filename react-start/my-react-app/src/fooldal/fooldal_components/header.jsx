@@ -7,7 +7,7 @@ function Header (){
 
     return(
         <header className='header'>
-            <h1>Zsuzsa Körömműhelye</h1>
+            <h1>Foglalj Időpontot Akár Azonnal!</h1>
             <p className='p-header'>Manikür | Pedikür | Képzések</p> 
         </header>
     );

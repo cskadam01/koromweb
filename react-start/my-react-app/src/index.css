@@ -17,12 +17,17 @@ body{
   align-items: center;
   padding: 0;
   margin: 0;
+  display: flex; /* Flexbox hozzáadása */
+  justify-content: space-between; /* Bal és jobb oldali elemek közötti tér */
+  align-items: center; /* Vertikális középre igazítás */
+  position: relative;
 
 }
 
 
 li {
   padding: 0px;
+  display: inline-block; /* Inline blokkos megjelenítés */
   
 }
 
@@ -54,7 +59,44 @@ li a:hover {
 
 .bal-nav{
   float: left;
-
 }
 
+.navbar-nev {
+  font-size: 24px;
+  text-align: center;
+  flex-grow: 1; /* A cím kitölti a középső helyet */
+  color: rgb(33, 33, 33);
+  margin: 0 auto; /* Ezzel a cím középre igazodik */
+  position: absolute;
+  left: 50%; 
+  transform: translateX(-50%);
+}
 
+.left-nav, .right-nav {
+  display: flex; /* Ezekkel a csoportok rugalmasak lesznek */
+}
+
+@media (max-width: 768px) {
+  .ul-nav {
+    flex-direction: column; /* A navigációs elemek függőlegesen egymás alatt helyezkednek el */
+    justify-content: center;
+    height: auto; /* A magasság automatikusan igazodik */
+  }
+
+  .left-nav, .right-nav {
+    flex-direction: column; /* A navigációs elemek is egymás alá kerülnek */
+    align-items: center;
+    width: 100%; /* A teljes szélességet kitöltik */
+  }
+
+  .navbar-nev {
+    position: relative; /* A felirat nem abszolút, hanem normál elhelyezést kap */
+    order: -1; /* A felirat kerül felülre a navigációs elemek előtt */
+    margin-bottom: 10px; /* Kis távolság a navigációs elemek előtt */
+  }
+
+  li {
+    padding: 10px 0; /* Függőleges térköz az elemek között */
+    text-align: center; /* A navigációs elemek középre igazítása */
+  }
+}

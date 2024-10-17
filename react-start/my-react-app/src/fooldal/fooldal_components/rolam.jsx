@@ -3,7 +3,7 @@ import "../fooldal_styles/rolam.css";
 function Rolam() {
     return (
         <div className="rolam-container">
-            
+
             <div className="row">
                 <div className="col-sm-12 col-md-7 col-lg-7 bal-rolam">
                     <h2>Rólam</h2>
@@ -13,51 +13,51 @@ function Rolam() {
 
                 </div>
 
-                    <div className="col-sm-12 col-md-5 col-lg-5 jobb-rolam">
+                <div className="col-sm-12 col-md-5 col-lg-5 jobb-rolam">
                     <div className="rolam-profil-container">
-                    <img className="rolam-profil"src="./pics/profil.png" alt="" />
+                        <img className="rolam-profil" src="./pics/profil.png" alt="" />
                     </div>
                     <div className="jobb-rolam-text">
-                    <h4>Homolya Zsuzsa</h4>                   
-                    <p>Köröm Technikus</p>                                          
-                    </div>                                 
+                        <h4>Homolya Zsuzsa</h4>
+                        <p>Köröm Technikus</p>
+                    </div>
                 </div>
 
                 <div className="elvalaszto"></div>
 
                 <div className="Social">
-                <div className="row">
-                <div className="col-sm-12 col-md-3 col-lg-3 ">
-                    <img src="" alt="" />
-                    <p><a href="">Instagram</a></p>
+                    <div className="row">
+                        <div className="col-sm-12 col-md-3 col-lg-3 ">
+                            <img src="" alt="" />
+                            <p><a href="">Instagram</a></p>
 
-                </div>
-                
-                <div className="col-sm-12 col-md-3 col-lg-3 ">
-                    <img src="" alt="" />
-                    <p><a href="">Facebook</a></p>
+                        </div>
 
-
-                </div>
-
-                <div className="col-sm-12 col-md-3 col-lg-3 ">
-                    <img src="" alt="" />
-                    <p><a href="">Email</a></p>
+                        <div className="col-sm-12 col-md-3 col-lg-3 ">
+                            <img src="" alt="" />
+                            <p><a href="">Facebook</a></p>
 
 
-                </div>
+                        </div>
 
-                <div className="col-sm-12 col-md-3 col-lg-3 ">
-                    <img src="" alt="" />
-                    <p><a href="">Tiktok</a></p>
+                        <div className="col-sm-12 col-md-3 col-lg-3 ">
+                            <img src="" alt="" />
+                            <p><a href="">Email</a></p>
 
 
-                </div>
-                </div>
+                        </div>
+
+                        <div className="col-sm-12 col-md-3 col-lg-3 ">
+                            <img src="" alt="" />
+                            <p><a href="">Tiktok</a></p>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
+
     );
 
 
