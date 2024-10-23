@@ -100,3 +100,18 @@ li a:hover {
     text-align: center; /* A navigációs elemek középre igazítása */
   }
 }
+
+Link{
+  margin: 0;
+  padding: 0;
+  text-decoration: 0;
+
+}
+
+main{
+  margin: 0;
+  padding: 0;
+  text-decoration: 0;
+
+  
+}
