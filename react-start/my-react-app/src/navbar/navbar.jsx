@@ -13,33 +13,36 @@ function Navbar() {
     
         <div className="left-nav">
             <Link to="/">
-            <li><a className="bal-nav" href="">Főoldal</a></li>
+            <li className="bal-nav" >Főoldal</li>
             </Link>
 
             <Link to="./galleria">
-            <li><a className="bal-nav" href="">Galléria</a></li>
+            <li className="bal-nav">Galléria</li>
             </Link>
 
             <Link to="./kepzes">
-            <li><a className="bal-nav" href="">Képzés</a></li>
+            <li className="bal-nav">Képzés</li>
             </Link>
 
             <Link to="./szalon">
-            <li><a className="bal-nav" href="">Szolgáltatás</a></li>
+            <li className="bal-nav">Szolgáltatás</li>
             </Link>
 
         </div>
         <li className="navbar-nev">Zsuzsa Köröm Műhelye</li>
         <div className="right-nav">
             <Link to="./login">
-            <li><a className="active-nav" href="">Bejelentkezés</a></li>
+            <li className="active-nav">Bejelentkezés</li>
             </Link>
 
-            <Link to="./regist">
-            <li><a className="active-nav" href="">Regisztráció</a></li>
-            </Link>
+            <Link to="./login">
+            <li className="active-nav">Regisztráció</li>
+            </Link>         
+            
         </div>
-        
+        <div className="apro"></div>
+
+
     </ul>
 </nav>
 
