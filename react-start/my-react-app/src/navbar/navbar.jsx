@@ -7,7 +7,7 @@ function Navbar() {
 
     return(
        
-            
+<div className="Navbar">            
 <nav>
     <ul className="ul-nav">
     
@@ -40,11 +40,44 @@ function Navbar() {
             </Link>         
             
         </div>
-        <div className="apro"></div>
 
 
     </ul>
 </nav>
+<div className="Scroll-down">
+    <ul className="Scroll-ul">
+        <Link to="/">
+            <li className="apro-a" >Főoldal</li>
+            </Link>
+
+            <Link to="./galleria">
+            <li className="apro-a">Galléria</li>
+            </Link>
+
+            <Link to="./kepzes">
+            <li className="apro-a">Képzés</li>
+            </Link>
+
+            <Link to="./szalon">
+            <li className="apro-a">Szolgáltatás</li>
+            </Link>
+            <Link to="./login">
+            <li className="apro-lr">Bejelentkezés</li>
+            </Link>
+
+            <Link to="./login">
+            <li className="apro-lr">Regisztráció</li>
+            </Link> 
+
+            </ul>
+
+
+
+        </div>
+
+
+
+</div>
 
        
     );

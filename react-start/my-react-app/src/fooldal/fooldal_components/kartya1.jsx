@@ -6,7 +6,7 @@ function Kartya() {
         <div class="wrapper">
             <div className='row'>
                 <div className="col-sm-12 col-md-12 col-lg-6">
-            <article class="card hover line">
+                <article class="card hover line">
                 <img class="image" src="./pics/szalon.jpg" alt="" />
                 <h2 class="title">Szalon</h2>
                 <p class="text">Itt tudsz időpontot foglalni manikűr illetve pedikűr szolgáltatűsaimra</p>

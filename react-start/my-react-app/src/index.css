@@ -6,14 +6,14 @@ body{
 .ul-nav {
   width: 100%;
   list-style-type: none;
-  overflow: hidden;
+  overflow:inherit;
   background-color: #F6F5F2;
   outline: 0;
   border: 0;
-  position: fixed;
+
   top: 0;
   position: sticky;
-  height: 60px !important;
+  height: 70px !important;
   align-items: center;
   padding: 0;
   margin: 0;
@@ -25,9 +25,10 @@ body{
 }
 
 
-li {
+li .left-nav, .navbar-nev, .active-nav {
   padding: 0px;
   display: inline-block; /* Inline blokkos megjelenítés */
+  
   
 }
 
@@ -42,7 +43,8 @@ li {
   outline: 0;
   border: 0;
   padding: 0px 20px 0px 20px !important;
-  line-height: 400% !important;
+  line-height: 70px; 
+  
 }
 
 
@@ -76,19 +78,57 @@ li {
 .left-nav, .right-nav {
   display: flex; /* Ezekkel a csoportok rugalmasak lesznek */
 }
-.right-nav button{
-  display: none;
-  
+
+
+
+.apro-a, .apro-lr{
+display: none;
+background: #F6F5F2;
+}
+
+.Scroll-down{
+  background-color: antiquewhite;
+  text-align: center;
+  text-decoration: none;
+
+
 }
 
 
-@media (max-width: 992px) {
+
+.Scroll-ul{
+  width: 100%;
+  padding: 0;
+  list-style: none; /* Eltávolítja az alapértelmezett margót */
+  margin: 0;
+  text-decoration: none;
+   
+}
+
+
+
+
+
+@media (max-width: 1000px) {
     .bal-nav, .active-nav{
         display: none;
     }
 
-    .right-nav button{
+    .Scroll-down .apro-a, .apro-lr, .Scroll-ul{
       display: block;
+      
+      
+    }
+
+    .apro-a , .apro-lr {
+      background-color: #FF0074;
+      width: 100%;
+      margin: 0;
+      padding: 10px;
+      border-color:black; 
+      color: wheat;
+      text-decoration: none;
+    
 
     }
 }
