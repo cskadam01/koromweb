@@ -2,6 +2,7 @@
 body{
   margin: 0;
   padding: 0;
+  text-decoration: none;
 }
 .ul-nav {
   width: 100%;
@@ -84,6 +85,7 @@ li .left-nav, .navbar-nev, .active-nav {
 .apro-a, .apro-lr{
 display: none;
 background: #F6F5F2;
+text-decoration: none;
 }
 
 .Scroll-down{
@@ -109,13 +111,14 @@ background: #F6F5F2;
 
 
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
     .bal-nav, .active-nav{
         display: none;
     }
 
     .Scroll-down .apro-a, .apro-lr, .Scroll-ul{
       display: block;
+      text-decoration: none;
       
       
     }
@@ -126,10 +129,24 @@ background: #F6F5F2;
       margin: 0;
       padding: 10px;
       border-color:black; 
-      color: wheat;
+      color: rgb(255, 255, 255);
       text-decoration: none;
+      
     
 
     }
 }
 
+
+
+
+
+.galleria-head{
+  margin: 0;
+  text-align: center;
+  padding: 20px;
+  background-color: #ff2d8cee;
+  color: #F6F5F2;
+  text-decoration: none;
+
+}

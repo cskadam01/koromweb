@@ -46,26 +46,26 @@ function Navbar() {
 </nav>
 <div className="Scroll-down">
     <ul className="Scroll-ul">
-        <Link to="/">
+        <Link to="/" style={{textDecoration:'none'}}>
             <li className="apro-a" >Főoldal</li>
             </Link>
 
-            <Link to="./galleria">
+            <Link to="./galleria" style={{textDecoration:'none'}}>
             <li className="apro-a">Galléria</li>
             </Link>
 
-            <Link to="./kepzes">
+            <Link to="./kepzes" style={{textDecoration:'none'}} >
             <li className="apro-a">Képzés</li>
             </Link>
 
-            <Link to="./szalon">
+            <Link to="./szalon" style={{textDecoration:'none'}}>
             <li className="apro-a">Szolgáltatás</li>
             </Link>
-            <Link to="./login">
+            <Link to="./login" style={{textDecoration:'none'}}>
             <li className="apro-lr">Bejelentkezés</li>
             </Link>
 
-            <Link to="./login">
+            <Link to="./login" style={{textDecoration:'none'}}>
             <li className="apro-lr">Regisztráció</li>
             </Link> 
 

@@ -1,0 +1,42 @@
+.gall-content{
+    background-color: azure;
+    margin: 0px 20px 0 20px;
+    overflow:hidden;
+    padding-top: 20px;
+
+}
+.gall-kartya-img{
+    max-height: 100%;
+    max-width: 99%;
+    
+}
+
+.gall-card{
+    background-color: hsla(320, 99%, 69%, 0.484);
+    border-radius: 15px;
+    
+
+
+    
+}
+
+.galleria-h5{
+    margin-top: 10px;
+
+}
+
+.gall-card:hover{
+    top: 0;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+
+    &:hover{box-shadow: 0 20px 40px rgba(255, 106, 185, 0.35);
+    top: -2px;
+    }
+
+}
+
+.kozteshely{
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
