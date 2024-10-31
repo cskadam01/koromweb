@@ -1,0 +1,364 @@
+@import 'lesshat';
+@import 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/230827/_variables.less';
+
+@mid-blue: #0e0036;
+@blue: #348fcf;
+@dark-blue: #2c3153;
+@green: #34cf63;
+@light-blue: #71678c;
+
+@pink: #ee5181;
+
+@black: #301d20;
+@light-black: #575757;
+@darker-gray: #9b9b9b;
+@dark-gray: #d2d2d2;
+@gray: #f3f3f3;
+@light-gray:#f8f8f8;
+@white: #ffffff;
+
+
+html {
+  font-size: 62.5%;
+  background-color:@gray;
+  position: relative;
+  min-height: 100%;
+
+  body{
+    font-family: 'Noto Sans', sans-serif;
+    color: @black;
+    margin: 0;
+    font-size: 1.4rem;
+    line-height: initial;
+  }
+}
+
+.appointment-popup {
+  box-shadow:0 0 20px rgba(0,0,0,.2);
+  position: absolute;
+  top: 12rem;
+  left: 50%;
+  width: 90rem;
+  max-width:90%;
+  background: white;
+  border-radius: 1rem;
+  z-index: 1;
+  display: flex;
+  overflow: hidden;
+  .translateX(-50%);
+  min-height: 50rem;
+  max-height: 65rem;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+    max-width:100%;
+    top: 0;
+    border-radius: 0;
+    overflow: auto;
+    height: calc(~"100% - 6.4rem");
+    min-height: auto;
+    max-height: 100%;
+  }
+
+  .appointment-user-wrapper {
+    background: @dark-blue;
+    flex: 0 0 25rem;
+
+    @media screen and (max-width: 768px) {
+      flex-wrap: wrap;
+      display: flex;
+      width: 100%;
+    }
+
+    .user-avatar {
+      position: relative;
+      padding-bottom: 100%;
+      width: 100%;
+      overflow: hidden;
+
+      img {
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        .translate(-50%, -50%)
+      }
+
+      @media screen and (max-width: 768px) {
+        flex: 0 0 35%;
+        padding-bottom:35%;
+      }
+    }
+
+    .appointment-user {
+      padding: 2rem 2rem 0 2rem;
+
+      @media screen and (max-width: 768px) {
+        flex:1;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 2rem;
+        flex-direction: column;
+      }
+
+      .username {
+        color: white;
+        font-size: 1.8rem;
+      }
+
+      .specialization {
+        color: fadeOut(white, 50%);
+        font-size: 1.3rem;
+        display: block;
+        margin-top: .5rem;
+      }
+
+      .notation {
+        display: flex;
+        margin-top: .5rem;
+
+        span {
+          padding: .25rem !important;
+
+          &:before {
+            content: @fa-var-star;
+            font-family: 'Font Awesome 5 Pro';
+            font-weight: bold;
+            color: fadeOut(white, 50%);
+            display: block;
+          }
+        }
+
+        &.five span:nth-child(-n+5):before,
+          &.four span:nth-child(-n+4):before,
+            &.three span:nth-child(-n+3):before,
+              &.two span:nth-child(-n+2):before,
+                &.one span:nth-child(-n+1):before {
+                  color: @pink;
+        }
+      }
+    }
+
+    .appointment-location {
+      padding:2rem 0;
+      margin:2rem;
+      border-top:1px solid fadeOut(white, 50%);
+      p{
+        color: fadeOut(white, 50%);
+        margin-top:0;
+        margin-bottom:.5rem;
+      }
+
+      @media screen and (max-width: 768px) {
+        width:100%;
+        margin:0;
+      }
+    }
+
+
+  }
+
+  .appointment-calendar {
+    width: 100%;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+
+    .current-week {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid @gray;
+      align-items: center;
+
+      & > span {
+        font-size: 2rem;
+        color: #2d3152;
+
+        i {
+          color: @pink;
+          margin-right: .5rem;
+          opacity: .5;
+        }
+      }
+
+      .calendar-nav {
+        button {
+          border: none;
+          background: transparent;
+          padding: 0;
+          font-size: 0;
+          cursor: pointer;
+
+          &:before {
+            font-family: "Font Awesome 5 Pro";
+            font-size: 2rem;
+            padding: 0 1.5rem;
+            display: block;
+          }
+
+          &.prev {
+            &:before {
+              content: @fa-var-chevron-left;
+            }
+          }
+
+          &.next {
+            &:before {
+              content: @fa-var-chevron-right;
+            }
+          }
+        }
+
+        @media screen and (max-width: 768px) {
+          flex-wrap: wrap;
+
+          .calendar-nav button:before {
+            padding: 0 1rem;
+            font-size: 1.2rem;
+          }
+
+          & > span {
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+
+    .calendar-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .calendar-week {
+        border-bottom: 1px solid @gray;
+
+        ul {
+          padding: 0;
+          list-style: none;
+          display: flex;
+          width: 100%;
+          margin: 0;
+
+          li {
+            width: 100%;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: @light-black;
+          }
+        }
+      }
+
+      .calendar-hours {
+        overflow: auto;
+        margin: 0 -2rem;
+        padding: 1rem 2rem;
+        height: 100%;
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        & > ul {
+          display: flex;
+
+          & > li {
+            width: 100%;
+            text-align: center;
+
+            & > ul > li {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              min-height: 3.5rem;
+              color: blue;
+              cursor: pointer;
+              padding: .5rem;
+
+              &.empty {
+                &:hover {
+                  background-color: none;
+                  box-shadow: none;
+                }
+
+                &:before {
+                  content: '';
+                  width: 1.5rem;
+                  margin: 0 auto;
+                  height: .5rem;
+                  background: gray;
+                  display: block;
+                }
+              }
+
+              &:hover, &.active {
+                background: pink;
+                border-radius: 1rem;
+                color: white;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+    .calendar-buttons {
+      display: flex;
+      border-top: 1px solid;
+      margin: 0 -2rem;
+
+      button {
+        cursor: pointer;
+        outline: none;
+        background: transparent;
+        width: 100%;
+        border: none;
+        font-size: 1.5rem;
+        padding: 2rem;
+        color:gray;
+        letter-spacing:1px;
+
+        &:hover{
+            background-color:pink;
+        }
+
+        &.validation {
+          background: pink;
+          color: white;
+
+          &:hover{
+            background-color:pink;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      padding: 0;
+
+      .calendar-wrapper {
+        .calendar-hours {
+          padding: 0;
+          margin: 0;
+
+          & > ul > li > ul > li {
+            padding: 1rem 0 .75rem 0;
+            font-size: 1.2rem;
+          }
+        }
+      }
+
+
+      .calendar-buttons {
+        margin: 0;
+      }
+    }
+  }
+}

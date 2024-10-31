@@ -47,8 +47,8 @@
     
 }
 
-.jobb-rolam{
-    text-align: center;
+footer .jobb-rolam{
+    text-align:left;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,8 +58,17 @@
 
 .jobb-rolam-text h4, .jobb-rolam-text p {
     margin: 0;
+    
 }
 
 .Social .row {
     justify-content: space-around; /* Egyenletesen osztja el a linkeket */
+}
+.bal-rolam h2{
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.bal-rolam p{
+    text-align: left;
 }

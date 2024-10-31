@@ -30,16 +30,6 @@ function Navbar() {
 
         </div>
         <li className="navbar-nev">Zsuzsa Köröm Műhelye</li>
-        <div className="right-nav">
-            <Link to="./login">
-            <li className="active-nav">Bejelentkezés</li>
-            </Link>
-
-            <Link to="./login">
-            <li className="active-nav">Regisztráció</li>
-            </Link>         
-            
-        </div>
 
 
     </ul>
@@ -61,13 +51,7 @@ function Navbar() {
             <Link to="./szalon" style={{textDecoration:'none'}}>
             <li className="apro-a">Szolgáltatás</li>
             </Link>
-            <Link to="./login" style={{textDecoration:'none'}}>
-            <li className="apro-lr">Bejelentkezés</li>
-            </Link>
 
-            <Link to="./login" style={{textDecoration:'none'}}>
-            <li className="apro-lr">Regisztráció</li>
-            </Link> 
 
             </ul>
 

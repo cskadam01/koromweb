@@ -4,7 +4,7 @@ function Rolam() {
     return (
         <div className="rolam-container">
 
-            <div className="row">
+            <div className="row footer">
                 <div className="col-sm-12 col-md-7 col-lg-7 bal-rolam">
                     <h2>Rólam</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id totam error dicta consequuntur labore magnam culpa adipisci voluptatum vero placeat expedita, delectus molestias vitae neque maiores mollitia iusto eos eveniet.</p>

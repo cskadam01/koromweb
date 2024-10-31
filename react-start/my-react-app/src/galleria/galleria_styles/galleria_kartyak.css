@@ -1,28 +1,45 @@
-.gall-content{
-    background-color: azure;
-    margin: 0px 20px 0 20px;
-    overflow:hidden;
-    padding-top: 20px;
 
-}
+.gall-content {
+        background-color: rgb(251, 251, 251);
+        padding-top: 20px;
+        text-align: center;
+        max-width: 1800px; /* Ez a szélesség segít a középre igazításban */
+        margin: 0 auto;    /* Középre helyezés */
+        align-items: center;
+        border-radius: 20px;
+    }
+       /* vertikális középre helyezés */
+  
+
+
 .gall-kartya-img{
     max-height: 100%;
-    max-width: 99%;
+    max-width: 100%;
     
 }
 
 .gall-card{
-    background-color: hsla(320, 99%, 69%, 0.484);
+    background-color: hsla(310, 100%, 76%, 0.484);
     border-radius: 15px;
-    
-
-
+    max-width: 450px;
+    justify-content: center;
+    text-align: center;
+    margin: 10px 0;
     
 }
 
 .galleria-h5{
     margin-top: 10px;
 
+}
+.galleria-p{
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+.kozteshely .col-sm-12, .col-md-4, .col-lg-4 {
+    display: flex;
+    justify-content: center; /* Középre igazítja a kártyát az oszlopban */
 }
 
 .gall-card:hover{
@@ -39,4 +56,8 @@
 .kozteshely{
     margin-bottom: 30px;
     margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
 }
