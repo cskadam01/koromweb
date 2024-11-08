@@ -7,6 +7,7 @@ import Kepzes from './kepzes/kepzes';
 import Szalon from './szalon/szalon';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
+import Idopont from './idopont/idopont';
 
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path='/galleria' element={<Galleria/>}/>
           <Route path='/kepzes' element={<Kepzes/>}/>
           <Route path='/szalon' element={<Szalon/>}/>
+          <Route path='/idopont' element={<Idopont/>}/>
 
           </Route>
         </Routes>
