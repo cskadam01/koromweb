@@ -1,0 +1,41 @@
+.admin-nav {
+    position: fixed;
+    width: 100%;
+    
+    background-color: #F6F5F2;
+    display: flex;
+    
+    align-items: center;
+    padding: 20px 0; 
+    gap: 30px;
+    box-sizing: border-box; /* Beleértve a paddinget is */
+}
+
+.admin-li {
+    text-align: center;
+    list-style: none;
+    color: hsl(0, 0%, 18%);
+}
+
+.admin-link {
+    text-decoration: none;
+    margin-left:25px ;
+}
+
+.admin-link-bottom {
+    margin-top: auto; /* Linket az aljára helyezi */
+    color: white;
+    background-color: red;
+    padding:20px 10px 20px 10px;
+    width: 100%;
+    
+}
+
+
+@media (max-width:1000px) {
+    .admin-nav{
+        width: 100%;
+
+    }
+    
+}
