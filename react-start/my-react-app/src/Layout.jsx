@@ -1,20 +1,20 @@
 import Navbar from "./navbar/navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
-function Layout(){
-    return(
+function Layout() {
+    const location = useLocation();
 
+    // Ellenőrzi, hogy nem a /loginAdmin oldalon vagyunk-e
+    const showNavbar = location.pathname !== '/loginAdmin';
+
+    return (
         <>
-            <Navbar/>
+            {showNavbar && <Navbar />}
             <main>
-                <Outlet/>
+                <Outlet />
             </main>
-        
         </>
-
-
     );
-
 }
 
-export default Layout
+export default Layout;

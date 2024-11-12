@@ -7,6 +7,7 @@ import Kepzes from './kepzes/kepzes';
 import Szalon from './szalon/szalon';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
+import LoginAdmin from './admin/loginAdmin';
 
 
 
@@ -23,7 +24,8 @@ function App() {
           <Route path='/' element={<Fooldal/>}/>
           <Route path='/galleria' element={<Galleria/>}/>
           <Route path='/kepzes' element={<Kepzes/>}/>
-          <Route path='/szalon' element={<Szalon/>}/>
+          
+          <Route path='/loginAdmin' element={<LoginAdmin/>}/>
 
           </Route>
         </Routes>
