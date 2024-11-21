@@ -1,15 +1,26 @@
-import Navbar from "./navbar/navbar";
+import DefaultNavbar from "./navbar/navbar"; // Alapértelmezett navbar
+import AdminNavbar from "./admin/admin_sites/balnav/balnav"; // Egyedi admin navbar
 import { Outlet, useLocation } from "react-router-dom";
 
 function Layout() {
     const location = useLocation();
 
-    // Ellenőrzi, hogy nem a /loginAdmin oldalon vagyunk-e
-    const showNavbar = location.pathname !== '/loginAdmin';
+    // Útvonalak, ahol nincs navbar
+    const hideNavbarPaths = ['/loginadmin', '/admin', '/megerosites'];
+
+    // Útvonalak, ahol az admin navbar jelenjen meg
+    const adminNavbarPaths = ['/admin', , '/megerosites'];
+
+    // Döntés arról, hogy melyik navbar jelenjen meg
+    const showNavbar = !hideNavbarPaths.some((path) => location.pathname.toLowerCase().includes(path));
+    const showAdminNavbar = adminNavbarPaths.some((path) => location.pathname.toLowerCase().includes(path));
 
     return (
         <>
-            {showNavbar && <Navbar />}
+            {/* Feltételes navbar renderelés */}
+            {showNavbar && !showAdminNavbar && <DefaultNavbar />}
+            {showAdminNavbar && <AdminNavbar />}
+            
             <main>
                 <Outlet />
             </main>
@@ -18,3 +29,4 @@ function Layout() {
 }
 
 export default Layout;
+

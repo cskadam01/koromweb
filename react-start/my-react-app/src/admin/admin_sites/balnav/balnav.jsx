@@ -8,7 +8,7 @@ function AdminNav() {
            <Link to="/arak" className="admin-link">
            <li className="admin-li">Árak</li>
            </Link>
-           <Link to="/megerosites" className="admin-link">
+           <Link to="/admin/megerosites" className="admin-link">
            <li className="admin-li">Megerősítés</li>
            </Link>
            <Link to="/naptar" className="admin-link">
