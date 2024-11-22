@@ -7,7 +7,7 @@ function Admin(){
         <>
          
             <AdminNav/>
-            <Arak/>
+            
         </>
 
 

@@ -24,10 +24,10 @@ function LoginAdmin() {
                     <input type="password" required />
                     <label>Jelszó</label>
                 </div>
+                <button id="gomb" className="login-button" onClick={handleButtonClick}>
+                Bejelentkezés </button>
             </form>
-            <button id="gomb" onClick={handleButtonClick}>
-                Bejelentkezés
-            </button>
+           
             <p id="teszt">{displayText}</p>
         </div>
     );

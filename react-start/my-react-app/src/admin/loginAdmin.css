@@ -9,6 +9,7 @@
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0,0,0,.6);
     border-radius: 10px;
+    
   }
   
   .login-box h2 {
@@ -20,6 +21,8 @@
   
   .login-box .user-box {
     position: relative;
+    justify-content: center;
+    justify-items: center;
   }
   
   .login-box .user-box input {
@@ -66,3 +69,10 @@
     letter-spacing: 4px
   }
   
+
+  .login-button{
+    justify-items: center;
+    justify-content: center;
+
+
+  }
