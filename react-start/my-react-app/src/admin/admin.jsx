@@ -1,20 +1,12 @@
-import AdminNav from "./admin_sites/balnav/balnav"
-import Arak from "./admin_sites/arak/arak"
+import React from "react";
 
-
-function Admin(){
-    return(
-        <>
-         
-            <AdminNav/>
-            
-        </>
-
-
-    )
-
-
-
+function Admin() {
+    return (
+        <div>
+            <h1>Admin Főoldal</h1>
+            <p>Üdvözlünk az adminisztrációs felületen!</p>
+        </div>
+    );
 }
 
-export default Admin
+export default Admin;
