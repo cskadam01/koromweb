@@ -5,7 +5,7 @@ db_config = {
     'user': 'root',
     'password': '',
     'host': 'localhost',
-    'database': 'teszt'
+    'database': 'zsuzsakorom'
 }
 
 def get_db_connection():

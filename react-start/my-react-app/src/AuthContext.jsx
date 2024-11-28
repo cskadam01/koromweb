@@ -1,26 +1,15 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from 'react';
 
 // Kontextus létrehozása
 const AuthContext = createContext();
 
-// AuthProvider komponens
+// Provider komponens
 export const AuthProvider = ({ children }) => {
-    // Hitelesítési állapot kezelése
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Login metódus
-    const login = () => {
-        console.log("Bejelentkezés...");
-        setIsAuthenticated(true);
-    };
+    const login = () => setIsAuthenticated(true);
+    const logout = () => setIsAuthenticated(false);
 
-    // Logout metódus
-    const logout = () => {
-        console.log("Kijelentkezés...");
-        setIsAuthenticated(false);
-    };
-
-    // AuthContext értékek biztosítása a gyerek komponenseknek
     return (
         <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
             {children}
@@ -28,7 +17,11 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// useAuth hook a kontextus használatához
-export const useAuth = () => useContext(AuthContext);
-
-
+// Hook a kontextus eléréséhez
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};

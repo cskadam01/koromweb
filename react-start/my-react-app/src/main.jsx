@@ -1,34 +1,16 @@
-import { StrictMode } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
+import { AuthProvider } from './AuthContext'; // Hozzáadjuk az AuthProvider-t
 
-import Navbar from "./navbar/navbar.jsx";
-import LoginAdmin from './admin/loginAdmin.jsx';
+const rootElement = document.getElementById('root');
 
-
-import Admin from './admin/admin.jsx';
-
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    
-    
-    <App/>
-    
-   
-    
-  </StrictMode>,
-)
-
-import { AuthProvider } from './AuthContext'; // AuthContext importálása
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </StrictMode>
-);
-
-
+if (!rootElement._reactRootContainer) {
+    const root = createRoot(rootElement); // Csak egyszer inicializáljuk
+    root.render(
+        <AuthProvider>
+            <App />
+        </AuthProvider>
+    );
+}
