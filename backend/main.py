@@ -91,6 +91,80 @@ def admin():
         return jsonify({"success": False, "message": "A token lejárt"}), 401
     except jwt.InvalidTokenError:
         return jsonify({"success": False, "message": "Érvénytelen token"}), 401
+    
+
+
+@app.route('/api/bookings', methods=['GET'])
+def get_bookings():
+    """Lekéri az összes nem megerősített foglalást a felhasználói adatokkal együtt."""
+    try:
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT 
+                a.foglalId, a.datum, a.kezdIdo, a.vegIdo, 
+                u.userName, u.userPhone, u.userEmail
+            FROM appointment a
+            JOIN users u ON a.userId = u.userId
+            WHERE a.megerosit = 0
+        """)
+        bookings = cursor.fetchall()
+
+        # Dátum formázása
+        for booking in bookings:
+            booking["datum"] = booking["datum"].strftime('%Y. %b %d.')
+
+        cursor.close()
+        return jsonify(bookings), 200
+    except Exception as e:
+        print("Hiba a foglalások lekérésekor:", str(e))
+        return jsonify({"success": False, "message": "Hiba történt a foglalások lekérésekor", "error": str(e)}), 500
+
+
+@app.route('/api/confirm-booking', methods=['POST'])
+def confirm_booking():
+    """Foglalás megerősítése."""
+    try:
+        cursor = db.cursor(dictionary=True)
+        data = request.get_json()
+        foglalId = data.get("foglalId")
+
+        # Ellenőrzés: Létezik-e a foglalás?
+        cursor.execute("SELECT megerosit FROM appointment WHERE foglalId = %s", (foglalId,))
+        booking = cursor.fetchone()
+
+        if not booking:
+            return jsonify({"success": False, "message": "Foglalás nem található"}), 404
+
+        # Ellenőrzés: Már megerősítették?
+        if booking["megerosit"] == 1:
+            return jsonify({"success": False, "message": "Ez a foglalás már meg van erősítve"}), 400
+
+        # Foglalás megerősítése
+        cursor.execute("UPDATE appointment SET megerosit = 1 WHERE foglalId = %s", (foglalId,))
+        db.commit()
+
+        # Visszaadjuk a megerősített foglalások listáját
+        cursor.execute("""
+            SELECT 
+                a.foglalId, a.datum, a.kezdIdo, a.vegIdo, 
+                u.userName, u.userPhone, u.userEmail
+            FROM appointment a
+            JOIN users u ON a.userId = u.userId
+            WHERE a.megerosit = 1
+        """)
+        confirmed_bookings = cursor.fetchall()
+
+        for booking in confirmed_bookings:
+            booking["datum"] = booking["datum"].strftime('%Y. %b %d.')
+
+        return jsonify({"success": True, "message": "Foglalás sikeresen megerősítve", "confirmed": confirmed_bookings}), 200
+
+    except Exception as e:
+        print("Hiba történt a foglalás megerősítésekor:", str(e))
+        return jsonify({"success": False, "message": "Hiba történt a foglalás megerősítésekor", "error": str(e)}), 500
+    finally:
+        cursor.close()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
