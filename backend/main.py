@@ -92,7 +92,30 @@ def admin():
     except jwt.InvalidTokenError:
         return jsonify({"success": False, "message": "Érvénytelen token"}), 401
     
+@app.route('/api/get_booking_c', methods=['GET'])
+def get_booking_c():
+    """Lekéri az összes megerősített foglalást a felhasználói adatokkal együtt."""
+    try:
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT 
+                a.foglalId, a.datum, a.kezdIdo, a.vegIdo, 
+                u.userName, u.userPhone, u.userEmail
+            FROM appointment a
+            JOIN users u ON a.userId = u.userId
+            WHERE a.megerosit = 1
+        """)
+        bookings = cursor.fetchall()
 
+        # Dátum formázása
+        for booking in bookings:
+            booking["datum"] = booking["datum"].strftime('%Y. %b %d.')
+
+        cursor.close()
+        return jsonify(bookings), 200
+    except Exception as e:
+        print("Hiba a foglalások lekérésekor:", str(e))
+        return jsonify({"success": False, "message": "Hiba történt a foglalások lekérésekor", "error": str(e)}), 500
 
 @app.route('/api/bookings', methods=['GET'])
 def get_bookings():
@@ -118,7 +141,7 @@ def get_bookings():
     except Exception as e:
         print("Hiba a foglalások lekérésekor:", str(e))
         return jsonify({"success": False, "message": "Hiba történt a foglalások lekérésekor", "error": str(e)}), 500
-
+    
 
 @app.route('/api/confirm-booking', methods=['POST'])
 def confirm_booking():

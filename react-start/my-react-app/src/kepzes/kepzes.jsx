@@ -24,7 +24,7 @@ function Kepzes() {
 
     const fetchConfirmedBookings = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/confirm-booking');
+            const response = await axios.get('http://localhost:5000/api/get_booking_c');
             setConfirmedBookings(response.data);
         } catch (error) {
             console.error("Hiba a megerősített foglalások lekérésekor:", error);
