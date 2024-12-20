@@ -22,6 +22,27 @@ function Kepzes() {
         }
     };
 
+    const deleteBooking = async (foglalId) => {
+        try {
+            const response = await axios.post(`http://localhost:5000/api/delete-pending-booking`, {
+                foglalId: foglalId, // Az azonosító
+            });
+    
+            if (response.data.success) {
+                alert(response.data.message);
+    
+                // Frissítjük a nem megerősített foglalások listáját
+                setUnconfirmedBookings(unconfirmedBookings.filter(booking => booking.foglalId !== foglalId));
+            }
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                alert(error.response.data.message);
+            } else {
+                console.error("Hiba a foglalás törlésekor:", error);
+            }
+        }
+    };
+
     const fetchConfirmedBookings = async () => {
         try {
             const response = await axios.get('http://localhost:5000/api/get_booking_c');
@@ -65,7 +86,8 @@ function Kepzes() {
                         <span><strong>Email:</strong> {booking.userEmail}</span>
                         <span><strong>Dátum:</strong> {booking.datum}</span>
                         <span><strong>Idő:</strong> {booking.kezdIdo} - {booking.vegIdo}</span>
-                        <button onClick={() => confirmBooking(booking.foglalId)}>Megerősít</button>
+                        <button className="accept"onClick={() => confirmBooking(booking.foglalId)}>Megerősít</button>
+                        <button className='delete'style={{ backgroundColor: 'red'}} onClick={() => deleteBooking(booking.foglalId)}>Törlés</button>
                     </li>
                 ))}
             </ul>
