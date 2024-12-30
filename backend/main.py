@@ -39,6 +39,7 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
     return response
 
+#region Bejelentkezés Api
 # Bejelentkezési végpont
 @app.route('/api/login', methods=['POST', 'OPTIONS'])
 def login():
@@ -46,6 +47,9 @@ def login():
         return jsonify({"success": True}), 200
 
     data = request.get_json()
+    if not data or not data.get('username') or not data.get('password'):
+        return jsonify({"success": False, "message": "Hiányzó adatok"}), 400
+
     username = data.get('username').strip()
     password = data.get('password').strip()
 
@@ -67,11 +71,17 @@ def login():
             algorithm="HS256"
         )
         return jsonify({"success": True, "token": token}), 200
-    except Exception as e:
-        return jsonify({"success": False, "message": "Szerverhiba", "error": str(e)}), 500
-    finally:
-        cursor.close()
 
+    except Exception as e:
+        print(f"Hiba a login API-nál: {str(e)}")
+        return jsonify({"success": False, "message": "Szerverhiba", "error": str(e)}), 500
+
+    finally:
+        if 'cursor' in locals() and cursor:
+            cursor.close()
+# endregion
+
+# region Megerősített foglalások lekérése
 @app.route('/api/get_booking_c', methods=['GET'])
 def get_booking_c():
     try:
@@ -95,7 +105,8 @@ def get_booking_c():
         return jsonify({"success": False, "message": "Hiba történt a foglalások lekérésekor", "error": str(e)}), 500
     finally:
         cursor.close()
-
+# endregion
+# region Nem megerősített foglalások lekérése
 @app.route('/api/bookings', methods=['GET'])
 def get_bookings():
     try:
@@ -120,7 +131,9 @@ def get_bookings():
     finally:
         cursor.close()
 
+#endregion
 
+#region Nem megerősített kéréseknek visszautasítása
 @app.route('/api/delete-pending-booking', methods=['POST'])
 def delete_pending_booking():
     try:
@@ -156,7 +169,8 @@ def delete_pending_booking():
 
 
 
-
+#endregion
+#region Foglalások megerősítése
 @app.route('/api/confirm-booking', methods=['POST'])
 def confirm_booking():
     try:
