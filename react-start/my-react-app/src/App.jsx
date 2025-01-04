@@ -13,6 +13,7 @@ import Megerosites from './admin/admin_sites/megerosites/megerosites';
 import AdminWrapper from './AdminWrapper';
 import ProtectedRoute from './protectedRoute';
 import RedirectIfAuthenticated from './redict';
+import Szolgaltatas from './szalon/szalon';
 
 function App() {
     const { isAuthenticated } = useAuth();
@@ -26,6 +27,7 @@ function App() {
                         <Route path='/' element={<Fooldal />} />
                         <Route path='/galleria' element={<Galleria />} />
                         <Route path='/kepzes' element={<Kepzes />} />
+                        <Route path='/szalon' element={<Szolgaltatas />} />
 
                         {/* Bejelentkezési oldal */}
                         <Route

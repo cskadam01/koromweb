@@ -15,7 +15,7 @@ function Rolam() {
 
                 <div className="col-sm-12 col-md-5 col-lg-5 jobb-rolam">
                     <div className="rolam-profil-container">
-                        <img className="rolam-profil" src="./pics/profil.png" alt="" />
+                        <img className="rolam-profil" src="./pics/profil.jpg" alt="" />
                     </div>
                     <div className="jobb-rolam-text">
                         <h4>Homolya Zsuzsa</h4>
