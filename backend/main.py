@@ -98,7 +98,7 @@ def get_booking_c():
         bookings = cursor.fetchall()
 
         for booking in bookings:
-            booking["datum"] = booking["datum"].strftime('%Y. %b %d.')
+            booking["datum"] = booking["datum"].strftime('%Y-%m-%d') 
 
         return jsonify(bookings), 200
     except Exception as e:
@@ -123,7 +123,7 @@ def get_bookings():
         bookings = cursor.fetchall()
 
         for booking in bookings:
-            booking["datum"] = booking["datum"].strftime('%Y. %b %d.')
+            booking["datum"] = booking["datum"].strftime('%Y-%m-%d') 
 
         return jsonify(bookings), 200
     except Exception as e:
@@ -169,6 +169,8 @@ def delete_pending_booking():
 
 
 
+
+
 #endregion
 #region Foglalások megerősítése
 @app.route('/api/confirm-booking', methods=['POST'])
@@ -209,6 +211,11 @@ def confirm_booking():
         return jsonify({"success": False, "message": "Hiba történt a foglalás megerősítésekor", "error": str(e)}), 500
     finally:
         cursor.close()
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

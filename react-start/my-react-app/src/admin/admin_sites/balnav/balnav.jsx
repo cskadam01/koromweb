@@ -11,7 +11,7 @@ function AdminNav() {
            <Link to="/admin/megerosites" className="admin-link">
            <li className="admin-li">Megerősítés</li>
            </Link>
-           <Link to="/naptar" className="admin-link">
+           <Link to="/admin/naptar" className="admin-link">
            <li className="admin-li">Naptár</li>
            </Link>
            

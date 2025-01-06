@@ -1,8 +1,14 @@
 {
   "dependencies": {
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/react": "^6.1.15",
+    "@schedule-x/events-service": "^2.12.1",
+    "@schedule-x/react": "^2.12.1",
+    "@schedule-x/theme-default": "^2.12.1",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
+    "react-big-calendar": "^1.17.1",
     "react-calendar": "^5.1.0",
     "react-router-dom": "^6.28.0"
   }

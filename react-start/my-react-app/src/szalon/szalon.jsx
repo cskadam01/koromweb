@@ -1,116 +1,77 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./szalon.css";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import moment from "moment";
 
-function WeeklyScheduler() {
-    const [currentWeek, setCurrentWeek] = useState(getCurrentWeek());
-    const [bookings, setBookings] = useState([]);
+const localizer = momentLocalizer(moment);
 
-    // API hívás foglalások betöltésére
-    useEffect(() => {
-        const fetchBookings = async () => {
-            try {
-                const response = await axios.get("http://localhost:5000/api/bookings");
-                setBookings(response.data);
-            } catch (error) {
-                console.error("Hiba a foglalások betöltésekor:", error);
-            }
-        };
+const MyBigCalendar = () => {
+  const [events, setEvents] = useState([]);
 
-        fetchBookings();
-    }, []);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        // Nem megerősített foglalások lekérése
+        const bookingsResponse = await fetch("http://localhost:5000/api/bookings");
+        const bookings = await bookingsResponse.json();
 
-    // Heti napok meghatározása
-    function getCurrentWeek() {
-        const now = new Date();
-        const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay() + 1)); // Hétfő
-        const days = [];
-        for (let i = 0; i < 7; i++) {
-            days.push(new Date(startOfWeek.getTime() + i * 86400000)); // Minden nap hozzáadása
-        }
-        return days;
-    }
+        // Megerősített foglalások lekérése
+        const confirmedResponse = await fetch("http://localhost:5000/api/get_booking_c");
+        const confirmed = await confirmedResponse.json();
 
-    const nextWeek = () => {
-        const nextWeekStart = new Date(currentWeek[0].getTime() + 7 * 86400000);
-        setCurrentWeek(getWeekDays(nextWeekStart));
+        // Adatok formázása
+        const formattedBookings = bookings.map((booking) => ({
+          id: booking.foglalId,
+          title: booking.userName,
+          start: new Date(`${booking.datum}T${booking.kezdIdo}`),
+          end: new Date(`${booking.datum}T${booking.vegIdo}`),
+          color: "yellow", // Sárga szín a nem megerősítetteknek
+        }));
+
+        const formattedConfirmed = confirmed.map((booking) => ({
+          id: booking.foglalId,
+          title: booking.userName,
+          start: new Date(`${booking.datum}T${booking.kezdIdo}`),
+          end: new Date(`${booking.datum}T${booking.vegIdo}`),
+          color: "green", // Zöld szín a megerősítetteknek
+        }));
+
+        // Egyesített eseménylista
+        setEvents([...formattedBookings, ...formattedConfirmed]);
+      } catch (error) {
+        console.error("Hiba az események betöltésekor:", error);
+      }
     };
 
-    const prevWeek = () => {
-        const prevWeekStart = new Date(currentWeek[0].getTime() - 7 * 86400000);
-        setCurrentWeek(getWeekDays(prevWeekStart));
+    fetchEvents();
+  }, []);
+
+  // Egyedi eseménymegjelenítés színezéshez
+  const eventStyleGetter = (event) => {
+    const backgroundColor = event.color;
+    const style = {
+      backgroundColor,
+      borderRadius: "5px",
+      color: "white",
+      border: "none",
+      display: "block",
     };
+    return { style };
+  };
 
-    function getWeekDays(startDate) {
-        const days = [];
-        for (let i = 0; i < 7; i++) {
-            days.push(new Date(startDate.getTime() + i * 86400000));
-        }
-        return days;
-    }
+  return (
+    <div>
+      <Calendar
+        localizer={localizer}
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500 }}
+        eventPropGetter={eventStyleGetter} // Színezés kezelése
+        defaultView="week" // Alapértelmezett heti nézet
+      />
+    </div>
+  );
+};
 
-    const getBookingsForDay = (day) => {
-        return bookings.filter((booking) => {
-            const bookingDate = new Date(booking.datum.replace(/-/g, "/")); // Safari-kompatibilis formátum
-            return bookingDate.toDateString() === day.toDateString();
-        });
-    };
-
-    return (
-        <div className="weekly-scheduler">
-            <div className="scheduler-nav">
-                <button onClick={prevWeek}>Előző hét</button>
-                <h2>
-                    {currentWeek[0].toLocaleDateString()} - {currentWeek[6].toLocaleDateString()}
-                </h2>
-                <button onClick={nextWeek}>Következő hét</button>
-            </div>
-            <div className="scheduler-grid">
-                {/* Órák oszlopa */}
-                <div className="hour-column">
-                    {[...Array(24)].map((_, hour) => (
-                        <div key={hour} className="hour-cell">
-                            {`${hour}:00`}
-                        </div>
-                    ))}
-                </div>
-                {/* Napok oszlopai */}
-                {currentWeek.map((day, index) => (
-                    <div key={index} className="day-column">
-                        <div className="day-header">
-                            {day.toLocaleDateString("hu-HU", { weekday: "long" })}
-                        </div>
-                        <div className="day-body">
-                            {getBookingsForDay(day).map((booking, idx) => (
-                                <div
-                                    key={idx}
-                                    className="booking-block"
-                                    style={{
-                                        top: `${
-                                            parseInt(booking.kezdIdo.split(":")[0]) * 50 +
-                                            (parseInt(booking.kezdIdo.split(":")[1]) / 60) * 50
-                                        }px`,
-                                        height: `${
-                                            ((parseInt(booking.vegIdo.split(":")[0]) -
-                                                parseInt(booking.kezdIdo.split(":")[0])) *
-                                                50) +
-                                            ((parseInt(booking.vegIdo.split(":")[1]) -
-                                                parseInt(booking.kezdIdo.split(":")[1])) /
-                                                60) *
-                                                50
-                                        }px`,
-                                    }}
-                                >
-                                    {booking.userName} <br />
-                                    {booking.kezdIdo} - {booking.vegIdo}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-}
-
-export default WeeklyScheduler;
+export default MyBigCalendar;

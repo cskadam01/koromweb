@@ -14,6 +14,7 @@ import AdminWrapper from './AdminWrapper';
 import ProtectedRoute from './protectedRoute';
 import RedirectIfAuthenticated from './redict';
 import Szolgaltatas from './szalon/szalon';
+import Naptar from './szalon/szalon';
 
 function App() {
     const { isAuthenticated } = useAuth();
@@ -27,7 +28,8 @@ function App() {
                         <Route path='/' element={<Fooldal />} />
                         <Route path='/galleria' element={<Galleria />} />
                         <Route path='/kepzes' element={<Kepzes />} />
-                        <Route path='/szalon' element={<Szolgaltatas />} />
+                        <Route path='/szalon' element={<Naptar />} />
+                        
 
                         {/* Bejelentkezési oldal */}
                         <Route
@@ -47,6 +49,8 @@ function App() {
                                     <Routes>
                                         <Route path="" element={<Admin />} />
                                         <Route path="megerosites" element={<Megerosites />} />
+                                        
+                                        
                                     </Routes>
                                 </ProtectedRoute>
                             }
