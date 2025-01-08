@@ -1,0 +1,57 @@
+.tokepzes-content{
+    background-image: url('./pics/toKepzesBg.png');
+    width: 100%; /* A header teljes szélességre állítva */
+    height: calc(100vw * (2000 / 4290)); /* Szélességhez arányos magasság */
+    background-size: cover; /* A kép teljes területet kitölti */
+    background-position: center; /* Kép középre igazítás */
+    background-repeat: no-repeat; /* Ne ismétlődjön a kép */
+    
+
+
+}
+
+
+.tokepzes-content h1{
+    font-size: 3.5rem; /* Nagy cím betűméret */
+    margin: 0;
+    color: black;
+    font-family: Goolck;
+    margin-left: 8%;
+    padding-top: 20%;
+    margin-bottom: 15px;
+    
+}
+
+.tokepzes-content button{
+    margin-top: 35px;
+    margin-left: 8%;
+    max-width: 150px;
+    color:rgb(44, 44, 44);
+    background-color: white;
+    border-style: none;
+    padding: 5px;
+    transition: color 0.3s ease-in-out, background-color 0.5s ease-in-out;
+    font-family: 'Hanken Grotesk';
+    text-decoration-thickness:initial;
+    padding: 10px;
+    border-radius: 30px;
+    border-style: solid;
+    border-color:rgb(44, 44, 44) ;
+
+
+}
+
+.tokepzes-content p{
+    font-family: 'Hanken Grotesk';
+    margin-left: 8%;
+    margin-bottom: 0;
+    
+
+
+}
+
+.tokepzes-content button:hover{
+    background-color: rgb(245, 142, 214);
+
+
+}

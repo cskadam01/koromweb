@@ -1,9 +1,14 @@
-/* NavigĂĄviĂłs felĂźletre vonatkozĂł beĂĄllĂ­tĂĄsok */
-body{
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* Megakadályozza a vízszintes görgetést */
+}
+
 .ul-nav {
   width: 100%;
   list-style-type: none;
@@ -22,6 +27,7 @@ body{
   justify-content: space-between; 
   align-items: center; /* Vertikális középre igazítás */
   position: relative;
+  
 
 }
 
@@ -45,6 +51,7 @@ li .left-nav, .navbar-nev, .active-nav {
   border: 0;
   padding: 0px 20px 0px 20px !important;
   line-height: 70px; 
+  transition: background-color 0.3s ease-in-out;
   
 }
 

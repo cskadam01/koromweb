@@ -1,0 +1,51 @@
+.tosalon-container{
+    background-image: url('./pics/toSalonBg.png');
+    position: relative;
+    width: 100%; /* A header teljes szélességre állítva */
+    height: calc(100vw * (1100 / 4290)); /* Szélességhez arányos magasság */
+    background-size: cover; /* A kép teljes területet kitölti */
+    background-position: center; /* Kép középre igazítás */
+    background-repeat: no-repeat; /* Ne ismétlődjön a kép */
+    margin: 0;
+    padding: 0;
+    
+    
+
+}
+.tosalon-text{
+    margin-left: 70%;
+    padding-top: 7%; 
+
+
+}
+
+.tosalon-text h1{
+    font-family: 'Gloock';
+    padding-bottom: 15px;
+
+
+}
+
+.tosalon-text p{
+    font-family: 'Hanken Grotesk';
+    margin: 0;
+    color:  #715a5e;;
+
+
+}
+.tosalon-container button{
+    margin-top: 30px;
+    color:white;
+    background-color: black;
+    border-style: none;
+    padding: 15px;
+    transition: color 0.3s ease-in-out, background-color 0.5s ease-in-out;
+    font-family: 'Hanken Grotesk';
+    text-decoration-thickness:initial;
+
+}
+
+.tosalon-container button:hover{
+    background-color: #715a5e;
+
+}

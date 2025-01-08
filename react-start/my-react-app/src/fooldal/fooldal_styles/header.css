@@ -1,31 +1,99 @@
+/* Header alap stílusok */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-
-header{
-    height: 100vh; /* A header kitölti a teljes képernyőt */
-   
-    justify-content: center; /* Középre igazítás vízszintesen */
-    align-items: center;
-    background-color: #f7bbed;
+}
+header {
+    position: relative;
+    width: 100%; /* A header teljes szélességre állítva */
+    height: calc(100vw * (1543 / 4290)); /* Szélességhez arányos magasság */
+    background-image: url("./pics/headerBg.png"); /* Háttérkép */
+    background-size: cover; /* A kép teljes területet kitölti */
+    background-position: center; /* Kép középre igazítás */
+    background-repeat: no-repeat; /* Ne ismétlődjön a kép */
     margin: 0;
-    padding: 200px;
-    text-align: center;
-    max-height:800px;
-    width: 100%;
-
+    padding: 0;
     
 }
 
-h1 { 
-    color: rgb(62, 62, 62);
-    font-size: 50px;
+
+/* Header szövegek */
+.cim-header{
+    padding-top: 8%;
+    margin-left: 8%;
+    margin-bottom: 15px;
+
+}
+.tartalom-head{
+    position: absolute; 
+}
+header h1 {
+    
+    font-size: 3.5rem; /* Nagy cím betűméret */
+    margin: 0;
+    color: black;
+    font-family: Goolck;
+    
 }
 
-.p-header{
-    color: rgb(62, 62, 62);
-    font-size: 20px;
+.leiras-header{
+    margin-left: 8%;
+    color: #715a5e;
+}
+
+header p {
+    margin: 0;
+    font-family: 'Hanken Grotesk';
+}
+
+header button{
+    margin-top: 35px;
+    margin-left: 8%;
+    max-width: 150px;
+    color:white;
+    background-color: black;
+    border-style: none;
+    padding: 5px;
+    transition: color 0.3s ease-in-out, background-color 0.5s ease-in-out;
+    font-family: 'Hanken Grotesk';
+    text-decoration-thickness:initial;
+}
+
+header button:hover{
+    background-color: #715a5e;
+    
+}
+
+/* Reszponzív töréspontok header-hez */
+@media (max-width: 1200px) {
+    header {
+        height: 80vh; /* Csökkentett magasság tableteken */
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 2.8rem; /* Kisebb cím betűméret */
+    }
+
+    header p {
+        font-size: 1.2rem; /* Kisebb szöveg betűméret */
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        height: auto; /* Automatikus magasság mobilon */
+        padding: 20px 10px;
+        background-size: contain; /* A kép alkalmazkodik a képernyőhöz */
+        background-image:url("./pics/headBgPhone.png") ;
+    }
+
+    header h1 {
+        font-size: 2.2rem; /* Tovább csökkentett cím méret */
+    }
+
+    header p {
+        font-size: 1rem; /* Kisebb szövegméret mobilon */
+    }
 }

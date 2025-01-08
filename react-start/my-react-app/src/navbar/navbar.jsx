@@ -25,7 +25,7 @@ function Navbar() {
             </Link>
 
             <Link to="./szalon">
-            <li className="bal-nav">Szolgáltatás</li>
+            <li className="bal-nav">Időpont Foglalás</li>
             </Link>
 
         </div>
@@ -49,7 +49,7 @@ function Navbar() {
             </Link>
 
             <Link to="./szalon" style={{textDecoration:'none'}}>
-            <li className="apro-a">Szolgáltatás</li>
+            <li className="apro-a">Időpont Foglalás</li>
             </Link>
 
 

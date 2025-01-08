@@ -1,96 +1,104 @@
+/* Wrapper a kártyák körül */
 .wrapper {
-  display:flex;
-  flex-direction: row;
-  justify-content: center;
-  text-align: center;
-}
-.row{
-  justify-content: center;
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap; /* Több sorba törik, ha nincs elég hely */
+  justify-content: center; /* Középre igazítja az elemeket */
+  padding: 20px;
 }
 
-
+/* Kártya alap stílusok */
 .card {
-  margin: 100px 20px;
-  
-  width: 500px;
-  height: 700px;
-  text-align:center;
+  margin: 10px;
+  width: 90%; /* A képernyő 90%-át foglalja el */
+  max-width: 400px; /* Maximális szélesség */
+  height: auto; /* Automatikus magasság */
+  text-align: center;
   border-radius: 12px;
-  box-shadow: 0 1px 6px rgba(61, 65, 84, 0.15);  
+  box-shadow: 0 1px 6px rgba(61, 65, 84, 0.15);
   transition: all 0.2s ease-in-out;
+  background-color: white;
   overflow: hidden;
-
-  .image {
-    width: 100%;
-    height: 70%;
-    padding-bottom: 24px;
-  }
-
-
-
-
-
-  
-  .title {
-    font-size: 36px;
-  }
-  
-  .text {
-    font-size: 16px;
-  }
 }
 
-
-.hover {
-  top: 0;
-  position: relative;
-  transition: all 0.2s ease-in-out;
-  
-  &:hover {
-  box-shadow: 0 20px 40px rgba(255, 106, 185, 0.35);
-  top: -2px;
-  cursor: pointer;
-  }
+/* Kártya képek */
+.card .image {
+  width: 100%; /* A kártya teljes szélességét kitölti */
+  height: auto; /* Automatikus magasság */
+  aspect-ratio: 16/14; /* Képarány fenntartása */
+  object-fit: cover; /* A kép arányosan kitölti a területet */
+  border-bottom: 2px solid #ddd; /* Elválasztó vonal a kép alatt (opcionális) */
 }
 
-.line {
-  &:before {
-    content: "";
-    display: block;
-    height: 5px;
-    width: 0;
-    position:absolute;
-    top: 0;
-    left: 0;
-    background-color: #000;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  &:hover {
-    &:before {
-      width: 100%;
-    }
-  }
-
-  
-  
+/* Kártya cím */
+.card .title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
 }
 
-.card button{
-   
-  margin-top: 5%;
-  width: 100%;
-  height: 13.9%;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+/* Kártya szöveg */
+.card .text {
+  font-size: 1rem;
+  padding: 10px;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* Kártya gomb */
+.card button {
+  width: 90%; /* A kártya szélességéhez igazodik */
+  margin: 10px auto;
+  height: 50px;
+  border-radius: 10px;
   background-color: pink;
-  font-size: 30px;
+  font-size: 1rem;
   border: 0px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
-.text{
-  padding-top:3%;
- 
+.card button:hover {
+  background-color: #ff5c93; /* Sötétebb rózsaszín hover effekt */
+}
 
+/* Reszponzív töréspontok a kártyához */
+@media (max-width: 1200px) {
+  .card {
+      margin: 15px auto;
+      max-width: 350px; /* Kisebb szélesség tableten */
+  }
+
+  .card .title {
+      font-size: 1.5rem; /* Kisebb cím méret */
+  }
+
+  .card .text {
+      font-size: 0.9rem; /* Szövegméret igazítása */
+  }
+
+  .card button {
+      font-size: 0.9rem; /* Gomb betűméretének csökkentése */
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+      margin: 10px auto;
+      max-width: 300px; /* Még kisebb szélesség mobilon */
+  }
+
+  .card .title {
+      font-size: 1.2rem;
+  }
+
+  .card .text {
+      font-size: 0.8rem;
+  }
+
+  .card button {
+      font-size: 0.8rem;
+  }
 }

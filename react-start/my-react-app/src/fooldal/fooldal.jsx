@@ -1,7 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./fooldal_components/header";
-import Kartya from "./fooldal_components/kartya1";
+import Udvozles from './fooldal_components/udvozles';
 import Rolam  from "./fooldal_components/rolam";
+import ToSalon from "./fooldal_components/szalon_foglalas"
+import ToKepzes from './fooldal_components/kepzes_foglalas';
 
 
 
@@ -11,7 +13,9 @@ function Fooldal() {
 
     <>
     <Header/>
-    <Kartya/>
+    <Udvozles/>
+    <ToSalon/>
+    <ToKepzes/>
     <Rolam/>
 
    

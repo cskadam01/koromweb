@@ -1,0 +1,36 @@
+.udvozles-container{
+    background-image: url('./pics/udvozlesBg.png');
+    width: 100%; /* A header teljes szélességre állítva */
+    height: calc(100vw * (900 / 4290)); /* Szélességhez arányos magasság */
+    background-size: cover; /* A kép teljes területet kitölti */
+    background-position: center; /* Kép középre igazítás */
+    background-repeat: no-repeat; /* Ne ismétlődjön a kép */
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    
+
+
+}
+
+.udvozles-container h1{
+    
+    font-family: 'Gloock';
+    padding-bottom: 5px;
+
+
+}
+
+
+.udvozles-container img{
+    margin-top: 3%;
+    max-height: 50px;
+    margin-bottom: 1%;
+
+}
+
+.udvozles-container p{
+    color: #5c595d;
+    font-family: 'Hanken Grotesk';
+
+}
