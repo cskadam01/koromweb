@@ -1,5 +1,5 @@
 .rolam-container {
-    background-color: rgb(252, 209, 218);
+    background-color: rgb(251, 251, 251);
     color: rgb(28, 28, 28);
     
     padding: 1%;
@@ -58,6 +58,7 @@ footer .jobb-rolam{
 
 .jobb-rolam-text h4, .jobb-rolam-text p {
     margin: 0;
+    font-family: 'GLOOCK';
     
 }
 
@@ -67,8 +68,11 @@ footer .jobb-rolam{
 .bal-rolam h2{
     text-align: left;
     margin-bottom: 40px;
+    font-family: 'Gloock';
+    font-size: 3rem;
 }
 
 .bal-rolam p{
     text-align: left;
+    font-family: 'Hansel';
 }
