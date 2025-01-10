@@ -55,3 +55,20 @@
 
 
 }
+
+@media (max-width: 768px){
+    .tokepzes-content{
+    width: 100%;
+    background-size: cover; /* A kép alkalmazkodik a képernyőhöz */
+    background-image:url("./pics/phone/toKepzesBg.png") ;
+    height: calc(100vw * (330 / 200)); /* Szélességhez arányos magasság */
+    padding: 0;
+    margin: 0;
+    }
+    .tokepzes-content h1{
+        padding-top: 110%;
+        
+
+    }
+
+}

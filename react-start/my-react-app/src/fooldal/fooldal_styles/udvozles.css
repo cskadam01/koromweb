@@ -34,3 +34,30 @@
     font-family: 'Hanken Grotesk';
 
 }
+
+
+@media (max-width: 768px){
+    .udvozles-container{
+        
+        background-size: contain; /* A kép alkalmazkodik a képernyőhöz */
+        background-image:url("./pics/phone/udvozlesBg.png") ;
+        height: calc(100vw * (393 / 390)); /* Szélességhez arányos magasság */
+        padding: 0;
+        margin: 0;
+        font-size: 0.9rem;
+        
+    }
+
+    .udvozles-container img{
+        margin-top: 43%;
+        max-height: 50px;
+        margin-bottom: 1%;
+    
+    }
+    
+    .udvozles-container h1{
+        font-size: 2rem;
+
+    }
+
+}

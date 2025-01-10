@@ -49,3 +49,23 @@
     background-color: #715a5e;
 
 }
+
+@media (max-width: 768px) {
+    .tosalon-container{
+    width: 100%;
+    background-size: cover; /* A kép alkalmazkodik a képernyőhöz */
+    background-image:url("./pics/phone/toSzalonBg.png") ;
+    height: calc(100vw * (280 / 288)); /* Szélességhez arányos magasság */
+    padding: 0;
+    margin: 0;
+    }
+    .tosalon-text{
+        margin: 10%;
+        padding-top: 19%;
+
+
+
+    }
+
+
+}

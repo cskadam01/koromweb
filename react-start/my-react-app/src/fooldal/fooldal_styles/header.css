@@ -83,17 +83,31 @@ header button:hover{
 
 @media (max-width: 768px) {
     header {
-        height: auto; /* Automatikus magasság mobilon */
-        padding: 20px 10px;
-        background-size: contain; /* A kép alkalmazkodik a képernyőhöz */
-        background-image:url("./pics/headBgPhone.png") ;
+        
+        width: 100%;
+        background-size: cover; /* A kép alkalmazkodik a képernyőhöz */
+        background-image:url("./pics/phone/phoneHeaderBg.png") ;
+        height: calc(100vw * (280 / 284)); /* Szélességhez arányos magasság */
+        padding: 0;
+        margin: 0;
     }
+   
+    .cim-header{
+        padding-top: 17%;
 
+    }
     header h1 {
+        
         font-size: 2.2rem; /* Tovább csökkentett cím méret */
     }
 
     header p {
         font-size: 1rem; /* Kisebb szövegméret mobilon */
+    }
+    header button{
+        margin-top: 15px;
+        
+        
+
     }
 }
