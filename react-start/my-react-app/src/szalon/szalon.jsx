@@ -55,13 +55,15 @@ const MyBigCalendar = () => {
       color: "white",
       border: "none",
       display: "block",
+      minheight:'800%',
     };
     return { style };
   };
 
   return (
-    <div>
+    <div className="big-calendar-container">
       <Calendar
+        className="big-calendar"
         localizer={localizer}
         events={events}
         startAccessor="start"
@@ -69,6 +71,8 @@ const MyBigCalendar = () => {
         style={{ height: 500 }}
         eventPropGetter={eventStyleGetter} // Színezés kezelése
         defaultView="week" // Alapértelmezett heti nézet
+        min={new Date(2025, 0, 1, 6, 0)} // Reggel 6:00
+        max={new Date(2025, 0, 1, 21, 0)} // Este 9:00
       />
     </div>
   );

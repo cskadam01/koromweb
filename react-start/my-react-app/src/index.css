@@ -114,6 +114,27 @@ text-decoration: none;
    
 }
 
+.big-calendar-container {
+  overflow-x: scroll; /* Vízszintes görgetés engedélyezése */
+  width: 100%; /* Alapértelmezett szélesség */
+  min-width: 600px; /* Minimum szélesség, hogy ne zsugorodjon túlságosan */
+}
+
+.big-calendar {
+  min-width: 800px; /* A naptár minimális szélessége, hogy mobilon se legyen túl kicsi */
+  height: 600px; /* Alapértelmezett magasság */
+}
+
+
+.rbc-time-slot {
+  line-height: 800%; /* Növeld a rács magasságát */
+ 
+}
+
+.rbc-event {
+  line-height: 00px; /* Minimum magasság az esemény mezőknél */
+}
+
 
 
 
@@ -158,3 +179,13 @@ text-decoration: none;
 
 }
 
+
+@media (max-width: 768px) {
+  .big-calendar-container {
+    overflow-x: scroll; /* Görgetés kisebb eszközökön */
+  }
+  .big-calendar {
+    min-width: 900px; /* Mobilon nagyobb szélesség, hogy ne zsugorodjon */
+    height: 800px; /* Magasabb naptár mobil nézetben */
+  }
+}
