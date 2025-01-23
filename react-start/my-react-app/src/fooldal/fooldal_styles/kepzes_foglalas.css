@@ -55,6 +55,26 @@
 
 
 }
+@media (max-width: 1200px){
+    .tokepzes-content{
+        height: 80vh;
+
+    }
+
+    .tokepzes-content h1{
+        max-width: 40%;
+        padding-top: 15%;
+
+    }
+    .tokepzes-content p{
+        max-width: 40%;
+
+
+    }
+
+
+
+}
 
 @media (max-width: 768px){
     .tokepzes-content{

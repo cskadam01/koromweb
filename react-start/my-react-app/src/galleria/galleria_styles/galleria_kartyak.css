@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 .gall-content {
         background-color: rgb(251, 251, 251);
@@ -18,41 +19,38 @@
     border-radius: 15px;
     max-width: 450px;
     justify-content: center;
+=======
+.kartya-cont{
+>>>>>>> Stashed changes
     text-align: center;
-    margin: 10px 0;
-    
-}
-
-.galleria-h5{
-    margin-top: 10px;
-
-}
-.galleria-p{
-    margin-left: 10px;
-    margin-right: 10px;
-
-}
-.kozteshely .col-sm-12, .col-md-4, .col-lg-4 {
-    display: flex;
-    justify-content: center; /* Középre igazítja a kártyát az oszlopban */
-}
-
-.gall-card:hover{
-    top: 0;
-    position: relative;
-    transition: all 0.2s ease-in-out;
-
-    &:hover{box-shadow: 0 20px 40px rgba(255, 106, 185, 0.35);
-    top: -2px;
-    }
-
-}
-
-.kozteshely{
-    margin-bottom: 30px;
-    margin-top: 10px;
-    display: flex;
+    display: grid;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, 300px);
     justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
+    justify-items: center;
+    gap: 20px;
+    
+
+    
+
+
+}
+
+.kartya{
+    height: 300px;
+    width: 300px;
+    display: block;
+    box-shadow:darkgray;
+    margin: 20px;
+    
+    box-shadow: 0.3rem 0.4rem 0.4rem rgba(0, 0, 0, 0.4);
+    
+
+}
+
+.kartya img{
+    width: 300px;
+    height: 300px;
+
 }

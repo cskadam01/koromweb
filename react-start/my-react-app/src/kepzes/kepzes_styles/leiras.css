@@ -5,91 +5,111 @@
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     margin-top: 40px;
-    max-width: 100%; /* Ne lépje túl a képernyő szélességét */
-    overflow-x: hidden; /* Ne engedje a vízszintes görgetést */
-    background-color:rgb(227, 227, 227);
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color: rgb(227, 227, 227);
     margin-left: 40px;
     margin-right: 40px;
     border-radius: 15px;
     padding-bottom: 30px;
-   
-   
 }
-
 
 .leiras-container img {
-    width: 100%; /* A képek mindig kitöltik a rendelkezésre álló helyet */
-    max-width: 500px; /* Maximális szélesség, hogy ne legyenek túl nagyok */
-    height: auto; /* Tartsa meg az arányokat */
-    margin: 0 auto; /* Középre igazítás */
-    margin-bottom: 20px; /* Kisebb margó */
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin: 0 auto;
+    margin-bottom: 20px;
     margin-top: 50px;
-    
-    -webkit-box-shadow:0px 0px 68px 5px rgba(250,3,164,0.38);
-    -moz-box-shadow: 0px 0px 68px 5px rgba(250,3,164,0.38);
-    box-shadow: 0px 0px 68px 5px rgba(250,3,164,0.38);
+    -webkit-box-shadow: 0px 0px 68px 5px rgba(250, 3, 164, 0.38);
+    -moz-box-shadow: 0px 0px 68px 5px rgba(250, 3, 164, 0.38);
+    box-shadow: 0px 0px 68px 5px rgba(250, 3, 164, 0.38);
 }
 
-.text-leiras{
+.text-leiras {
     margin-left: 50px;
     margin-top: 40px;
-    
-
 }
 
-.text-leiras p{
-font-size: 20px;
-margin-right: 20px;
+.text-leiras p {
+    font-size: 20px;
+    margin-right: 20px;
+    font-family: 'Hansen Grotesk';
 }
-.text-leiras h3{
+
+.text-leiras h3 {
     margin-bottom: 40px;
     color: deeppink;
-
-
+    font-family: 'Gloock';
 }
 
+.kis-k {
+    display: none;
+}
 
-@media (max-width:1300px) {
-   .leiras-container{
+@media (max-width: 1300px) {
+    .leiras-container {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(4, 1fr);
         grid-column-gap: 0px;
-        grid-row-gap: 0px;       
-   }
-   .leiras-container img{
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 80px;
-}
-
-    
-}
-
-
-@media (max-width:650px) {
-    .leiras-container{
-         display: grid;
-         grid-template-columns: 1fr;
-         grid-template-rows: repeat(4, 1fr);
-         grid-column-gap: 0px;
-         grid-row-gap: 0px;       
+        grid-row-gap: 0px;
+        padding: 10px;
     }
-    .leiras-container img{
-     margin-left: 0;
-     margin-right: 0;
-     margin-bottom: 80px;
- }
- .text-leiras{
-    margin-left: 0px;
-    font-size: 10px;
+
+    .leiras-container img {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 0px;
+    }
+
+    .text-leiras {
+        margin: 0px;
+    }
 }
 
-.text-leiras p{
-   
-    font-size: 15px;
+@media (max-width: 650px) {
+    .leiras-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 10px;
+    }
 
+    .leiras-container img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        display: block;
+        box-sizing: border-box;
+    }
+
+    .text-leiras {
+        margin: 0;
+        padding: 0;
+    }
+
+    .text-leiras p {
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .text-leiras h3 {
+        font-size: 18px;
+        margin: 0 0 20px;
+    }
+
+    .nagy-k {
+        display: none !important;
+    }
+
+    .kis-k {
+        display: block;
+    }
 }
- 
-     
- }

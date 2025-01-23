@@ -49,6 +49,12 @@
     background-color: #715a5e;
 
 }
+@media (max-width: 1200px) {
+    .tosalon-container{
+        height: 60vh; /* Csökkentett magasság tableteken */
+        
+    }
+}
 
 @media (max-width: 768px) {
     .tosalon-container{

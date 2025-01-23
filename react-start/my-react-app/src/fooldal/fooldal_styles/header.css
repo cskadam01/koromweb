@@ -33,7 +33,7 @@ header h1 {
     font-size: 3.5rem; /* Nagy cím betűméret */
     margin: 0;
     color: black;
-    font-family: Goolck;
+    font-family: 'Goolck';
     
 }
 
@@ -45,6 +45,7 @@ header h1 {
 header p {
     margin: 0;
     font-family: 'Hanken Grotesk';
+    
 }
 
 header button{
@@ -68,18 +69,27 @@ header button:hover{
 /* Reszponzív töréspontok header-hez */
 @media (max-width: 1200px) {
     header {
-        height: 80vh; /* Csökkentett magasság tableteken */
-        padding: 15px;
+        height: 60vh; /* Csökkentett magasság tableteken */
+        
     }
 
     header h1 {
-        font-size: 2.8rem; /* Kisebb cím betűméret */
+        font-size: 2rem; /* Kisebb cím betűméret */
     }
 
     header p {
-        font-size: 1.2rem; /* Kisebb szöveg betűméret */
+        font-size: 0.9rem; /* Kisebb szöveg betűméret */
+        max-width: 20%;
+        
+    }
+    header button{
+        font-size: 0.8rem;
+       
+
     }
 }
+
+    
 
 @media (max-width: 768px) {
     header {
@@ -103,6 +113,7 @@ header button:hover{
 
     header p {
         font-size: 1rem; /* Kisebb szövegméret mobilon */
+        max-width: 100%;
     }
     header button{
         margin-top: 15px;

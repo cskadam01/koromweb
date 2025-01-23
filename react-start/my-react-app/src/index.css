@@ -93,6 +93,7 @@ li .left-nav, .navbar-nev, .active-nav {
 display: none;
 background: #F6F5F2;
 text-decoration: none;
+font-family: 'Hansken Grotesk';
 }
 
 .Scroll-down{
@@ -137,15 +138,21 @@ text-decoration: none;
     }
 
     .apro-a , .apro-lr {
-      background-color: #FF0074;
+      background-color: #ff72b1;
       width: 100%;
       margin: 0;
       padding: 10px;
       border-color:black;
       color: rgb(255, 255, 255);
       text-decoration: none;
+<<<<<<< Updated upstream
 
 
+=======
+      
+      
+    
+>>>>>>> Stashed changes
 
     }
 }

@@ -101,7 +101,7 @@ function Kepzes() {
                         <span><strong>Név:</strong> {booking.userName}</span>
                         <span><strong>Telefonszám:</strong> {booking.userPhone}</span>
                         <span><strong>Email:</strong> {booking.userEmail}</span>
-                        <span><strong>Dátum:</strong> {booking.datum}</span>
+                        <span><strong>Dátum:</strong> <br />{booking.datum}</span>
                         <span><strong>Idő:</strong> {booking.kezdIdo} - {booking.vegIdo}</span>
                     </li>
                 ))}
