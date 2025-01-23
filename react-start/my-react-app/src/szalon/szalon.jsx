@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
+import "moment/locale/hu"; // Magyar nyelv importálása
+
+
+
+moment.locale("hu");
 
 const localizer = momentLocalizer(moment);
 
@@ -63,16 +68,30 @@ const MyBigCalendar = () => {
   return (
     <div className="big-calendar-container">
       <Calendar
+        
         className="big-calendar"
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500 }}
+        style={{ height: 1000 }}
         eventPropGetter={eventStyleGetter} // Színezés kezelése
         defaultView="week" // Alapértelmezett heti nézet
         min={new Date(2025, 0, 1, 6, 0)} // Reggel 6:00
         max={new Date(2025, 0, 1, 21, 0)} // Este 9:00
+        messages={{
+          today: "Ma",
+          previous: "Előző",
+          next: "Következő",
+          month: "Hónap",
+          week: "Hét",
+          day: "Nap",
+          agenda: "Napló",
+          date: "Dátum",
+          time: "Idő",
+          event: "Esemény",
+          noEventsInRange: "Nincs esemény ebben az időszakban.",
+        }}
       />
     </div>
   );

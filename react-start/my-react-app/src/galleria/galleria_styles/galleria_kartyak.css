@@ -6,20 +6,15 @@
         max-width: 1800px; /* Ez a szélesség segít a középre igazításban */
         margin: 0 auto;    /* Középre helyezés */
         align-items: center;
-        border-radius: 20px;
+       
     }
-       /* vertikális középre helyezés */
+      
   
 
 
-.gall-kartya-img{
-    max-height: 100%;
-    max-width: 100%;
-    
-}
 
 .gall-card{
-    background-color: hsla(310, 100%, 76%, 0.484);
+    background-color: hsl(310, 100%, 83%);
     border-radius: 15px;
     max-width: 450px;
     justify-content: center;

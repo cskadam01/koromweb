@@ -23,11 +23,11 @@ html, body {
   align-items: center;
   padding: 0;
   margin: 0;
-  display: flex; 
-  justify-content: space-between; 
+  display: flex;
+  justify-content: space-between;
   align-items: center; /* Vertikális középre igazítás */
   position: relative;
-  
+
 
 }
 
@@ -35,8 +35,8 @@ html, body {
 li .left-nav, .navbar-nev, .active-nav {
   padding: 0px;
   display: inline-block; /* Inline blokkos megjelenítés */
-  
-  
+
+
 }
 
 
@@ -50,9 +50,9 @@ li .left-nav, .navbar-nev, .active-nav {
   outline: 0;
   border: 0;
   padding: 0px 20px 0px 20px !important;
-  line-height: 70px; 
+  line-height: 70px;
   transition: background-color 0.3s ease-in-out;
-  
+
 }
 
 
@@ -79,7 +79,7 @@ li .left-nav, .navbar-nev, .active-nav {
   color: rgb(33, 33, 33);
   margin: 0 auto; /* Ezzel a cím középre igazodik */
   position: absolute;
-  left: 50%; 
+  left: 50%;
   transform: translateX(-50%);
 }
 
@@ -111,30 +111,15 @@ text-decoration: none;
   list-style: none; /* Eltávolítja az alapértelmezett margót */
   margin: 0;
   text-decoration: none;
-   
+
 }
 
-.big-calendar-container {
-  overflow-x: scroll; /* Vízszintes görgetés engedélyezése */
-  width: 100%; /* Alapértelmezett szélesség */
-  min-width: 600px; /* Minimum szélesség, hogy ne zsugorodjon túlságosan */
+.rbc-calendar { 
+  height: 1000px; 
 }
-
-.big-calendar {
-  min-width: 800px; /* A naptár minimális szélessége, hogy mobilon se legyen túl kicsi */
-  height: 600px; /* Alapértelmezett magasság */
+.rbc-timeslot-group {
+  min-height: 100px;
 }
-
-
-.rbc-time-slot {
-  line-height: 800%; /* Növeld a rács magasságát */
- 
-}
-
-.rbc-event {
-  line-height: 00px; /* Minimum magasság az esemény mezőknél */
-}
-
 
 
 
@@ -147,8 +132,8 @@ text-decoration: none;
     .Scroll-down .apro-a, .apro-lr, .Scroll-ul{
       display: block;
       text-decoration: none;
-      
-      
+
+
     }
 
     .apro-a , .apro-lr {
@@ -156,11 +141,11 @@ text-decoration: none;
       width: 100%;
       margin: 0;
       padding: 10px;
-      border-color:black; 
+      border-color:black;
       color: rgb(255, 255, 255);
       text-decoration: none;
-      
-    
+
+
 
     }
 }
