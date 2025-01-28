@@ -14,6 +14,9 @@ function AdminNav() {
            <Link to="/admin/naptar" className="admin-link">
            <li className="admin-li">Naptár</li>
            </Link>
+           <Link to="/admin/idopontok" className="admin-link">
+           <li className="admin-li">Idopontok</li>
+           </Link>
            
                       
          

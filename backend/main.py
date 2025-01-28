@@ -4,11 +4,12 @@ import bcrypt
 import jwt
 import datetime
 import mysql.connector
+from datetime import timedelta
 
 app = Flask(__name__)
 
 # Flask-CORS konfiguráció
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 
 # Flask titkos kulcs a JWT-hez
 app.config['SECRET_KEY'] = 'your_secret_key_here'
@@ -211,9 +212,114 @@ def confirm_booking():
         return jsonify({"success": False, "message": "Hiba történt a foglalás megerősítésekor", "error": str(e)}), 500
     finally:
         cursor.close()
+#endregion
 
 
 
+
+
+#region Foglalás Létrehozása
+@app.route('/api/book', methods=['POST'])
+def book_appointment():
+    data = request.get_json()
+
+    # Kötelező mezők ellenőrzése
+    if not data.get('userName') or not data.get('start_time') or not data.get('duration'):
+        return jsonify({"success": False, "message": "Hiányzó adatok"}), 400
+
+    try:
+        user_name = data['userName']
+        user_phone = data.get('userPhone', '')  # Opcionális
+        user_email = data.get('userEmail', '')  # Opcionális
+        start_time = datetime.fromisoformat(data['start_time'])  # ISO formátum
+        duration = int(data['duration'])  # Percekben
+
+        # Ellenőrizzük az időpontot (ne legyen átfedés más foglalásokkal)
+        end_time = start_time + timedelta(minutes=duration)
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT * FROM appointments
+            WHERE start_time < %s AND DATE_ADD(start_time, INTERVAL duration MINUTE) > %s
+        """, (end_time, start_time))
+        conflicts = cursor.fetchall()
+
+        if conflicts:
+            return jsonify({"success": False, "message": "Az időpont foglalt"}), 409
+
+        # Foglalás mentése
+        cursor.execute("""
+            INSERT INTO appointments (userName, userPhone, userEmail, start_time, duration, status)
+            VALUES (%s, %s, %s, %s, %s, 'pending')
+        """, (user_name, user_phone, user_email, start_time, duration))
+        db.commit()
+
+        return jsonify({"success": True, "message": "Foglalás sikeresen létrehozva"}), 201
+
+    except Exception as e:
+        return jsonify({"success": False, "message": "Hiba történt", "error": str(e)}), 500
+
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+        if 'db' in locals():
+            db.close()
+
+
+#region elérhető időpontok hozzá adása
+@app.route('/api/availability', methods=['POST'])
+def add_availability():
+    try:
+        # JSON adat beolvasása
+        data = request.get_json()
+        date = data.get('date')
+        start_time = data.get('start_time')
+        end_time = data.get('end_time')
+
+        # Adatok ellenőrzése
+        if not date or not start_time or not end_time:
+            return jsonify({"success": False, "message": "Hiányzó adatok"}), 400
+
+        # Adatok mentése az adatbázisba
+        db = get_db_connection()
+        cursor = db.cursor()
+        cursor.execute("""
+            INSERT INTO availability (datum, startTime, endTime)
+            VALUES (%s, %s, %s)
+        """, (date, start_time, end_time))
+        db.commit()
+
+        return jsonify({"success": True, "message": "Elérhetőség hozzáadva"}), 201
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+        if 'db' in locals():
+            db.close()
+#end region
+#region Elérhető időpontok hozzá adása:
+@app.route('/api/availability', methods=['GET'])
+def get_availability():
+    try:
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT id, datum, startTime, endTime, creation FROM availability")
+        availability = cursor.fetchall()
+
+        # timedelta formázás stringgé alakítva
+        for item in availability:
+            item['startTime'] = str(item['startTime'])  # TIME típus stringgé alakítása
+            item['endTime'] = str(item['endTime'])  # TIME típus stringgé alakítása
+            item['datum'] = item['datum'].strftime('%Y-%m-%d')  # Dátum string formátum
+
+        return jsonify(availability), 200
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+#endregion
 
 
 

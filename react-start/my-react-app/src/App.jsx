@@ -10,10 +10,11 @@ import Layout from './Layout';
 import LoginAdmin from './admin/loginAdmin';
 import Admin from './admin/admin';
 import Megerosites from './admin/admin_sites/megerosites/megerosites';
+import Idopontok from './admin/admin_sites/idopontok/idopontok';
 import AdminWrapper from './AdminWrapper';
 import ProtectedRoute from './protectedRoute';
 import RedirectIfAuthenticated from './redict';
-import Szolgaltatas from './szalon/szalon';
+import Szalon from './szalon/szalon';
 import Naptar from './szalon/szalon';
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
                         <Route path='/' element={<Fooldal />} />
                         <Route path='/galleria' element={<Galleria />} />
                         <Route path='/kepzes' element={<Kepzes />} />
-                        <Route path='/szalon' element={<Naptar />} />
+                        <Route path='/szalon' element={<Szalon />} />
                         
 
                         {/* Bejelentkezési oldal */}
@@ -49,6 +50,7 @@ function App() {
                                     <Routes>
                                         <Route path="" element={<Admin />} />
                                         <Route path="megerosites" element={<Megerosites />} />
+                                        <Route path="idopontok" element={<Idopontok />} />
                                         
                                         
                                     </Routes>

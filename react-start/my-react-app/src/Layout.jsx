@@ -6,10 +6,10 @@ function Layout() {
     const location = useLocation();
 
     // Útvonalak, ahol nincs navbar
-    const hideNavbarPaths = ['/loginadmin', '/admin', '/megerosites','naptar'];
+    const hideNavbarPaths = ['/loginadmin', '/admin', '/megerosites','/naptar','/idopontok'];
 
     // Útvonalak, ahol az admin navbar jelenjen meg
-    const adminNavbarPaths = ['/admin',  '/megerosites', '/naptar'];
+    const adminNavbarPaths = ['/admin',  '/megerosites', '/naptar','/idopontok'];
 
     // Döntés arról, hogy melyik navbar jelenjen meg
     const showNavbar = !hideNavbarPaths.some((path) => location.pathname.toLowerCase().includes(path));

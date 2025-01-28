@@ -20,6 +20,7 @@ function Header (){
             </div>
             <button>Foglalj Időpontot most!</button>
             </div>
+          
         </header>
     );
 
