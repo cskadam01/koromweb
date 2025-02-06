@@ -11,7 +11,7 @@ const AdminWrapper = ({ children }) => {
         console.log("Aktuális útvonal:", location.pathname);
 
         // Admin oldalak listája
-        const adminRoutes = ["/admin", "/admin/megerosites",'/admin/naptar'];
+        const adminRoutes = ["/admin", "/admin/megerosites",'/admin/naptar', 'admin/idopontok'];
         const isAdminRoute = adminRoutes.some((route) => location.pathname.startsWith(route));
 
         // Ha épp admin oldalt hagy el a felhasználó, töröljük a tokent

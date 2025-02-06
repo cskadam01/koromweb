@@ -10,7 +10,7 @@ moment.locale("hu");
 
 const localizer = momentLocalizer(moment);
 
-const MyBigCalendar = () => {
+const Naptar = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -97,4 +97,4 @@ const MyBigCalendar = () => {
   );
 };
 
-export default MyBigCalendar;
+export default Naptar;

@@ -9,6 +9,7 @@
     padding: 20px 0; 
     gap: 30px;
     box-sizing: border-box; /* Beleértve a paddinget is */
+    
 }
 
 .admin-li {
@@ -35,6 +36,8 @@
 @media (max-width:1000px) {
     .admin-nav{
         width: 100%;
+        padding-right: 30px;
+        overflow: scroll;
 
     }
     

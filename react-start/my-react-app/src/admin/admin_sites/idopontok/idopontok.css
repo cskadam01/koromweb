@@ -1,77 +1,80 @@
-/* Admin panel konténer stílusai */
-.admin-panel-container {
+/* Biztosítjuk, hogy CSAK az admin időpontkezelő oldalra hat */
+.admin-idopont-container {
     max-width: 600px;
-    
-    margin-left:30%;
+    margin: auto;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Címek stílusai */
-.admin-title, .availability-title {
+    padding-top: 120px;
+    
     text-align: center;
-    color: #333;
-    font-size: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.admin-idopont-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Űrlap stílusai */
-.admin-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.admin-idopont-form label {
+    font-weight: bold;
+    text-align: left;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-label {
-    font-size: 1rem;
-    color: #555;
-}
-
-input[type="date"],
-input[type="time"],
-button {
-    padding: 10px;
+.admin-idopont-form input {
+    padding: 8px;
+    font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
+    border-radius: 4px;
 }
 
-button {
-    background-color: #4CAF50;
+.admin-idopont-form button {
+    background-color: #4caf50;
     color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-button:hover {
+.admin-idopont-form button:hover {
     background-color: #45a049;
 }
 
-/* Lista stílusai */
-.availability-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0 0;
+.admin-idopont-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-.availability-item {
-    padding: 10px;
+.admin-idopont-table th,
+.admin-idopont-table td {
     border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
 }
 
-.availability-item:hover {
-    background-color: #f1f1f1;
+.admin-idopont-table th {
+    background-color: #f4f4f4;
+}
+
+.admin-idopont-delete {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.admin-idopont-delete:hover {
+    background-color: #e60000;
 }

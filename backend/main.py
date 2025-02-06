@@ -2,9 +2,10 @@ from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 import bcrypt
 import jwt
-import datetime
+from datetime import datetime, timedelta
 import mysql.connector
-from datetime import timedelta
+from flask_mail import Mail, Message
+
 
 app = Flask(__name__)
 
@@ -39,24 +40,56 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
     return response
+#region Email küldés
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Használhatsz más SMTP szervert is
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'zsuzsaaa03@gmail.com'  # Gmail címed
+app.config['MAIL_PASSWORD'] = 'ldce jsoh zeaw ctjl'  # **Gmail alkalmazás-jelszó szükséges!**
+app.config['MAIL_DEFAULT_SENDER'] = 'zsuzsaaa03@gmail.com'
+
+
+mail = Mail(app)
+
+# def send_email():
+#     try:
+#         data = request.get_json()
+
+#         if not data.get("to") or not data.get("subject") or not data.get("body"):
+#             return jsonify({"success": False, "message": "Hiányzó adatok!"}), 400
+
+#         # **Debug print, hogy valóban ezt kapja-e a backend**
+#         print(f"Küldendő e-mail:\nCímzett: {data['to']}\nTárgy: {data['subject']}\nSzöveg:\n{data['body']}")
+
+#         msg = Message(subject=data["subject"], recipients=[data["to"]])
+#         msg.body = data["body"]
+#         mail.send(msg)
+
+#         return jsonify({"success": True, "message": "E-mail elküldve!"}), 200
+
+#     except Exception as e:
+#         return jsonify({"success": False, "message": str(e)}), 500
+
+
+
+
+
 
 #region Bejelentkezés Api
 # Bejelentkezési végpont
-@app.route('/api/login', methods=['POST', 'OPTIONS'])
+@app.route('/api/login', methods=['POST'])
 def login():
-    if request.method == 'OPTIONS':
-        return jsonify({"success": True}), 200
-
-    data = request.get_json()
-    if not data or not data.get('username') or not data.get('password'):
-        return jsonify({"success": False, "message": "Hiányzó adatok"}), 400
-
-    username = data.get('username').strip()
-    password = data.get('password').strip()
-
     try:
+        data = request.get_json()
+        if not data or not data.get('username') or not data.get('password'):
+            return jsonify({"success": False, "message": "Hiányzó adatok"}), 400
+
+        username = data.get('username').strip()
+        password = data.get('password').strip()
+
         db = get_db_connection()
         cursor = db.cursor(dictionary=True)
+
         cursor.execute("SELECT adminPass FROM admin WHERE adminName = %s", (username,))
         user = cursor.fetchone()
 
@@ -66,21 +99,80 @@ def login():
         if not bcrypt.checkpw(password.encode('utf-8'), user['adminPass'].encode('utf-8')):
             return jsonify({"success": False, "message": "Hibás jelszó"}), 401
 
+        # **Helyes időkezelés JWT generálásnál**
         token = jwt.encode(
-            {"username": username, "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
+            {"username": username, "exp": datetime.utcnow() + timedelta(hours=1)},
             app.config['SECRET_KEY'],
             algorithm="HS256"
         )
+
         return jsonify({"success": True, "token": token}), 200
 
     except Exception as e:
-        print(f"Hiba a login API-nál: {str(e)}")
+        print("Hiba a login API-nál:", str(e))  # Debugging print
         return jsonify({"success": False, "message": "Szerverhiba", "error": str(e)}), 500
 
     finally:
-        if 'cursor' in locals() and cursor:
-            cursor.close()
+        cursor.close()
+        db.close()
 # endregion
+#region csoportos orak
+@app.route('/api/idopontok', methods=['GET'])
+def get_idopontok():
+    db = get_db_connection()
+    cursor = db.cursor(dictionary=True)
+    try:
+        cursor.execute("SELECT * FROM idopontok ORDER BY datum ASC")
+        idopontok = cursor.fetchall()
+        return jsonify(idopontok)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()  # 📌 Minden API végén bezárjuk a kapcsolatot!
+
+# 🔹 2. API: Új időpont hozzáadása
+@app.route('/api/idopontok', methods=['POST'])
+def add_idopont():
+    db = get_db_connection()
+    cursor = db.cursor()
+    try:
+        data = request.json
+        datum = data.get('datum')
+        kezdes_ido = data.get('kezdes_ido') if data.get('kezdes_ido') else None
+        vege_ido = data.get('vege_ido') if data.get('vege_ido') else None
+        max_ferohely = data.get('max_ferohely')
+
+        if not datum or not max_ferohely:
+            return jsonify({"error": "Dátum és férőhely megadása kötelező!"}), 400
+
+        query = "INSERT INTO idopontok (datum, kezdes_ido, vege_ido, max_ferohely) VALUES (%s, %s, %s, %s)"
+        cursor.execute(query, (datum, kezdes_ido, vege_ido, max_ferohely))
+        db.commit()
+
+        return jsonify({"message": "Időpont sikeresen hozzáadva!"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()  # 📌 Minden API végén bezárjuk a kapcsolatot!
+
+# 🔹 3. API: Időpont törlése
+@app.route('/api/idopontok/<int:id>', methods=['DELETE'])
+def delete_idopont(id):
+    db = get_db_connection()
+    cursor = db.cursor()
+    try:
+        cursor.execute("DELETE FROM idopontok WHERE id = %s", (id,))
+        db.commit()
+        return jsonify({"message": "Időpont törölve!"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()  # 📌 Minden API végén bezárjuk a kapcsolatot!
+
+
 
 # region Megerősített foglalások lekérése
 @app.route('/api/get_booking_c', methods=['GET'])
@@ -221,48 +313,34 @@ def confirm_booking():
 #region Foglalás Létrehozása
 @app.route('/api/book', methods=['POST'])
 def book_appointment():
-    data = request.get_json()
-
-    # Kötelező mezők ellenőrzése
-    if not data.get('userName') or not data.get('start_time') or not data.get('duration'):
-        return jsonify({"success": False, "message": "Hiányzó adatok"}), 400
-
+    db = None
+    cursor = None
     try:
-        user_name = data['userName']
-        user_phone = data.get('userPhone', '')  # Opcionális
-        user_email = data.get('userEmail', '')  # Opcionális
-        start_time = datetime.fromisoformat(data['start_time'])  # ISO formátum
-        duration = int(data['duration'])  # Percekben
+        data = request.json
+        idopont_id = data.get("idopont_id")
+        user_nev = data.get("user_nev")
+        user_email = data.get("user_email")
+        user_telefon = data.get("user_telefon")
 
-        # Ellenőrizzük az időpontot (ne legyen átfedés más foglalásokkal)
-        end_time = start_time + timedelta(minutes=duration)
+        if not idopont_id or not user_nev or not user_email or not user_telefon:
+            return jsonify({"error": "Minden mező kitöltése kötelező!"}), 400
+
         db = get_db_connection()
-        cursor = db.cursor(dictionary=True)
-        cursor.execute("""
-            SELECT * FROM appointments
-            WHERE start_time < %s AND DATE_ADD(start_time, INTERVAL duration MINUTE) > %s
-        """, (end_time, start_time))
-        conflicts = cursor.fetchall()
+        cursor = db.cursor()
 
-        if conflicts:
-            return jsonify({"success": False, "message": "Az időpont foglalt"}), 409
-
-        # Foglalás mentése
-        cursor.execute("""
-            INSERT INTO appointments (userName, userPhone, userEmail, start_time, duration, status)
-            VALUES (%s, %s, %s, %s, %s, 'pending')
-        """, (user_name, user_phone, user_email, start_time, duration))
+        query = "INSERT INTO foglalasok (idopont_id, user_nev, user_email, user_telefon, statusz) VALUES (%s, %s, %s, %s, 'pending')"
+        cursor.execute(query, (idopont_id, user_nev, user_email, user_telefon))
         db.commit()
 
-        return jsonify({"success": True, "message": "Foglalás sikeresen létrehozva"}), 201
+        return jsonify({"message": "Foglalás sikeresen elküldve!"}), 201
 
     except Exception as e:
-        return jsonify({"success": False, "message": "Hiba történt", "error": str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
     finally:
-        if 'cursor' in locals():
+        if cursor:
             cursor.close()
-        if 'db' in locals():
+        if db:
             db.close()
 
 
@@ -298,7 +376,7 @@ def add_availability():
         if 'db' in locals():
             db.close()
 #end region
-#region Elérhető időpontok hozzá adása:
+#region Elérhető időpontok Megjelenítés adminnak:
 @app.route('/api/availability', methods=['GET'])
 def get_availability():
     try:
@@ -320,6 +398,64 @@ def get_availability():
         cursor.close()
         db.close()
 #endregion
+#region Felhsználók számára látható szabad időpontok lekérdezése
+
+
+
+from datetime import datetime, timedelta
+
+@app.route('/api/available-slots', methods=['GET'])
+def get_available_slots():
+    try:
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+        print("API hívás érkezett: /api/available-slots")
+
+        # SQL lekérdezés az admin által megadott időpontokra
+        cursor.execute("""
+            SELECT a.datum, a.startTime, a.endTime 
+            FROM availability a
+            WHERE NOT EXISTS (
+                SELECT 1 FROM appointment ap
+                WHERE ap.datum = a.datum 
+                AND ap.kezdIdo = a.startTime
+                AND ap.megerosit != -1
+            )
+        """)
+
+        available_slots = {}
+        for row in cursor.fetchall():
+            datum = row['datum'].strftime('%Y-%m-%d') if 'datum' in row and row['datum'] else None
+            start_time = str(row['startTime']).split('.')[0]  # Eltávolítjuk a mikromásodpercet
+            end_time = str(row['endTime']).split('.')[0]  # Eltávolítjuk a mikromásodpercet
+
+            # Helyes időformátum biztosítása (csak HH:MM)
+            start_time = datetime.strptime(start_time, "%H:%M:%S").strftime("%H:%M")
+            end_time = datetime.strptime(end_time, "%H:%M:%S").strftime("%H:%M")
+
+            if not datum or not start_time or not end_time:
+                continue  # Ha nincs megfelelő adat, kihagyjuk
+
+            # Az elérhető időpontokat JSON formátumba rakjuk
+            if datum not in available_slots:
+                available_slots[datum] = []
+            available_slots[datum].append({
+                "startTime": start_time,
+                "endTime": end_time
+            })
+
+        return jsonify(available_slots), 200
+
+    except Exception as e:
+        print("Hiba történt az API-ban:", str(e))  # Debugging print
+        return jsonify({"success": False, "message": str(e)}), 500
+
+    finally:
+        cursor.close()
+        db.close()
+
+
 
 
 

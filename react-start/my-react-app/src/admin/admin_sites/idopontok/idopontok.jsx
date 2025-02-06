@@ -1,92 +1,114 @@
 import React, { useState, useEffect } from "react";
-import './idopontok.css'
+import axios from "axios";
+import "./Idopontok.css"; // 📌 Új CSS fájl beillesztése
 
 function Idopontok() {
-    const [availability, setAvailability] = useState([]);
-    const [form, setForm] = useState({
-        date: "",
-        start_time: "08:00",
-        end_time: "18:00",
-    });
+    const [idopontok, setIdopontok] = useState([]);
+    const [ujDatum, setUjDatum] = useState("");
+    const [ujKezdes, setUjKezdes] = useState("");
+    const [ujVege, setUjVege] = useState("");
+    const [ujFerohely, setUjFerohely] = useState("");
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/availability")
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("API válasz:", data); // Ellenőrizd az API adatokat
-                if (Array.isArray(data)) {
-                    setAvailability(data);
-                } else {
-                    console.error("Nem tömb az API válasz:", data);
-                    setAvailability([]);
-                }
-            })
-            .catch((err) => console.error("Hiba az API hívás során:", err));
+        fetchIdopontok();
     }, []);
 
-    const handleSubmit = (e) => {
+    const fetchIdopontok = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/api/idopontok");
+            setIdopontok(response.data);
+        } catch (error) {
+            console.error("Hiba az időpontok lekérdezésekor:", error);
+        }
+    };
+
+    const handleUjIdopont = async (e) => {
         e.preventDefault();
-        fetch("http://localhost:5000/api/availability", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(form),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.success) {
-                    alert("Elérhetőség hozzáadva!");
-                    setAvailability([...availability, { ...form, id: data.id }]);
-                }
-            })
-            .catch((err) => console.error("Hiba az elérhetőség mentésekor:", err));
+        if (!ujDatum || !ujFerohely) {
+            alert("A dátum és a férőhely megadása kötelező!");
+            return;
+        }
+
+        try {
+            await axios.post("http://localhost:5000/api/idopontok", {
+                datum: ujDatum,
+                kezdes_ido: ujKezdes || null,
+                vege_ido: ujVege || null,
+                max_ferohely: parseInt(ujFerohely, 10),
+            });
+
+            setUjDatum("");
+            setUjKezdes("");
+            setUjVege("");
+            setUjFerohely("");
+            fetchIdopontok();
+        } catch (error) {
+            console.error("Hiba az új időpont hozzáadásakor:", error);
+        }
+    };
+
+    const handleTorles = async (id) => {
+        if (window.confirm("Biztosan törölni szeretnéd ezt az időpontot?")) {
+            try {
+                await axios.delete(`http://localhost:5000/api/idopontok/${id}`);
+                fetchIdopontok();
+            } catch (error) {
+                console.error("Hiba az időpont törlésekor:", error);
+            }
+        }
     };
 
     return (
-        <div className="admin-panel-container">
-            <h2 className="admin-title">Elérhető időpontok kezelése</h2>
-            <form className="admin-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Dátum:</label>
-                    <input
-                        type="date"
-                        value={form.date}
-                        onChange={(e) => setForm({ ...form, date: e.target.value })}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Kezdés:</label>
-                    <input
-                        type="time"
-                        value={form.start_time}
-                        onChange={(e) => setForm({ ...form, start_time: e.target.value })}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Befejezés:</label>
-                    <input
-                        type="time"
-                        value={form.end_time}
-                        onChange={(e) => setForm({ ...form, end_time: e.target.value })}
-                    />
-                </div>
-                <button className="add-button" type="submit">Hozzáadás</button>
+        <div className="admin-idopont-container">
+            <h2>Időpontok kezelése</h2>
+
+            {/* 🟢 Új időpont felvétel űrlap */}
+            <form onSubmit={handleUjIdopont} className="admin-idopont-form">
+                <label>Dátum:</label>
+                <input type="date" value={ujDatum} onChange={(e) => setUjDatum(e.target.value)} required />
+
+                <label>Kezdési idő (opcionális):</label>
+                <input type="time" value={ujKezdes} onChange={(e) => setUjKezdes(e.target.value)} />
+
+                <label>Befejezési idő (opcionális):</label>
+                <input type="time" value={ujVege} onChange={(e) => setUjVege(e.target.value)} />
+
+                <label>Maximális férőhely:</label>
+                <input type="number" value={ujFerohely} onChange={(e) => setUjFerohely(e.target.value)} required min="1" />
+
+                <button type="submit">Időpont hozzáadása</button>
             </form>
 
-            <h3 className="availability-title">Elérhető időpontok:</h3>
-{availability && availability.length > 0 ? (
-    <ul className="availability-list">
-        {availability.map((item) => (
-            <li className="availability-item" key={item.id}>
-                {item.datum || item.date} {item.startTime || item.start_time} - {item.endTime || item.end_time}
-            </li>
-        ))}
-    </ul>
-) : (
-    <p>Nincs elérhető időpont.</p>
-)}
+            {/* 🟢 Időpontok listázása */}
+            <h3>Elérhető időpontok</h3>
+            <table className="admin-idopont-table">
+                <thead>
+                    <tr>
+                        <th>Dátum</th>
+                        <th>Időtartam</th>
+                        <th>Férőhely</th>
+                        <th>Műveletek</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {idopontok.map((idopont) => (
+                        <tr key={idopont.id}>
+                            <td>{idopont.datum}</td>
+                            <td>
+                                {idopont.kezdes_ido && idopont.vege_ido
+                                    ? `${idopont.kezdes_ido} - ${idopont.vege_ido}`
+                                    : "Nincs megadva"}
+                            </td>
+                            <td>{idopont.max_ferohely} fő</td>
+                            <td>
+                                <button className="admin-idopont-delete" onClick={() => handleTorles(idopont.id)}>Törlés</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }
 
 export default Idopontok;
-
