@@ -1,108 +1,129 @@
-.admin-booking-container {
-        
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: 1fr;
-        grid-column-gap: 0px;
-        grid-row-gap: 0px;
-        padding-top: 100px;
-        
- 
-}
-
-.booking-list {
-    
+/* 🟢 Alap konténer stílusok */
+.admin-foglalas-container {
     width: 90%;
-    margin: 0 auto; /* Középre igazítás */
-      
-}
-
-
-.delete{ 
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.booking-list h2 {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     text-align: center;
-    margin-bottom: 15px;
+    overflow-x: auto;
 }
 
-.booking-list ul {
-    list-style: none;
-    padding: 0;
+/* 🟢 Táblázatok formázása */
+.admin-foglalas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-.booking-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+.admin-foglalas-table th, .admin-foglalas-table td {
     border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    padding: 12px;
+    text-align: left;
+    word-wrap: break-word;
 }
 
-.booking-item span {
-    flex: 1;
-    text-align: center;
-}
-.accept{
+.admin-foglalas-table th {
     background-color: #4CAF50;
     color: white;
-    margin-right: 8px;
-
+    font-weight: bold;
 }
-.booking-item button {
-    padding: 5px 10px;
 
-    border: none;
-    border-radius: 5px;
+.admin-foglalas-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.admin-foglalas-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 🟢 Műveletek oszlop szélességének optimalizálása */
+.admin-foglalas-table th:last-child,
+.admin-foglalas-table td:last-child {
+    width: 180px;
+    text-align: center;
+}
+
+/* 🟢 Gombok formázása */
+.confirm-btn, .reject-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    margin: 2px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: 0.3s;
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 
-.booking-item button:hover {
+.confirm-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.confirm-btn:hover {
     background-color: #45a049;
 }
 
-@media (max-width:1200px) {
-    .admin-booking-container{
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(2, 1fr);
-        grid-column-gap: 0px;
-        grid-row-gap: 0px;
-        justify-content: center;
-    }
+.reject-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+}
 
-    .booking-list {
-        width: 70%;
-       
-        
-       
-    }
-    .booking-item{
-         
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: repeat(2, 1fr);
-            grid-column-gap: 0px;
-            grid-row-gap: 0px;
-            margin-bottom: 25px;
-            
+.reject-btn:hover {
+    background-color: #c9302c;
+}
 
-    }
+/* 🟢 Címek */
+.admin-foglalas-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
 
-    
-    
-    .booking-item button{
-        margin-top: 10px;
+.admin-foglalas-container h3 {
+    font-size: 20px;
+    margin-top: 30px;
+    color: #4CAF50;
+}
+
+/* 🟢 Oszlopok elrendezése */
+.foglalas-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.foglalas-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* 🟢 Reszponzív design (Mobilnézet) */
+@media screen and (max-width: 768px) {
+    .foglalas-grid {
+        flex-direction: column;
+    }
+    .admin-foglalas-table th, .admin-foglalas-table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+    .confirm-btn, .reject-btn {
+        padding: 10px 14px;
+        font-size: 14px;
         width: 100%;
-
     }
-    
+    .admin-foglalas-table th:last-child,
+    .admin-foglalas-table td:last-child {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }

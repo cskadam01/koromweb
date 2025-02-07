@@ -8,6 +8,7 @@ function Idopontok() {
     const [ujKezdes, setUjKezdes] = useState("");
     const [ujVege, setUjVege] = useState("");
     const [ujFerohely, setUjFerohely] = useState("");
+    const [ujTipus, setUjTipus] = useState("");
 
     useEffect(() => {
         fetchIdopontok();
@@ -15,7 +16,7 @@ function Idopontok() {
 
     const fetchIdopontok = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/idopontok");
+            const response = await axios.get("http://localhost:5000/api/admin/idopontok");
             setIdopontok(response.data);
         } catch (error) {
             console.error("Hiba az időpontok lekérdezésekor:", error);
@@ -24,23 +25,25 @@ function Idopontok() {
 
     const handleUjIdopont = async (e) => {
         e.preventDefault();
-        if (!ujDatum || !ujFerohely) {
-            alert("A dátum és a férőhely megadása kötelező!");
+        if (!ujDatum || !ujFerohely || !ujTipus) {
+            alert("A dátum, a férőhely és a típus megadása kötelező!");
             return;
         }
 
         try {
-            await axios.post("http://localhost:5000/api/idopontok", {
+            await axios.post("http://localhost:5000/api/admin/idopontok", {
                 datum: ujDatum,
                 kezdes_ido: ujKezdes || null,
                 vege_ido: ujVege || null,
                 max_ferohely: parseInt(ujFerohely, 10),
+                idopont_tipus: ujTipus,
             });
 
             setUjDatum("");
             setUjKezdes("");
             setUjVege("");
             setUjFerohely("");
+            setUjTipus("");
             fetchIdopontok();
         } catch (error) {
             console.error("Hiba az új időpont hozzáadásakor:", error);
@@ -76,6 +79,9 @@ function Idopontok() {
                 <label>Maximális férőhely:</label>
                 <input type="number" value={ujFerohely} onChange={(e) => setUjFerohely(e.target.value)} required min="1" />
 
+                <label>Tanfolyam típusa:</label>
+                <input type="text" value={ujTipus} onChange={(e) => setUjTipus(e.target.value)} required />
+
                 <button type="submit">Időpont hozzáadása</button>
             </form>
 
@@ -85,6 +91,7 @@ function Idopontok() {
                 <thead>
                     <tr>
                         <th>Dátum</th>
+                        <th>Tanfolyam típusa</th>
                         <th>Időtartam</th>
                         <th>Férőhely</th>
                         <th>Műveletek</th>
@@ -94,6 +101,7 @@ function Idopontok() {
                     {idopontok.map((idopont) => (
                         <tr key={idopont.id}>
                             <td>{idopont.datum}</td>
+                            <td>{idopont.idopont_tipus}</td>
                             <td>
                                 {idopont.kezdes_ido && idopont.vege_ido
                                     ? `${idopont.kezdes_ido} - ${idopont.vege_ido}`

@@ -13,8 +13,10 @@ function FoglalasKartyak() {
         email: "",
         telefon: "",
     });
+    const [hibaUzenetek, setHibaUzenetek] = useState({});
     const [kivalasztottIdopont, setKivalasztottIdopont] = useState(null);
     const [modalNyitva, setModalNyitva] = useState(false);
+    const [hibaMegjelenit, setHibaMegjelenit] = useState(false);
 
     useEffect(() => {
         fetchIdopontok();
@@ -29,30 +31,22 @@ function FoglalasKartyak() {
         }
     };
 
-    const formatDate = (dateString) => {
-        if (!dateString) return "Érvénytelen dátum"; // Ha nincs dátum, akkor ne formázzuk
-        const parsedDate = new Date(dateString);
-        if (isNaN(parsedDate)) return "Érvénytelen dátum"; // Ha a dátum hibás, akkor visszatérünk egy szöveggel
-        return new Intl.DateTimeFormat('hu-HU', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        }).format(parsedDate);
-    };
-
-    const openModal = (idopont) => {
-        setKivalasztottIdopont(idopont);
-        setModalNyitva(true);
-    };
-
-    const closeModal = () => {
-        setModalNyitva(false);
+    const handleFoglalasInput = (field, value) => {
+        setFoglalasAdatok({...foglalasAdatok, [field]: value});
+        if (hibaMegjelenit) {
+            setHibaUzenetek({...hibaUzenetek, [field]: value ? "" : "Kötelező mező!"});
+        }
     };
 
     const handleFoglalas = async () => {
-        if (!foglalasAdatok.nev || !foglalasAdatok.email || !foglalasAdatok.telefon) {
-            alert("Kérlek, töltsd ki az összes mezőt!");
+        setHibaMegjelenit(true);
+        let errors = {};
+        Object.keys(foglalasAdatok).forEach((field) => {
+            if (!foglalasAdatok[field]) errors[field] = "Kötelező mező!";
+        });
+        
+        if (Object.keys(errors).length > 0) {
+            setHibaUzenetek(errors);
             return;
         }
 
@@ -65,36 +59,39 @@ function FoglalasKartyak() {
             });
 
             alert(response.data.message);
-            fetchIdopontok(); // Frissítjük az időpontokat foglalás után
-            closeModal(); // Bezárjuk a modált sikeres foglalás után
+            fetchIdopontok();
+            setModalNyitva(false);
+            setHibaMegjelenit(false);
+            setFoglalasAdatok({ nev: "", email: "", telefon: "" });
+            setHibaUzenetek({});
         } catch (error) {
             console.error("Hiba a foglalás során:", error);
             alert("Hiba történt a foglalás során.");
         }
     };
 
+    const closeModal = () => {
+        setModalNyitva(false);
+        setHibaMegjelenit(false);
+        setFoglalasAdatok({ nev: "", email: "", telefon: "" });
+        setHibaUzenetek({});
+    };
+
     return (
         <div className="foglalas-kontener">
             <h2>Elérhető időpontok</h2>
+            {idopontok.map((idopont) => (
+                <div key={idopont.id} className="foglalas-kartya" onClick={() => setKivalasztottIdopont(idopont) || setModalNyitva(true)}>
+                    <h3>{new Intl.DateTimeFormat('hu-HU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(idopont.datum))}</h3>
+                    <p>Képzés Témája: {idopont.idopont_tipus || "Ismeretlen tanfolyam"}</p>
+                    <p>Max férőhely: {idopont.max_ferohely} fő</p>
+                </div>
+            ))}
 
-            {/* 🟢 Időpont kártyák */}
-            <div className="foglalas-kartyak-kontener">
-                {idopontok.map((idopont) => (
-                    <div key={idopont.id} className="foglalas-kartya" onClick={() => openModal(idopont)}>
-                        <h3>{formatDate(idopont.datum)}</h3>
-                        <p>Max férőhely: {idopont.max_ferohely} fő</p>
-                        <p>Elérhető helyek: {idopont.max_ferohely - ((idopont.foglaltHelyek || 0) + (idopont.pendingHelyek || 0))} fő</p>
-                        <p>{idopont.kezdes_ido ? `${idopont.kezdes_ido} - ${idopont.vege_ido}` : "Időpont nincs megadva"}</p>
-                    </div>
-                ))}
-            </div>
-
-            {/* 🟢 React Modal */}
-            <Modal
-                isOpen={modalNyitva}
-                onRequestClose={closeModal}
-                contentLabel="Foglalás"
-                className="foglalas-modal"
+            <Modal 
+                isOpen={modalNyitva} 
+                onRequestClose={closeModal} 
+                className="foglalas-modal" 
                 overlayClassName="foglalas-overlay"
                 style={{
                     overlay: {
@@ -125,14 +122,23 @@ function FoglalasKartyak() {
                     }
                 }}
             >
-                <h3>Foglalás {formatDate(kivalasztottIdopont?.datum)} időpontra</h3>
-
-                <input type="text" placeholder="Név" value={foglalasAdatok.nev} onChange={(e) => setFoglalasAdatok({...foglalasAdatok, nev: e.target.value})} />
-                <input type="email" placeholder="Email" value={foglalasAdatok.email} onChange={(e) => setFoglalasAdatok({...foglalasAdatok, email: e.target.value})} />
-                <input type="tel" placeholder="Telefonszám" value={foglalasAdatok.telefon} onChange={(e) => setFoglalasAdatok({...foglalasAdatok, telefon: e.target.value})} />
+                <h3> {kivalasztottIdopont ? new Intl.DateTimeFormat('hu-HU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(kivalasztottIdopont.datum)) : ''} </h3>
+                
+                {['nev', 'email', 'telefon'].map((field) => (
+                    <div key={field}>
+                        <input 
+                            className={`foglalas-adatok ${hibaMegjelenit && hibaUzenetek[field] ? "error" : ""}`}
+                            type={field === "email" ? "email" : "text"}
+                            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                            value={foglalasAdatok[field]}
+                            onChange={(e) => handleFoglalasInput(field, e.target.value)}
+                        />
+                        {hibaMegjelenit && hibaUzenetek[field] && <p className="error-text">{hibaUzenetek[field]}</p>}
+                    </div>
+                ))}
 
                 <button className="foglalas-gomb" onClick={handleFoglalas}>Foglalás</button>
-                <button className="foglalas-bezaras" onClick={closeModal}>Bezárás</button>
+                <button className="foglalas-bezaras" onClick={closeModal}>Vissza</button>
             </Modal>
         </div>
     );

@@ -38,7 +38,7 @@ def close_db_connection(exception):
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
     return response
 #region Email küldés
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Használhatsz más SMTP szervert is
@@ -129,6 +129,7 @@ def get_idopontok():
                 TIME_FORMAT(i.kezdes_ido, '%H:%i') AS kezdes_ido,
                 TIME_FORMAT(i.vege_ido, '%H:%i') AS vege_ido,
                 i.max_ferohely,
+                i.idopont_tipus,
                 COALESCE((SELECT COUNT(*) FROM foglalasok WHERE foglalasok.idopont_id = i.id AND foglalasok.statusz = 'confirmed'), 0) AS foglaltHelyek,
                 COALESCE((SELECT COUNT(*) FROM foglalasok WHERE foglalasok.idopont_id = i.id AND foglalasok.statusz = 'pending'), 0) AS pendingHelyek
             FROM idopontok i
@@ -148,30 +149,33 @@ def get_idopontok():
 
 
 # 🔹 2. API: Új időpont hozzáadása
-@app.route('/api/idopontok', methods=['POST'])
+@app.route('/api/admin/idopontok', methods=['POST'])
 def add_idopont():
     db = get_db_connection()
     cursor = db.cursor()
     try:
         data = request.json
         datum = data.get('datum')
-        kezdes_ido = data.get('kezdes_ido') if data.get('kezdes_ido') else None
-        vege_ido = data.get('vege_ido') if data.get('vege_ido') else None
+        kezdes_ido = data.get('kezdes_ido')
+        vege_ido = data.get('vege_ido')
         max_ferohely = data.get('max_ferohely')
+        idopont_tipus = data.get('idopont_tipus', 'Általános tanfolyam')
 
-        if not datum or not max_ferohely:
-            return jsonify({"error": "Dátum és férőhely megadása kötelező!"}), 400
+        if not datum or not max_ferohely or not idopont_tipus:
+            return jsonify({"error": "Hiányzó adatok"}), 400
 
-        query = "INSERT INTO idopontok (datum, kezdes_ido, vege_ido, max_ferohely) VALUES (%s, %s, %s, %s)"
-        cursor.execute(query, (datum, kezdes_ido, vege_ido, max_ferohely))
+        cursor.execute("""
+            INSERT INTO idopontok (datum, kezdes_ido, vege_ido, max_ferohely, idopont_tipus)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (datum, kezdes_ido, vege_ido, max_ferohely, idopont_tipus))
+
         db.commit()
-
-        return jsonify({"message": "Időpont sikeresen hozzáadva!"}), 201
+        return jsonify({"message": "Időpont sikeresen létrehozva!"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     finally:
         cursor.close()
-        db.close()  # 📌 Minden API végén bezárjuk a kapcsolatot!
+        db.close()
 
 # 🔹 3. API: Időpont törlése
 @app.route('/api/idopontok/<int:id>', methods=['DELETE'])
@@ -281,12 +285,98 @@ def update_foglalas():
         db.close()
 
 
+#region Admin felület, Függő foglalások
+@app.route('/api/admin/pending_foglalasok', methods=['GET'])
+def get_pending_foglalasok():
+    db = get_db_connection()
+    cursor = db.cursor(dictionary=True)
+    try:
+        cursor.execute("""
+            SELECT f.id AS foglalId, f.idopont_id, f.user_nev, f.user_email, f.user_telefon, 
+                   i.datum, 
+                   TIME_FORMAT(i.kezdes_ido, '%H:%i') AS kezdes_ido,
+                   TIME_FORMAT(i.vege_ido, '%H:%i') AS vege_ido,
+                   COALESCE(i.idopont_tipus, 'Nincs megadva') AS idopont_tipus
+            FROM foglalasok f
+            JOIN idopontok i ON f.idopont_id = i.id
+            WHERE f.statusz = 'pending'
+        """)
+        pending = cursor.fetchall()
+        return jsonify(pending)
+    except Exception as e:
+        print("Hiba a pending foglalások lekérdezésekor:", str(e))
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+
+@app.route('/api/admin/confirmed_foglalasok', methods=['GET'])
+def get_confirmed_foglalasok():
+    db = get_db_connection()
+    cursor = db.cursor(dictionary=True)
+    try:
+        cursor.execute("""
+            SELECT f.id AS foglalId, f.idopont_id, f.user_nev, f.user_email, f.user_telefon, 
+                   i.datum, 
+                   TIME_FORMAT(i.kezdes_ido, '%H:%i') AS kezdes_ido,
+                   TIME_FORMAT(i.vege_ido, '%H:%i') AS vege_ido,
+                   COALESCE(i.idopont_tipus, 'Nincs megadva') AS idopont_tipus
+            FROM foglalasok f
+            JOIN idopontok i ON f.idopont_id = i.id
+            WHERE f.statusz = 'confirmed'
+        """)
+        confirmed = cursor.fetchall()
+        return jsonify(confirmed)
+    except Exception as e:
+        print("Hiba a confirmed foglalások lekérdezésekor:", str(e))
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+
+@app.route('/api/admin/foglalas_megerosites', methods=['POST'])
+def confirm_foglalas():
+    data = request.json
+    foglalId = data.get("foglalId")
+
+    if not foglalId:
+        return jsonify({"error": "Érvénytelen kérés"}), 400
+
+    db = get_db_connection()
+    cursor = db.cursor()
+    try:
+        cursor.execute("UPDATE foglalasok SET statusz = 'confirmed' WHERE id = %s", (foglalId,))
+        db.commit()
+        return jsonify({"message": "Foglalás megerősítve"}), 200
+    except Exception as e:
+        print("Hiba a foglalás megerősítésekor:", str(e))
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
 
 
 
+@app.route('/api/admin/foglalas_elutasitas', methods=['POST'])
+def reject_foglalas():
+    data = request.json
+    foglalId = data.get("foglalId")
 
+    if not foglalId:
+        return jsonify({"error": "Érvénytelen kérés"}), 400
 
-
+    db = get_db_connection()
+    cursor = db.cursor()
+    try:
+        cursor.execute("DELETE FROM foglalasok WHERE id = %s", (foglalId,))
+        db.commit()
+        return jsonify({"message": "Foglalás elutasítva"}), 200
+    except Exception as e:
+        print("Hiba a foglalás elutasításakor:", str(e))  # Debugging
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
 
 
 
