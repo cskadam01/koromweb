@@ -1,114 +1,95 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import "./megerosites.css"
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./megerosites.css"; // 📌 CSS fájl a táblázatokhoz
 
+function Megerosites() {
+    const [pendingFoglalasok, setPendingFoglalasok] = useState([]);
+    const [confirmedFoglalasok, setConfirmedFoglalasok] = useState([]);
 
-function Kepzes() {
-    const [unconfirmedBookings, setUnconfirmedBookings] = useState([]);
-    const [confirmedBookings, setConfirmedBookings] = useState([]);
-
-    // Nem megerősített foglalások betöltése
     useEffect(() => {
-        fetchUnconfirmedBookings();
-        fetchConfirmedBookings();
+        fetchFoglalasok();
     }, []);
 
-    const fetchUnconfirmedBookings = async () => {
+    const fetchFoglalasok = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/bookings');
-            setUnconfirmedBookings(response.data);
+            const response = await axios.get("http://localhost:5000/api/admin/foglalasok");
+            setPendingFoglalasok(response.data.pending);
+            setConfirmedFoglalasok(response.data.confirmed);
         } catch (error) {
-            console.error("Hiba a nem megerősített foglalások lekérésekor:", error);
+            console.error("Hiba a foglalások lekérdezésekor:", error);
         }
     };
 
-    const deleteBooking = async (foglalId) => {
+    const handleAction = async (foglalId, action) => {
         try {
-            const response = await axios.post(`http://localhost:5000/api/delete-pending-booking`, {
-                foglalId: foglalId, // Az azonosító
+            const response = await axios.post("http://localhost:5000/api/admin/foglalasok", {
+                foglalId,
+                action
             });
-    
-            if (response.data.success) {
-                alert(response.data.message);
-    
-                // Frissítjük a nem megerősített foglalások listáját
-                setUnconfirmedBookings(unconfirmedBookings.filter(booking => booking.foglalId !== foglalId));
-            }
-        } catch (error) {
-            if (error.response && error.response.data.message) {
-                alert(error.response.data.message);
-            } else {
-                console.error("Hiba a foglalás törlésekor:", error);
-            }
-        }
-    };
 
-    const fetchConfirmedBookings = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/api/get_booking_c');
-            setConfirmedBookings(response.data);
+            alert(response.data.message);
+            fetchFoglalasok(); // Frissítjük a táblázatokat
         } catch (error) {
-            console.error("Hiba a megerősített foglalások lekérésekor:", error);
-        }
-    };
-
-    // Foglalás megerősítése
-    const confirmBooking = async (foglalId) => {
-        try {
-            const response = await axios.post('http://localhost:5000/api/confirm-booking', { foglalId });
-    
-            if (response.data.success) {
-                alert(response.data.message);
-    
-                // Frissítjük a listákat
-                setUnconfirmedBookings(unconfirmedBookings.filter(booking => booking.foglalId !== foglalId));
-                setConfirmedBookings(response.data.confirmed);
-            }
-        } catch (error) {
-            // Hibakezelés: Üzenet megjelenítése
-            if (error.response && error.response.data.message) {
-                alert(error.response.data.message);
-            } else {
-                console.error("Hiba a foglalás megerősítésekor:", error);
-            }
+            console.error("Hiba a foglalás módosításakor:", error);
         }
     };
 
     return (
-        <div className="admin-booking-container">
-        <div className="booking-list">
-            <h2>Nem megerősített foglalások</h2>
-            <ul>
-                {unconfirmedBookings.map(booking => (
-                    <li key={booking.foglalId} className="booking-item">
-                        <span><strong>Név:</strong> {booking.userName}</span>
-                        <span><strong>Telefonszám:</strong> {booking.userPhone}</span>
-                        <span><strong>Email:</strong> {booking.userEmail}</span>
-                        <span><strong>Dátum:</strong> {booking.datum}</span>
-                        <span><strong>Idő:</strong> {booking.kezdIdo} - {booking.vegIdo}</span>
-                        <button className="accept"onClick={() => confirmBooking(booking.foglalId)}>Megerősít</button>
-                        <button className='delete'style={{ backgroundColor: 'red'}} onClick={() => deleteBooking(booking.foglalId)}>Törlés</button>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <div className="admin-foglalas-container">
+            <h2>Foglalások kezelése</h2>
 
-        <div className="booking-list">
-            <h2>Megerősített foglalások</h2>
-            <ul>
-                {confirmedBookings.map(booking => (
-                    <li key={booking.foglalId} className="booking-item">
-                        <span><strong>Név:</strong> {booking.userName}</span>
-                        <span><strong>Telefonszám:</strong> {booking.userPhone}</span>
-                        <span><strong>Email:</strong> {booking.userEmail}</span>
-                        <span><strong>Dátum:</strong> <br />{booking.datum}</span>
-                        <span><strong>Idő:</strong> {booking.kezdIdo} - {booking.vegIdo}</span>
-                    </li>
-                ))}
-            </ul>
+            {/* 🟢 Függőben lévő foglalások */}
+            <h3>Jóváhagyásra váró foglalások</h3>
+            <table className="admin-foglalas-table">
+                <thead>
+                    <tr>
+                        <th>Név</th>
+                        <th>Email</th>
+                        <th>Telefonszám</th>
+                        <th>Időpont</th>
+                        <th>Műveletek</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {pendingFoglalasok.map((foglalas) => (
+                        <tr key={foglalas.foglalId}>
+                            <td>{foglalas.user_nev}</td>
+                            <td>{foglalas.user_email}</td>
+                            <td>{foglalas.user_telefon}</td>
+                            <td>{foglalas.datum} {foglalas.kezdes_ido} - {foglalas.vege_ido}</td>
+                            <td>
+                                <button onClick={() => handleAction(foglalas.foglalId, "confirm")} className="confirm-btn">✔ Elfogadás</button>
+                                <button onClick={() => handleAction(foglalas.foglalId, "reject")} className="reject-btn">✖ Elutasítás</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            {/* ✅ Megerősített foglalások */}
+            <h3>Megerősített foglalások</h3>
+            <table className="admin-foglalas-table">
+                <thead>
+                    <tr>
+                        <th>Név</th>
+                        <th>Email</th>
+                        <th>Telefonszám</th>
+                        <th>Időpont</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {confirmedFoglalasok.map((foglalas) => (
+                        <tr key={foglalas.foglalId}>
+                            <td>{foglalas.user_nev}</td>
+                            <td>{foglalas.user_email}</td>
+                            <td>{foglalas.user_telefon}</td>
+                            <td>{foglalas.datum} {foglalas.kezdes_ido} - {foglalas.vege_ido}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
-    </div>
     );
 }
 
-export default Kepzes;
+export default Megerosites;
