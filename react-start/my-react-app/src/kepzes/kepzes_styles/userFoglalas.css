@@ -1,5 +1,5 @@
 .foglalas-kontener {
-    width: 95.5%;
+    width: 90%;
     
     margin: auto;
     text-align: center;
@@ -31,15 +31,26 @@
 /* Időpont kártyák konténer */
 .foglalas-kartyak-kontener {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
-    
+
+    /* Teljes konténer középre igazítása */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    /* Kártyák középre igazítása */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
+
 
 /* Egyéni időpont kártya */
 .foglalas-kartya {
     margin-top: 15px;
     background-color: #ffffff;
+    
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);

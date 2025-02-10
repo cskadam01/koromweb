@@ -1,129 +1,85 @@
 /* 🟢 Alap konténer stílusok */
 .admin-foglalas-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
+    width: 100%;
+    
+    
     padding: 20px;
+    padding-top: 80px;
     background-color: #ffffff;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     text-align: center;
-    overflow-x: auto;
 }
 
-/* 🟢 Táblázatok formázása */
-.admin-foglalas-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.admin-foglalas-table th, .admin-foglalas-table td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-    word-wrap: break-word;
-}
-
-.admin-foglalas-table th {
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-}
-
-.admin-foglalas-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.admin-foglalas-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* 🟢 Műveletek oszlop szélességének optimalizálása */
-.admin-foglalas-table th:last-child,
-.admin-foglalas-table td:last-child {
-    width: 180px;
-    text-align: center;
-}
-
-/* 🟢 Gombok formázása */
-.confirm-btn, .reject-btn {
-    padding: 8px 12px;
-    font-size: 14px;
-    margin: 2px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: 0.3s;
-    display: block;
-    width: 100%;
-    text-align: center;
-}
-
-.confirm-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-}
-
-.confirm-btn:hover {
-    background-color: #45a049;
-}
-
-.reject-btn {
-    background-color: #d9534f;
-    color: white;
-    border: none;
-}
-
-.reject-btn:hover {
-    background-color: #c9302c;
-}
-
-/* 🟢 Címek */
-.admin-foglalas-container h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.admin-foglalas-container h3 {
-    font-size: 20px;
-    margin-top: 30px;
-    color: #4CAF50;
-}
-
-/* 🟢 Oszlopok elrendezése */
-.foglalas-grid {
+/* 🟢 Kártyák konténere */
+.admin-foglalasok-container {
+    
     display: flex;
+    flex-direction: column;
     gap: 20px;
-    justify-content: space-between;
-    flex-wrap: wrap;
 }
 
-.foglalas-column {
-    flex: 1;
-    min-width: 300px;
+/* 🟢 Foglalás kártya */
+.admin-foglalas-kartya {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    border-left: 5px solid #4CAF50;
 }
 
-/* 🟢 Reszponzív design (Mobilnézet) */
-@media screen and (max-width: 768px) {
-    .foglalas-grid {
-        flex-direction: column;
-    }
-    .admin-foglalas-table th, .admin-foglalas-table td {
-        font-size: 14px;
-        padding: 8px;
-    }
-    .confirm-btn, .reject-btn {
-        padding: 10px 14px;
-        font-size: 14px;
+.admin-foglalas-kartya h3 {
+    color: #4CAF50;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.admin-foglalas-kartya p {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.admin-foglalas-kartya .admin-confirm-btn, 
+.admin-foglalas-kartya .admin-reject-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.admin-confirm-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.admin-reject-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+/* 🟢 Gépen a kártyák teljes szélességűek */
+@media screen and (min-width: 768px) {
+    .admin-foglalasok-container {
+
         width: 100%;
+        
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
-    .admin-foglalas-table th:last-child,
-    .admin-foglalas-table td:last-child {
-        width: 100%;
-        display: flex;
+    .admin-foglalas-kartya {
         flex-direction: column;
-        align-items: center;
+        justify-content: space-between;
+       
     }
 }

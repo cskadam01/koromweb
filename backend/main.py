@@ -5,6 +5,9 @@ import jwt
 from datetime import datetime, timedelta
 import mysql.connector
 from flask_mail import Mail, Message
+import os
+from werkzeug.utils import secure_filename
+from flask import send_from_directory
 
 
 app = Flask(__name__)
@@ -12,8 +15,14 @@ app = Flask(__name__)
 # Flask-CORS konfiguráció
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 # Flask titkos kulcs a JWT-hez
-app.config['SECRET_KEY'] = 'your_secret_key_here'
+app.config['SECRET_KEY'] = 'Abcfeskakasdkdayxc342dasd3'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Kapcsolat létrehozása a kérés előtt
 def get_db_connection():
@@ -51,24 +60,9 @@ app.config['MAIL_DEFAULT_SENDER'] = 'zsuzsaaa03@gmail.com'
 
 mail = Mail(app)
 
-# def send_email():
-#     try:
-#         data = request.get_json()
-
-#         if not data.get("to") or not data.get("subject") or not data.get("body"):
-#             return jsonify({"success": False, "message": "Hiányzó adatok!"}), 400
-
-#         # **Debug print, hogy valóban ezt kapja-e a backend**
-#         print(f"Küldendő e-mail:\nCímzett: {data['to']}\nTárgy: {data['subject']}\nSzöveg:\n{data['body']}")
-
-#         msg = Message(subject=data["subject"], recipients=[data["to"]])
-#         msg.body = data["body"]
-#         mail.send(msg)
-
-#         return jsonify({"success": True, "message": "E-mail elküldve!"}), 200
-
-#     except Exception as e:
-#         return jsonify({"success": False, "message": str(e)}), 500
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 
@@ -210,13 +204,35 @@ def book_appointment():
             return jsonify({"error": "Minden mező kitöltése kötelező!"}), 400
 
         db = get_db_connection()
-        cursor = db.cursor()
+        cursor = db.cursor(dictionary=True)
 
-        query = "INSERT INTO foglalasok (idopont_id, user_nev, user_email, user_telefon, statusz) VALUES (%s, %s, %s, %s, 'pending')"
-        cursor.execute(query, (idopont_id, user_nev, user_email, user_telefon))
+        # 📌 Ellenőrizzük, hogy az időpont létezik-e
+        cursor.execute("""
+            SELECT datum, kezdes_ido, vege_ido, idopont_tipus
+            FROM idopontok 
+            WHERE id = %s
+        """, (idopont_id,))
+        idopont = cursor.fetchone()
+
+        if not idopont:
+            return jsonify({"error": "A kiválasztott időpont nem található."}), 404
+
+        # 📌 Foglalás mentése az adatbázisba
+        cursor.execute("""
+            INSERT INTO foglalasok (idopont_id, user_nev, user_email, user_telefon, statusz)
+            VALUES (%s, %s, %s, %s, 'pending')
+        """, (idopont_id, user_nev, user_email, user_telefon))
         db.commit()
 
-        return jsonify({"message": "Foglalás sikeresen elküldve!"}), 201
+        # 📧 Email küldése a felhasználónak
+        subject = "Foglalás rögzítve leadva"
+        body = f"Kedves {user_nev},\n\nFoglalásod sikeresen rögzítettük!\n\n📅 Időpont: {idopont['datum']} {idopont['kezdes_ido']} - {idopont['vege_ido']}\n📝 Tanfolyam típusa: {idopont['idopont_tipus']}\n\nIdőpontod hamarosan feldolgozásra kerül.\n\nKöszönjük a jelentkezésedet!"
+
+        msg = Message(subject, recipients=[user_email])
+        msg.body = body
+        mail.send(msg)
+
+        return jsonify({"message": "Foglalás sikeresen létrehozva, email elküldve!"}), 201
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -340,17 +356,41 @@ def confirm_foglalas():
     foglalId = data.get("foglalId")
 
     if not foglalId:
-        return jsonify({"error": "Érvénytelen kérés"}), 400
+        return jsonify({"error": "Érvénytelen foglalás ID"}), 400
 
     db = get_db_connection()
-    cursor = db.cursor()
+    cursor = db.cursor(dictionary=True)
+
     try:
+        # Foglalás adatainak lekérdezése
+        cursor.execute("""
+            SELECT f.user_email, f.user_nev, i.datum, i.kezdes_ido, i.vege_ido, i.idopont_tipus
+            FROM foglalasok f
+            JOIN idopontok i ON f.idopont_id = i.id
+            WHERE f.id = %s
+        """, (foglalId,))
+        foglalas = cursor.fetchone()
+
+        if not foglalas:
+            return jsonify({"error": "Foglalás nem található"}), 404
+
+        # Foglalás státusz frissítése
         cursor.execute("UPDATE foglalasok SET statusz = 'confirmed' WHERE id = %s", (foglalId,))
         db.commit()
-        return jsonify({"message": "Foglalás megerősítve"}), 200
+
+        # 📧 Email küldése a felhasználónak
+        subject = "Foglalás megerősítve"
+        body = f"Kedves {foglalas['user_nev']},\n\nFoglalásod sikeresen megerősítésre került!\n\n📅 Időpont: {foglalas['datum']} {foglalas['kezdes_ido']} - {foglalas['vege_ido']}\n📝 Tanfolyam típusa: {foglalas['idopont_tipus']}\n\nVárunk szeretettel!\n\n\n Helyszín: OxyFitt \n Timúr utca 103 1162"
+        
+        msg = Message(subject, recipients=[foglalas["user_email"]])
+        msg.body = body
+        mail.send(msg)
+
+        return jsonify({"message": "Foglalás megerősítve, email elküldve!"}), 200
+
     except Exception as e:
-        print("Hiba a foglalás megerősítésekor:", str(e))
         return jsonify({"error": str(e)}), 500
+
     finally:
         cursor.close()
         db.close()
@@ -363,21 +403,139 @@ def reject_foglalas():
     foglalId = data.get("foglalId")
 
     if not foglalId:
-        return jsonify({"error": "Érvénytelen kérés"}), 400
+        return jsonify({"error": "Érvénytelen foglalás ID"}), 400
 
     db = get_db_connection()
-    cursor = db.cursor()
+    cursor = db.cursor(dictionary=True)
+
     try:
+        # Foglalás adatainak lekérdezése
+        cursor.execute("""
+            SELECT f.user_email, f.user_nev, i.datum, i.idopont_tipus
+            FROM foglalasok f
+            JOIN idopontok i ON f.idopont_id = i.id
+            WHERE f.id = %s
+        """, (foglalId,))
+        foglalas = cursor.fetchone()
+
+        if not foglalas:
+            return jsonify({"error": "Foglalás nem található"}), 404
+
+        # Foglalás törlése
         cursor.execute("DELETE FROM foglalasok WHERE id = %s", (foglalId,))
         db.commit()
-        return jsonify({"message": "Foglalás elutasítva"}), 200
+
+        # 📧 Email küldése a felhasználónak
+        subject = "Foglalás elutasítva"
+        body = f"Kedves {foglalas['user_nev']},\n\nSajnálattal értesítünk, hogy foglalásod elutasításra került.\n\n📅 Időpont: {foglalas['datum']}\n📝 Tanfolyam típusa: {foglalas['idopont_tipus']}\n\nHa kérdésed van, vedd fel velünk a kapcsolatot."
+
+        msg = Message(subject, recipients=[foglalas["user_email"]])
+        msg.body = body
+        mail.send(msg)
+
+        return jsonify({"message": "Foglalás elutasítva, email elküldve!"}), 200
+
     except Exception as e:
-        print("Hiba a foglalás elutasításakor:", str(e))  # Debugging
         return jsonify({"error": str(e)}), 500
+
     finally:
         cursor.close()
         db.close()
 
+
+
+#region Admin Képzés 
+@app.route('/api/admin/kepzesek', methods=['POST'])
+def add_kepzes():
+    try:
+        db = get_db_connection()
+        cursor = db.cursor()
+        
+        # Ellenőrizzük, hogy minden adat megvan-e
+        cim = request.form.get('cim')
+        leiras = request.form.get('leiras')
+        file = request.files.get('kep')
+
+        if not cim or not leiras:
+            return jsonify({"error": "Hiányzó adatok"}), 400
+
+        # Ha van kép, mentés a szerverre
+        kep_nev = None
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            kep_nev = filename  # Csak a fájlnevet tároljuk az adatbázisban
+
+        # Adatok mentése MySQL-be
+        cursor.execute("""
+            INSERT INTO kepzesek (cim, leiras, kep) 
+            VALUES (%s, %s, %s)
+        """, (cim, leiras, kep_nev))
+        db.commit()
+
+        return jsonify({"message": "Képzés sikeresen hozzáadva!"}), 201
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    finally:
+        cursor.close()
+        db.close()
+
+
+
+@app.route('/api/kepzesek', methods=['GET'])
+def get_kepzesek():
+    try:
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+        cursor.execute("SELECT * FROM kepzesek ORDER BY id DESC")
+        kepzesek = cursor.fetchall()
+
+        return jsonify(kepzesek)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    finally:
+        cursor.close()
+        db.close()
+
+
+
+@app.route('/api/admin/kepzesek/<int:id>', methods=['DELETE'])
+def delete_kepzes(id):
+    try:
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+        # Ellenőrizzük, hogy létezik-e a képzés
+        cursor.execute("SELECT kep FROM kepzesek WHERE id = %s", (id,))
+        kepzes = cursor.fetchone()
+
+        if not kepzes:
+            return jsonify({"error": "A képzés nem található!"}), 404
+
+        # Töröljük a képet a szerverről, ha van
+        if kepzes['kep']:
+            kep_path = os.path.join(app.config['UPLOAD_FOLDER'], kepzes['kep'])
+            if os.path.exists(kep_path):
+                os.remove(kep_path)
+
+        # Képzés törlése az adatbázisból
+        cursor.execute("DELETE FROM kepzesek WHERE id = %s", (id,))
+        db.commit()
+
+        return jsonify({"message": "Képzés sikeresen törölve!"}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    finally:
+        cursor.close()
+        db.close()
 
 
 

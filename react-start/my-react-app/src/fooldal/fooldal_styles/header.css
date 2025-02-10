@@ -100,10 +100,11 @@ header button:hover{
         height: calc(100vw * (280 / 284)); /* Szélességhez arányos magasság */
         padding: 0;
         margin: 0;
+    
     }
    
     .cim-header{
-        padding-top: 17%;
+        padding-top: 23%;
 
     }
     header h1 {

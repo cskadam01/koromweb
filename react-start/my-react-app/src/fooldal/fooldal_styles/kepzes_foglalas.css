@@ -76,18 +76,41 @@
 
 }
 
-@media (max-width: 768px){
-    .tokepzes-content{
-    width: 100%;
-    background-size: cover; /* A kép alkalmazkodik a képernyőhöz */
-    background-image:url("./pics/phone/toKepzesBg.png") ;
-    height: calc(100vw * (330 / 200)); /* Szélességhez arányos magasság */
-    padding: 0;
-    margin: 0;
+@media (max-width: 768px) {
+    
+
+
+    .tokepzes-content {
+        width: 100%;
+        height: calc(100vw * (330 / 200)); /* Szélességhez arányos magasság */
+        background-size: cover; /* A kép alkalmazkodik a képernyőhöz */
+        background-image: url("./pics/phone/toKepzesBg.png");
+        text-align: center; /* Szöveg középre igazítása */
+        margin-bottom: 200px;
+        
     }
+
+
     .tokepzes-content h1{
         padding-top: 110%;
+        max-width: 90%;
+        margin-left: 5%;
         
+
+    }
+    
+    .tokepzes-content p {
+        max-width: 90%;
+        margin-left: 5%;
+        
+
+    }
+
+    .tokepzes-content button{
+        max-width: 90%;
+        margin-left:5% ;
+        margin-bottom: 20px;
+
 
     }
 

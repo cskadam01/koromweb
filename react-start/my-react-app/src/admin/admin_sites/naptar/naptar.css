@@ -1,0 +1,72 @@
+.admin-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.admin-add-kepzes-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.admin-add-kepzes-form input,
+.admin-add-kepzes-form textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.admin-add-kepzes-form button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.admin-kepzes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.admin-kepzes-card {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #f9f9f9;
+}
+
+.admin-kepzes-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.admin-kepzes-info {
+    padding: 10px;
+    flex: 1;
+}
+
+.admin-kepzes-info h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.admin-kepzes-info p {
+    margin: 5px 0;
+}
+
+.admin-kepzes-delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

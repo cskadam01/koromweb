@@ -1,47 +1,46 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../kepzes_styles/leiras.css';
 
-function Leiras(){
-    return(
-        <>
-        <div className="leiras-container">
-            <div className='text-leiras'>
-                <h3>Szaktudás</h3>
-                <p>                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis placeat ab tenetur molestiae? Fuga accusamus sint ullam magni voluptatibus rerum quo eos iste provident sapiente, iure distinctio quod molestias temporibus!
-                </p>
-                <p>                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis placeat ab tenetur molestiae? Fuga accusamus sint ullam magni voluptatibus rerum quo eos iste provident sapiente, iure distinctio quod molestias temporibus!
-                </p>
-                <p>                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis placeat ab tenetur molestiae? Fuga accusamus sint ullam magni voluptatibus rerum quo eos iste provident sapiente, iure distinctio quod molestias temporibus!
-                </p>
+const Leiras = () => {
+    const [kepzesek, setKepzesek] = useState([]);
+
+    useEffect(() => {
+        fetchKepzesek();
+    }, []);
+
+    const fetchKepzesek = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/kepzesek');
+            setKepzesek(response.data);
+        } catch (error) {
+            console.error("Hiba a képzések lekérdezésekor:", error);
+        }
+    };
+
+    return (
+        <div className="kepzes-container">
+            
+            <div className="kepzes-list">
+                {kepzesek.map((kepzes) => (
+                    <div key={kepzes.id} className="kepzes-card">
+                        <img src={`http://localhost:5000/uploads/${kepzes.kep}`} alt={kepzes.cim} />
+                        <div className="kepzes-info">
+                            <h3>{kepzes.cim}</h3>
+                            <p>{kepzes.leiras}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
-            <img src="./pics/holder.png" alt="" />
-
-            <img  className='nagy-k' src="./pics/holder.png" alt="" />
-
-            <div className='text-leiras'>
-                <h3>Amit elsajátíthatsz</h3>
-                <p>                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis placeat ab tenetur molestiae? Fuga accusamus sint ullam magni voluptatibus rerum quo eos iste provident sapiente, iure distinctio quod molestias temporibus!
-                </p>
-                <p>                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis placeat ab tenetur molestiae? Fuga accusamus sint ullam magni voluptatibus rerum quo eos iste provident sapiente, iure distinctio quod molestias temporibus!
-                </p>
-                <p>                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis placeat ab tenetur molestiae? Fuga accusamus sint ullam magni voluptatibus rerum quo eos iste provident sapiente, iure distinctio quod molestias temporibus!
-                </p>
-                <p>                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis placeat ab tenetur molestiae? Fuga accusamus sint ullam magni voluptatibus rerum quo eos iste provident sapiente, iure distinctio quod molestias temporibus!
-                </p>
-            <img  className='kis-k' src="./pics/holder.png" alt="" />
-            </div>
-
-
-
-
         </div>
-        </>
-
-
-    )
-
-
-
-
-}
+    );
+};
 
 export default Leiras;
+
+
+
+
+
+
+

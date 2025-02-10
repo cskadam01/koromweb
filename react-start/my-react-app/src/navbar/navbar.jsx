@@ -24,9 +24,9 @@ function Navbar() {
             <li className="bal-nav">Képzés</li>
             </Link>
 
-            <Link to="./szalon">
+            {/* <Link to="./szalon">
             <li className="bal-nav">Időpont Foglalás</li>
-            </Link>
+            </Link> */}
 
         </div>
         <li className="navbar-nev">Zsuzsa Köröm Műhelye</li>
@@ -48,9 +48,9 @@ function Navbar() {
             <li className="apro-a">Képzés</li>
             </Link>
 
-            <Link to="./szalon" style={{textDecoration:'none'}}>
+            {/* <Link to="./szalon" style={{textDecoration:'none'}}>
             <li className="apro-a">Időpont Foglalás</li>
-            </Link>
+            </Link> */}
 
 
             </ul>

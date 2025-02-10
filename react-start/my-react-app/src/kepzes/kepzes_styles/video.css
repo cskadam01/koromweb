@@ -1,6 +1,5 @@
 .main-vid{
-    margin-left: 40px;
-    margin-right: 40px;
+    
     background-color: rgb(227, 227, 227);
     padding-top: 40px;
     margin-top: 50px;
@@ -10,9 +9,10 @@
 
 }
 .main-vid h3{
-    margin-left: 65px;
+    
     margin-bottom: 50px;
     color:deeppink;
+    text-align: center;
 
 }
 
@@ -24,7 +24,7 @@
     position: relative;
     width: 100%;
     max-width: 1400px;
-    margin: 20px auto;
+    margin:  auto;
     overflow: hidden;
     border-radius: 10px;
     background-color: black; /* Háttér a hiba elkerüléséhez */

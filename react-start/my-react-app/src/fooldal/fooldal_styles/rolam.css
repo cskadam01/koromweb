@@ -1,78 +1,72 @@
+
+
 .rolam-container {
-    background-color: rgb(251, 251, 251);
-    color: rgb(28, 28, 28);
-    
-    padding: 1%;
-
-
-}
-
-.jobb-rolam, .bal-rolam{
-    padding: 3% 10%;
-
-}
-
-.rolam-profil{
-    border-radius: 50%;  
-    margin: 0 auto;
-    width: 250px;
-    height: 250px;
-}
-
-
-
-.elvalaszto{
-    height: 1px;
-    width: 80%;
-    
-    background-color: rgb(249, 136, 227);
-    border-radius: 40%;
-    margin: 0 auto;
-
-
-}
-
-
-
-.Social a{
-    color: rgb(23, 23, 23);
-    text-decoration: none;
-
-}
-
-.Social{
-    width: 80%; 
-    margin: 0 auto; 
-    text-align: center; 
-    
-}
-
-footer .jobb-rolam{
-    text-align:left;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-left: 10%;       
-}
-
-.jobb-rolam-text h4, .jobb-rolam-text p {
+    background-color: rgb(213, 213, 213);
     margin: 0;
-    font-family: 'GLOOCK';
-    
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
-.Social .row {
-    justify-content: space-around; /* Egyenletesen osztja el a linkeket */
+
+.Leiras{
+    margin-top: 30px;
+    margin-left: 10%;
+
 }
-.bal-rolam h2{
-    text-align: left;
-    margin-bottom: 40px;
-    font-family: 'Gloock';
-    font-size: 3rem;
+.Leiras h3{
+    font-family: Gloock;
+    font-size: 2rem;
 }
 
-.bal-rolam p{
-    text-align: left;
-    font-family: 'Hansel';
+.Leiras p{
+    font-family: Hansen;
+    font-weight: lighter;
+    font-size: 1.1rem;
+
+}
+
+
+.Nevjegy{
+    text-align: center;
+
+
+}
+
+.Nevjegy h4{
+    font-family: Gloock;
+    font-size: 2rem;
+    margin: -3px;
+
+
+}
+
+.Nevjegy img{
+    max-width: 400px;
+    max-height: 300px;
+
+
+}
+
+
+@media screen and (max-width: 768px) {
+    .rolam-container {
+        display: flex;
+        flex-direction: column-reverse; /* A sorrend megfordítása */
+        align-items: center;
+        text-align: center;
+    }
+
+    .Leiras {
+        margin-left: 0; /* Középre igazítás */
+    }
+
+    .Nevjegy img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
 }

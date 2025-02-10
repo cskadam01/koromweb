@@ -11,14 +11,14 @@ function Header (){
             </div>
             <div className=''>
             <div className='cim-header'>
-            <h1>Varázsold Újjá</h1>
-            <h1>Körmeid</h1>
+            <h1>Körömépítés</h1>
+            <h1>Tanfolyam</h1>
             </div>
             <div className='leiras-header'>
             <p>Lépj be a szalonom világába,</p>
-            <p> és élvezd a kényeztetés és a törődés tökéletes harmóniáját!</p>
+            <p>Ha valóban mesteri szinten szeretnéd elsajátítani a körömépítést, <br />tanulj tapasztalt szakembertől!</p>
             </div>
-            <button>Foglalj Időpontot most!</button>
+            
             </div>
           
         </header>

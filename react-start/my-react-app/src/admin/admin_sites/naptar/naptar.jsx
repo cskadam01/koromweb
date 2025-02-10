@@ -1,100 +1,86 @@
-import React, { useState, useEffect } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import moment from "moment";
-import "moment/locale/hu"; // Magyar nyelv importálása
-
-
-
-moment.locale("hu");
-
-const localizer = momentLocalizer(moment);
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import "./naptar.css";
 
 const Naptar = () => {
-  const [events, setEvents] = useState([]);
+    const [kepzesek, setKepzesek] = useState([]);
+    const [cim, setCim] = useState('');
+    const [leiras, setLeiras] = useState('');
+    const [kep, setKep] = useState(null);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        // Nem megerősített foglalások lekérése
-        const bookingsResponse = await fetch("http://localhost:5000/api/bookings");
-        const bookings = await bookingsResponse.json();
+    useEffect(() => {
+        fetchKepzesek();
+    }, []);
 
-        // Megerősített foglalások lekérése
-        const confirmedResponse = await fetch("http://localhost:5000/api/get_booking_c");
-        const confirmed = await confirmedResponse.json();
-
-        // Adatok formázása
-        const formattedBookings = bookings.map((booking) => ({
-          id: booking.foglalId,
-          title: booking.userName,
-          start: new Date(`${booking.datum}T${booking.kezdIdo}`),
-          end: new Date(`${booking.datum}T${booking.vegIdo}`),
-          color: "yellow", // Sárga szín a nem megerősítetteknek
-        }));
-
-        const formattedConfirmed = confirmed.map((booking) => ({
-          id: booking.foglalId,
-          title: booking.userName,
-          start: new Date(`${booking.datum}T${booking.kezdIdo}`),
-          end: new Date(`${booking.datum}T${booking.vegIdo}`),
-          color: "green", // Zöld szín a megerősítetteknek
-        }));
-
-        // Egyesített eseménylista
-        setEvents([...formattedBookings, ...formattedConfirmed]);
-      } catch (error) {
-        console.error("Hiba az események betöltésekor:", error);
-      }
+    const fetchKepzesek = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/kepzesek');
+            setKepzesek(response.data);
+        } catch (error) {
+            console.error("Hiba a képzések lekérdezésekor:", error);
+        }
     };
 
-    fetchEvents();
-  }, []);
+    const handleAddKepzes = async (e) => {
+        e.preventDefault();
+        if (!cim || !leiras || !kep) {
+            alert("Minden mezőt ki kell tölteni!");
+            return;
+        }
 
-  // Egyedi eseménymegjelenítés színezéshez
-  const eventStyleGetter = (event) => {
-    const backgroundColor = event.color;
-    const style = {
-      backgroundColor,
-      borderRadius: "5px",
-      color: "white",
-      border: "none",
-      display: "block",
-      minheight:'800%',
+        const formData = new FormData();
+        formData.append("cim", cim);
+        formData.append("leiras", leiras);
+        formData.append("kep", kep);
+
+        try {
+            await axios.post('http://localhost:5000/api/admin/kepzesek', formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+            });
+            fetchKepzesek();
+            setCim('');
+            setLeiras('');
+            setKep(null);
+        } catch (error) {
+            console.error("Hiba a képzés hozzáadásakor:", error);
+        }
     };
-    return { style };
-  };
 
-  return (
-    <div className="big-calendar-container">
-      <Calendar
-        
-        className="big-calendar"
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 1000 }}
-        eventPropGetter={eventStyleGetter} // Színezés kezelése
-        defaultView="week" // Alapértelmezett heti nézet
-        min={new Date(2025, 0, 1, 6, 0)} // Reggel 6:00
-        max={new Date(2025, 0, 1, 21, 0)} // Este 9:00
-        messages={{
-          today: "Ma",
-          previous: "Előző",
-          next: "Következő",
-          month: "Hónap",
-          week: "Hét",
-          day: "Nap",
-          agenda: "Napló",
-          date: "Dátum",
-          time: "Idő",
-          event: "Esemény",
-          noEventsInRange: "Nincs esemény ebben az időszakban.",
-        }}
-      />
-    </div>
-  );
+    const handleDeleteKepzes = async (id) => {
+        if (!window.confirm("Biztosan törölni szeretnéd ezt a képzést?")) return;
+        try {
+            await axios.delete(`http://localhost:5000/api/admin/kepzesek/${id}`);
+            fetchKepzesek();
+        } catch (error) {
+            console.error("Hiba a törlés során:", error);
+        }
+    };
+
+    return (
+        <div className="admin-container">
+            <h2>Admin - Képzések kezelése</h2>
+
+            <form onSubmit={handleAddKepzes} className="admin-add-kepzes-form">
+                <input type="text" placeholder="Cím" value={cim} onChange={(e) => setCim(e.target.value)} required />
+                <textarea placeholder="Leírás" value={leiras} onChange={(e) => setLeiras(e.target.value)} required />
+                <input type="file" accept="image/*" onChange={(e) => setKep(e.target.files[0])} required />
+                <button type="submit">Képzés hozzáadása</button>
+            </form>
+
+            <div className="admin-kepzes-list">
+                {kepzesek.map((kepzes) => (
+                    <div key={kepzes.id} className="admin-kepzes-card">
+                        <img src={`http://localhost:5000/uploads/${kepzes.kep}`} alt={kepzes.cim} className="admin-kepzes-img" />
+                        <div className="admin-kepzes-info">
+                            <h3>{kepzes.cim}</h3>
+                            <p>{kepzes.leiras}</p>
+                            <button onClick={() => handleDeleteKepzes(kepzes.id)} className="admin-kepzes-delete-btn">Törlés</button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default Naptar;

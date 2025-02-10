@@ -8,7 +8,7 @@ import Galleria from './galleria/galleria';
 import Kepzes from './kepzes/kepzes';
 import Layout from './Layout';
 import AdminWrapper from './AdminWrapper';
-import Foglalas from './szalon/szalon';
+// import Foglalas from './szalon/szalon';
 import LoginAdmin from './admin/loginAdmin';
 import ProtectedRoute from './protectedRoute';
 import Admin from './admin/admin'
@@ -29,7 +29,7 @@ function App() {
                         <Route path='/' element={<Fooldal />} />
                         <Route path='/galleria' element={<Galleria />} />
                         <Route path='/kepzes' element={<Kepzes />} />
-                        <Route path='/szalon' element={<Foglalas />} />
+                        {/* <Route path='/szalon' element={<Foglalas />} /> */}
 
     
                         {/* Bejelentkezési oldal */}
