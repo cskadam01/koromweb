@@ -15,7 +15,7 @@ import Admin from './admin/admin'
 import Megerosites from './admin/admin_sites/megerosites/megerosites'
 import Naptar from './admin/admin_sites/naptar/naptar'
 import Idopontok from './admin/admin_sites/idopontok/idopontok';
-
+import Aszf from './asf';
 
 function App() {
     const { isAuthenticated } = useAuth();
@@ -29,7 +29,9 @@ function App() {
                         <Route path='/' element={<Fooldal />} />
                         <Route path='/galleria' element={<Galleria />} />
                         <Route path='/kepzes' element={<Kepzes />} />
+                        <Route path='/aszf' element={<Aszf />} />
                         {/* <Route path='/szalon' element={<Foglalas />} /> */}
+
 
     
                         {/* Bejelentkezési oldal */}
