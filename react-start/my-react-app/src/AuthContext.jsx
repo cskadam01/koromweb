@@ -1,27 +1,35 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Kontextus létrehozása
 const AuthContext = createContext();
 
-// Provider komponens
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [token, setToken] = useState(() => {
+        return localStorage.getItem("token"); // Ellenőrzi, hogy van-e token
+    });
 
-    const login = () => setIsAuthenticated(true);
-    const logout = () => setIsAuthenticated(false);
+    useEffect(() => {
+        if (token) {
+            localStorage.setItem("token", token);
+        } else {
+            localStorage.removeItem("token");
+        }
+    }, [token]);
+
+    const login = (newToken) => {
+        setToken(newToken);
+    };
+
+    const logout = () => {
+        setToken(null);
+    };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ token, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-// Hook a kontextus eléréséhez
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
+    return useContext(AuthContext);
 };

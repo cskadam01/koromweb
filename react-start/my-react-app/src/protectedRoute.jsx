@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-    const token = localStorage.getItem('token'); // Ellenőrzi a tokent a localStorage-ban
+    const [isLoading, setIsLoading] = useState(true);
+    const [token, setToken] = useState(null);
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        setToken(storedToken);
+        setIsLoading(false); // Token ellenőrzés befejeződött
+    }, []);
+
+    if (isLoading) {
+        return null; // Várunk, amíg a token ellenőrződik
+    }
 
     if (!token) {
-        console.log("Token hiányzik, átirányítás a login oldalra...");
+        console.log("Nincs token, visszadob a loginAdmin-ra...");
         return <Navigate to="/loginAdmin" replace />;
     }
 
@@ -14,4 +25,3 @@ const ProtectedRoute = ({ children }) => {
 };
 
 export default ProtectedRoute;
-
