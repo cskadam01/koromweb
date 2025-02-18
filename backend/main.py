@@ -8,6 +8,8 @@ from flask_mail import Mail, Message
 import os
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
+import threading
+import time
 
 
 app = Flask(__name__)
@@ -539,5 +541,39 @@ def delete_kepzes(id):
 
 
 
+#region multbeli idopontok torlese automatikusan
+
+def torold_lejart_foglalasokat():
+    while True:
+        try:
+            with app.app_context():  # 🟢 Flask kontextus létrehozása
+                db = get_db_connection()
+                cursor = db.cursor()
+                
+                # 🟢 Minden múltbeli időpont és foglalás törlése
+                cursor.execute("DELETE FROM foglalasok WHERE idopont_id IN (SELECT id FROM idopontok WHERE datum < CURDATE())")
+                cursor.execute("DELETE FROM idopontok WHERE datum < CURDATE()")
+
+                db.commit()
+                cursor.close()
+                db.close()
+                print("[INFO] Lejárt foglalások és időpontok törölve.")
+
+        except Exception as e:
+            print("[HIBA] Nem sikerült törölni a múltbeli foglalásokat:", str(e))
+
+        time.sleep(86400)  # 24 óránként fusson
+
+# 🟢 Indításkor azonnal végrehajt egy törlést
+
+
+def start_background_task():
+    thread = threading.Thread(target=torold_lejart_foglalasokat, daemon=True)
+    thread.start()
+
+
+
+
 if __name__ == '__main__':
+    start_background_task()
     app.run(debug=True)

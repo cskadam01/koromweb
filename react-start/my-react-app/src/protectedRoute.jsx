@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 const ProtectedRoute = ({ children }) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [token, setToken] = useState(null);
+    const { isAuthenticated } = useAuth();
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        setToken(storedToken);
-        setIsLoading(false); // Token ellenőrzés befejeződött
-    }, []);
-
-    if (isLoading) {
-        return null; // Várunk, amíg a token ellenőrződik
+    if (isAuthenticated === null) {
+        return null; // 🔄 Várunk, amíg az állapot betöltődik
     }
 
-    if (!token) {
-        console.log("Nincs token, visszadob a loginAdmin-ra...");
+    if (!isAuthenticated) {
+        console.log("Token hiányzik, visszadob a loginAdmin-ra...");
         return <Navigate to="/loginAdmin" replace />;
     }
 
-    console.log("Token érvényes, hozzáférés engedélyezve.");
     return children;
 };
 

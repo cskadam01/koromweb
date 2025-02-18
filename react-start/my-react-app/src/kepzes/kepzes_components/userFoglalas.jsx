@@ -123,17 +123,31 @@ function FoglalasKartyak() {
 
     return (
         <>
-            <h2 style={{ textAlign: "center" }}>Elérhető időpontok</h2>
-            <div className="foglalas-kartyak-kontener">
-                {idopontok.map((idopont) => (
-                    <div key={idopont.id} className="foglalas-kartya" onClick={() => { setKivalasztottIdopont(idopont); setModalNyitva(true); }}>
-                        <h3>{formatDate(idopont.datum)}</h3>
-                        <p><strong>Képzés Témája:</strong> {idopont.idopont_tipus || "Ismeretlen tanfolyam"}</p>
-                        <p><strong>Max férőhely:</strong> {idopont.max_ferohely} fő</p>
-                        <p><strong>Elérhető helyek:</strong> {idopont.max_ferohely - idopont.foglaltHelyek} fő</p>
-                    </div>
-                ))}
-            </div>
+             <h2 style={{ textAlign: "center" }}>Elérhető időpontok</h2>
+    <div className="foglalas-kartyak-kontener">
+        {idopontok.map((idopont) => {
+            // 🟢 Elérhető helyek kiszámítása (max férőhely - foglalt és pending foglalások)
+            const elerhetoHelyek = Math.max(0, idopont.max_ferohely - (idopont.foglaltHelyek + idopont.pendingHelyek));
+
+            return (
+                <div 
+                    key={idopont.id} 
+                    className={`foglalas-kartya ${elerhetoHelyek === 0 ? "betelt" : ""}`} 
+                    onClick={() => {
+                        if (elerhetoHelyek > 0) { // Ha nincs hely, ne engedje a kattintást
+                            setKivalasztottIdopont(idopont); 
+                            setModalNyitva(true);
+                        }
+                    }}
+                >
+                    <h3>{formatDate(idopont.datum)}</h3>
+                    <p><strong>Képzés Témája:</strong> {idopont.idopont_tipus || "Ismeretlen tanfolyam"}</p>
+                    <p><strong>Max férőhely:</strong> {idopont.max_ferohely} fő</p>
+                    <p><strong>Elérhető helyek:</strong> {elerhetoHelyek === 0 ? "Betelt" : `${elerhetoHelyek} fő`}</p>
+                </div>
+            );
+        })}
+    </div>
 
             <Modal
     isOpen={modalNyitva}
@@ -172,7 +186,7 @@ function FoglalasKartyak() {
 
                 <h3>Foglalás</h3>
 
-                {["nev", "email", "telefon"].map((field) => (
+                {["Név", "email", "+36XXYYYZZZZ"].map((field) => (
                     <div key={field}>
                         <input className={`foglalas-adatok ${hibaMegjelenit && hibaUzenetek[field] ? "error" : ""}`} type={field === "email" ? "email" : "text"} placeholder={field.charAt(0).toUpperCase() + field.slice(1)} value={foglalasAdatok[field]} onChange={(e) => handleFoglalasInput(field, e.target.value)} />
                         {hibaMegjelenit && hibaUzenetek[field] && <p className="error-text">{hibaUzenetek[field]}</p>}

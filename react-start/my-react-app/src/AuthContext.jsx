@@ -3,28 +3,25 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(() => {
-        return localStorage.getItem("token"); // Ellenőrzi, hogy van-e token
-    });
+    const [isAuthenticated, setIsAuthenticated] = useState(null); // 🔄 Alapból `null`, hogy várja a betöltést
 
     useEffect(() => {
-        if (token) {
-            localStorage.setItem("token", token);
-        } else {
-            localStorage.removeItem("token");
-        }
-    }, [token]);
+        const token = localStorage.getItem("token");
+        setIsAuthenticated(token !== null); // 🔄 Frissítés után ellenőrzi a tokent
+    }, []);
 
-    const login = (newToken) => {
-        setToken(newToken);
+    const login = (token) => {
+        localStorage.setItem("token", token);
+        setIsAuthenticated(true);
     };
 
     const logout = () => {
-        setToken(null);
+        localStorage.removeItem("token");
+        setIsAuthenticated(false);
     };
 
     return (
-        <AuthContext.Provider value={{ token, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
