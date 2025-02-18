@@ -15,11 +15,13 @@ const AdminWrapper = ({ children }) => {
         const isAdminRoute = adminRoutes.some((route) => location.pathname.startsWith(route));
 
         if (isAdminRoute) {
-            console.log("Admin oldalon van, töröljük a `wasOnAdmin`-t.");
-            localStorage.removeItem("wasOnAdmin"); // ✅ Ha admin oldalra lépsz, törli a `wasOnAdmin`-t
+            console.log("Admin oldalon van, biztosan töröljük a `wasOnAdmin`-t.");
+            localStorage.removeItem("wasOnAdmin"); // ✅ Ha admin oldalra lépsz, biztosan törli a `wasOnAdmin`-t
         } else {
-            console.log("Elhagyta az admin oldalt, beállítjuk `wasOnAdmin = true`.");
-            localStorage.setItem("wasOnAdmin", "true"); // ✅ Most már garantáltan beállítja!
+            if (isAuthenticated) {
+                console.log("Most hagyta el az admin oldalt, `wasOnAdmin = true`.");
+                localStorage.setItem("wasOnAdmin", "true"); // ✅ Most már biztosan beállítja!
+            }
         }
 
         // 🔴 Tokent és bejelentkezést CSAK akkor töröljük, ha voltunk admin oldalon és most már nem vagyunk ott
@@ -29,11 +31,7 @@ const AdminWrapper = ({ children }) => {
             localStorage.removeItem("token"); // ✅ Tokent töröljük
             localStorage.removeItem("wasOnAdmin"); // ✅ `wasOnAdmin` törlése
             logout(); // ✅ Kijelentkeztetjük a felhasználót
-
-            // 🔴 Ha nem admin oldalra akarsz menni, NE dobjon vissza a `loginAdmin`-ra!
-            if (location.pathname !== "/loginAdmin") {
-                navigate("/", { replace: true }); // ✅ Most már a főoldalra visz, nem a `loginAdmin`-ra
-            }
+            navigate("/loginAdmin", { replace: true }); // ✅ Átirányítás a bejelentkezési oldalra
         }
 
         // ✅ Debugging információk a konzolhoz
