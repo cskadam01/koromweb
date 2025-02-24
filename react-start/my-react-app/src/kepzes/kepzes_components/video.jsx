@@ -3,15 +3,21 @@ import '../kepzes_styles/video.css';
 function Video() {
     return (
         <div className='main-vid'>
-            <h3>Műhelyem ahol a képzés történik</h3>
+            
             
         <div className="video-container">
+        <div className='video-text'>
+            <h3>Műhelyem ahol a képzés történik</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim sit ullam deserunt dolores, culpa assumenda quidem pariatur. Eaque architecto quaerat voluptatum ad sit fuga adipisci, ab error quidem, perspiciatis veritatis?</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, minus! Quas nemo eveniet repudiandae consectetur, optio voluptatibus debitis voluptatum natus repellat perferendis ducimus culpa earum fugit laborum error voluptatem veritatis.</p>
+        </div>
            
-
+        <div>
             <video autoPlay loop muted>
-                <source src="https://www.dropbox.com/scl/fi/pj60xqwr2tbcui713nhal/let-s-do-xiaohongshu-inspired-nails-at-home-asmr-nail-prep-gel-x-application-blush-nails.mp4?rlkey=0nevuldtp9sftz8bgzikamjtu&st=nezkzb7t&raw=1" type="video/mp4" />
+                <source className='video' src="https://dl.dropboxusercontent.com/scl/fi/kxklnzfifsdwwfxctop8u/muhely.mov?rlkey=ajnrn8419mxnjtatabaipkrd6&st=1d8gymx2" type="video/mp4" />
                 A böngésződ nem támogatja a videók lejátszását.
             </video>
+        </div>
         </div>
         </div>
 

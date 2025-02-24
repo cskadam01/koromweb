@@ -15,7 +15,7 @@ function Header (){
             <h1>Tanfolyam</h1>
             </div>
             <div className='leiras-header'>
-            <p>Lépj be a szalonom világába,</p>
+            <p>Lépj be a műhelyem világába,</p>
             <p>Ha valóban mesteri szinten szeretnéd elsajátítani a körömépítést, <br />tanulj tapasztalt szakembertől!</p>
             </div>
             

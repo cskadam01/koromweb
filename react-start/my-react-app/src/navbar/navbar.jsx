@@ -17,7 +17,7 @@ function Navbar() {
             </Link>
 
             <Link to="./galleria">
-            <li className="bal-nav">Galléria</li>
+            <li className="bal-nav">Galéria</li>
             </Link>
 
             <Link to="./kepzes">
@@ -29,7 +29,7 @@ function Navbar() {
             </Link> */}
 
         </div>
-        <li className="navbar-nev">Zsuzsa Köröm Műhelye</li>
+        <li className="navbar-nev">Körömműhely</li>
 
 
     </ul>

@@ -7,7 +7,7 @@ function ToKepzes(){
         <div className="tokepzes-content">
             
             <h1>Körömépítő Tanfolyamok</h1>
-            <p>Emeld új szintre a körömdíszítést, és engedd szabadjára a kreativitásodat profi iránymutatás mellett.</p> <p>Fedezd fel a végtelen dizájnlehetőségeket, és sajátítsd el a technikákat a tökéletes alkotáshoz.</p>
+            <p>Emeld új szintre a köröm készítést, és engedd szabadjára a kreativitásodat profi iránymutatás mellett.</p> <p>Fedezd fel a végtelen dizájnlehetőségeket, és sajátítsd el a jól bevált technikákat egyedi képzéseimen</p>
             <Link to="/kepzes">
                 <button>Tudj meg többet!</button>
             </Link>
