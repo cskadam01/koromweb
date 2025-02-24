@@ -382,7 +382,7 @@ def confirm_foglalas():
 
         # 📧 Email küldése a felhasználónak
         subject = "Foglalás megerősítve"
-        body = f"Kedves {foglalas['user_nev']},\n\nFoglalásod sikeresen megerősítésre került!\n\n📅 Időpont: {foglalas['datum']} {foglalas['kezdes_ido']} - {foglalas['vege_ido']}\n📝 Tanfolyam típusa: {foglalas['idopont_tipus']}\n\nVárunk szeretettel!\n\n\n Helyszín: OxyFitt \n Timúr utca 103 1162"
+        body = f"Kedves {foglalas['user_nev']},\n\nFoglalásod sikeresen megerősítésre került!\n\n📅 Időpont: {foglalas['datum']} {foglalas['kezdes_ido']} - {foglalas['vege_ido']}\n📝 Tanfolyam típusa: {foglalas['idopont_tipus']}\n\nVárunk szeretettel!\n\n\n Helyszín: OxyFitt \n Timur utca 103 1162 OxyFitt Második emelt "
         
         msg = Message(subject, recipients=[foglalas["user_email"]])
         msg.body = body

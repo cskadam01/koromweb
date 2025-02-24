@@ -14,7 +14,7 @@ const center = {
 const Terkep = () => {
   return (
     <div className="terkep">
-    <strong >Helyszín: Timur utca 103 1162 <a href="https://www.oxyfitt.eu" target="blank"> OxyFitt</a></strong>
+    <strong >Helyszín: Timur utca 103 1162 <a href="https://www.oxyfitt.eu" target="blank" style={{color:'Green'}}> OxyFitt</a></strong>
     <LoadScript googleMapsApiKey="AIzaSyCjNFZKLC8BM-aPsQ8nwy1axS5kjewOoEM">
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={14}>
         <Marker position={center} />
