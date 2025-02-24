@@ -3,6 +3,7 @@ import Video from "./kepzes_components/video";
 import FoglalasKartyak from "./kepzes_components/userFoglalas";
 import Modal from "react-modal";
 import KepzesHeader from "./kepzes_components/kepzes_header";
+import Terkep from "./kepzes_components/terkep";
 
 
 
@@ -16,6 +17,7 @@ function Kepzes(){
             <Leiras/>
             <FoglalasKartyak/>
             <Video/>
+            <Terkep/>
         </>
     );
 }

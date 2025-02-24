@@ -65,13 +65,15 @@ function FoglalasKartyak() {
             } else if (field === "email" && !validateEmail(value)) {
                 errorMsg = "Érvénytelen email cím!";
             } else if (field === "telefon" && !validatePhone(value)) {
-                errorMsg = "Érvénytelen telefonszám formátum!";
+                errorMsg = "Érvénytelen telefonszám formátum! Helyes példa: +36301112222";
             }
             setHibaUzenetek({ ...hibaUzenetek, [field]: errorMsg });
         }
     };
 
     const handleFoglalas = async () => {
+        console.log("Foglalás gomb megnyomva");
+
         setHibaMegjelenit(true);
         let errors = {};
 
@@ -83,7 +85,7 @@ function FoglalasKartyak() {
             } else if (field === "email" && !validateEmail(foglalasAdatok[field])) {
                 errors[field] = "Érvénytelen email cím!";
             } else if (field === "telefon" && !validatePhone(foglalasAdatok[field])) {
-                errors[field] = "Érvénytelen telefonszám formátum!";
+                errors[field] = "Érvénytelen telefonszám formátum! Helyes példa: +36301112222@";
             }
         });
 
@@ -186,9 +188,15 @@ function FoglalasKartyak() {
 
                 <h3>Foglalás</h3>
 
-                {["Név", "email", "+36XXYYYZZZZ"].map((field) => (
+                {["nev", "email", "telefon"].map((field) => (
                     <div key={field}>
-                        <input className={`foglalas-adatok ${hibaMegjelenit && hibaUzenetek[field] ? "error" : ""}`} type={field === "email" ? "email" : "text"} placeholder={field.charAt(0).toUpperCase() + field.slice(1)} value={foglalasAdatok[field]} onChange={(e) => handleFoglalasInput(field, e.target.value)} />
+                        <input 
+            className={`foglalas-adatok ${hibaMegjelenit && hibaUzenetek[field] ? "error" : ""}`} 
+            type={field === "email" ? "email" : "text"} 
+            placeholder={field.charAt(0).toUpperCase() + field.slice(1)} 
+            value={foglalasAdatok[field] ?? ""}  // Ha undefined, akkor üres string legyen
+            onChange={(e) => handleFoglalasInput(field, e.target.value)} 
+        />
                         {hibaMegjelenit && hibaUzenetek[field] && <p className="error-text">{hibaUzenetek[field]}</p>}
                     </div>
                 ))}
@@ -209,6 +217,7 @@ function FoglalasKartyak() {
                 <button className="foglalas-gomb" onClick={handleFoglalas} disabled={!aszfElfogadva}>
                     Foglalás
                 </button>
+
                 <button className="foglalas-bezaras" onClick={closeModal}>Vissza</button>
             </Modal>
         </>

@@ -16,7 +16,7 @@ function Idopontok() {
 
     const fetchIdopontok = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/admin/idopontok");
+            const response = await axios.get("http://localhost:5000/api/idopontok");
             setIdopontok(response.data);
         } catch (error) {
             console.error("Hiba az időpontok lekérdezésekor:", error);
