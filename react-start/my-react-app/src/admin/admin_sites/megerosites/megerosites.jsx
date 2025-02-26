@@ -13,7 +13,7 @@ function Megerosites() {
 
     const fetchPendingFoglalasok = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/admin/pending_foglalasok");
+            const response = await axios.get("http://zsukoromtest.duckdns.org:5000/api/admin/pending_foglalasok");
             setPendingFoglalasok(response.data);
         } catch (error) {
             console.error("Hiba a függő foglalások lekérdezésekor:", error);
@@ -22,7 +22,7 @@ function Megerosites() {
 
     const fetchConfirmedFoglalasok = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/admin/confirmed_foglalasok");
+            const response = await axios.get("http://zsukoromtest.duckdns.org:5000/api/admin/confirmed_foglalasok");
             setConfirmedFoglalasok(response.data);
         } catch (error) {
             console.error("Hiba a megerősített foglalások lekérdezésekor:", error);
@@ -31,7 +31,7 @@ function Megerosites() {
 
     const confirmFoglalas = async (foglalId) => {
         try {
-            await axios.post("http://localhost:5000/api/admin/foglalas_megerosites", { foglalId });
+            await axios.post("http://zsukoromtest.duckdns.org:5000/api/admin/foglalas_megerosites", { foglalId });
             fetchPendingFoglalasok();
             fetchConfirmedFoglalasok();
         } catch (error) {
@@ -41,7 +41,7 @@ function Megerosites() {
 
     const rejectFoglalas = async (foglalId) => {
         try {
-            await axios.post("http://localhost:5000/api/admin/foglalas_elutasitas", { foglalId });
+            await axios.post("http://zsukoromtest.duckdns.org:5000/api/admin/foglalas_elutasitas", { foglalId });
             fetchPendingFoglalasok();
         } catch (error) {
             console.error("Hiba a foglalás elutasításakor:", error);

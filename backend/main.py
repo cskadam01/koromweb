@@ -15,7 +15,8 @@ import time
 app = Flask(__name__)
 
 # Flask-CORS konfiguráció
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -30,12 +31,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def get_db_connection():
     if 'db' not in g:
         g.db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
+            host="localhost",  # A MySQL a szerveren fut
+            user="csadax",  # Az új felhasználó neve
+            password="Vettem2tejet!",  # A MySQL-hez beállított jelszó
             database="zsuzsakorom"
         )
     return g.db
+
+
 
 # Kapcsolat lezárása a kérés után
 @app.teardown_appcontext
@@ -47,10 +50,11 @@ def close_db_connection(exception):
 # OPTIONS preflight válaszkezelés
 @app.after_request
 def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+    response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
     return response
+
 #region Email küldés
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Használhatsz más SMTP szervert is
 app.config['MAIL_PORT'] = 587
@@ -576,4 +580,5 @@ def start_background_task():
 
 if __name__ == '__main__':
     start_background_task()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+

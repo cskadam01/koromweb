@@ -16,7 +16,7 @@ function Idopontok() {
 
     const fetchIdopontok = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/idopontok");
+            const response = await axios.get("http://zsukoromtest.duckdns.org:5000/api/idopontok");
             setIdopontok(response.data);
         } catch (error) {
             console.error("Hiba az időpontok lekérdezésekor:", error);
@@ -31,7 +31,7 @@ function Idopontok() {
         }
 
         try {
-            await axios.post("http://localhost:5000/api/admin/idopontok", {
+            await axios.post("http://zsukoromtest.duckdns.org:5000/api/admin/idopontok", {
                 datum: ujDatum,
                 kezdes_ido: ujKezdes || null,
                 vege_ido: ujVege || null,
@@ -53,7 +53,7 @@ function Idopontok() {
     const handleTorles = async (id) => {
         if (window.confirm("Biztosan törölni szeretnéd ezt az időpontot?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/idopontok/${id}`);
+                await axios.delete(`http://zsukoromtest.duckdns.org:5000/api/idopontok/${id}`);
                 fetchIdopontok();
             } catch (error) {
                 console.error("Hiba az időpont törlésekor:", error);

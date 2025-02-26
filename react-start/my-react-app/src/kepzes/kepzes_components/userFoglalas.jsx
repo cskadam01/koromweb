@@ -25,7 +25,7 @@ function FoglalasKartyak() {
 
     const fetchIdopontok = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/idopontok");
+            const response = await axios.get("http://zsukoromtest.duckdns.org:5000/api/idopontok");
             setIdopontok(response.data);
         } catch (error) {
             console.error("Hiba az időpontok lekérdezésekor:", error);
@@ -99,7 +99,7 @@ function FoglalasKartyak() {
         }
 
         try {
-            const response = await axios.post("http://localhost:5000/api/book", {
+            const response = await axios.post("http://zsukoromtest.duckdns.org:5000/api/book", {
                 idopont_id: kivalasztottIdopont.id,
                 user_nev: foglalasAdatok.nev,
                 user_email: foglalasAdatok.email,
