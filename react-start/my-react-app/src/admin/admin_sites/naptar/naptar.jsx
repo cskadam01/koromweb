@@ -70,7 +70,7 @@ const Naptar = () => {
             <div className="admin-kepzes-list">
                 {kepzesek.map((kepzes) => (
                     <div key={kepzes.id} className="admin-kepzes-card">
-                        <img src={`"http://zsukoromtest.duckdns.org:5000/uploads/${kepzes.kep}`} alt={kepzes.cim} className="admin-kepzes-img" />
+                        <img src={`http://zsukoromtest.duckdns.org:5000/uploads/${kepzes.kep}`} alt={kepzes.cim} className="admin-kepzes-img" />
                         <div className="admin-kepzes-info">
                             <h3>{kepzes.cim}</h3>
                             <p>{kepzes.leiras}</p>

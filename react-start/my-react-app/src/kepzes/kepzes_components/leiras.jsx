@@ -24,7 +24,7 @@ const Leiras = () => {
             <div className="kepzes-list">
                 {kepzesek.map((kepzes) => (
                     <div key={kepzes.id} className="kepzes-card">
-                        <img src={`http://zsukoromtest.duckdns.org:5000/${kepzes.kep}`} alt={kepzes.cim} />
+                        <img src={`http://zsukoromtest.duckdns.org:5000/uploads/${kepzes.kep}`} alt={kepzes.cim} />
                         <div className="kepzes-info">
                             <h3>{kepzes.cim}</h3>
                             <p>{kepzes.leiras}</p>
