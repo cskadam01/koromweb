@@ -186,4 +186,17 @@ padding: 60px;
     min-width: 900px; /* Mobilon nagyobb szélesség, hogy ne zsugorodjon */
     height: 800px; /* Magasabb naptár mobil nézetben */
   }
+  .terkep{
+    max-width: 100%;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    padding: 0px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+      
+    
+    
+    }
 }

@@ -7,9 +7,16 @@ function Video() {
             
         <div className="video-container">
         <div className='video-text'>
-            <h3>Műhelyem ahol a képzés történik</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim sit ullam deserunt dolores, culpa assumenda quidem pariatur. Eaque architecto quaerat voluptatum ad sit fuga adipisci, ab error quidem, perspiciatis veritatis?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, minus! Quas nemo eveniet repudiandae consectetur, optio voluptatibus debitis voluptatum natus repellat perferendis ducimus culpa earum fugit laborum error voluptatem veritatis.</p>
+            <h3 style={{fontFamily:"Gloock"}}>Műhelyem ahol a képzés történik</h3>
+
+            <p style={{fontFamily:'Hansen'}}>
+            A Körömműhely egy több szépségipari szolgáltatást működtető fitness teremben van Budapest 16. kerületében.
+Itt várom a vendégeimet és ezen a helyen tartom az egyéni képzéseket is.
+Egy nálam töltött nap alatt sok mindent megtanulhatsz a szalon munka csodás világáról, hangulatáról és remek ötleteket meríthetsz tapasztalataimból, megoldásaimból is.
+Sok olyan hasznos apróság van ami jelentősen egyszerűsíti, ezáltal gyorsítja a munkádat, így több időd marad minőségi munkát kiadni a kezedből.
+Várlak szeretettel!
+            </p>
+            <p style={{fontFamily:"Palatino Linotype"}}>Zsuzsa</p>
         </div>
            
         <div>

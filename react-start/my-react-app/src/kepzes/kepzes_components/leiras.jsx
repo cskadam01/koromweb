@@ -11,7 +11,7 @@ const Leiras = () => {
 
     const fetchKepzesek = async () => {
         try {
-            const response = await axios.get("http://zsukoromtest.duckdns.org:5000/api/kepzesek");
+            const response = await axios.get("http://localhost:5000/api/kepzesek");
             setKepzesek(response.data);
         } catch (error) {
             console.error("Hiba a képzések lekérdezésekor:", error);
@@ -24,7 +24,7 @@ const Leiras = () => {
             <div className="kepzes-list">
                 {kepzesek.map((kepzes) => (
                     <div key={kepzes.id} className="kepzes-card">
-                        <img src={`http://zsukoromtest.duckdns.org:5000/uploads/${kepzes.kep}`} alt={kepzes.cim} />
+                        <img src={`http://localhost:5000/uploads/${kepzes.kep}`} alt={kepzes.cim} />
                         <div className="kepzes-info">
                             <h3>{kepzes.cim}</h3>
                             <p>{kepzes.leiras}</p>

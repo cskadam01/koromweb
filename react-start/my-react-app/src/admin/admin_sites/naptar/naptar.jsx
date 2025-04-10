@@ -14,7 +14,7 @@ const Naptar = () => {
 
     const fetchKepzesek = async () => {
         try {
-            const response = await axios.get("http://zsukoromtest.duckdns.org:5000/api/kepzesek");
+            const response = await axios.get("http://localhost:5000/api/kepzesek");
             setKepzesek(response.data);
         } catch (error) {
             console.error("Hiba a képzések lekérdezésekor:", error);
@@ -34,7 +34,7 @@ const Naptar = () => {
         formData.append("kep", kep);
 
         try {
-            await axios.post("http://zsukoromtest.duckdns.org:5000/api/admin/kepzesek", formData, {
+            await axios.post("http://localhost:5000/api/admin/kepzesek", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
             fetchKepzesek();
@@ -49,7 +49,7 @@ const Naptar = () => {
     const handleDeleteKepzes = async (id) => {
         if (!window.confirm("Biztosan törölni szeretnéd ezt a képzést?")) return;
         try {
-            await axios.delete(`http://zsukoromtest.duckdns.org:5000/api/admin/kepzesek/${id}`);
+            await axios.delete(`http://localhost:5000/api/admin/kepzesek/${id}`);
             fetchKepzesek();
         } catch (error) {
             console.error("Hiba a törlés során:", error);
@@ -70,7 +70,7 @@ const Naptar = () => {
             <div className="admin-kepzes-list">
                 {kepzesek.map((kepzes) => (
                     <div key={kepzes.id} className="admin-kepzes-card">
-                        <img src={`http://zsukoromtest.duckdns.org:5000/uploads/${kepzes.kep}`} alt={kepzes.cim} className="admin-kepzes-img" />
+                        <img src={`http://localhost:5000/uploads/${kepzes.kep}`} alt={kepzes.cim} className="admin-kepzes-img" />
                         <div className="admin-kepzes-info">
                             <h3>{kepzes.cim}</h3>
                             <p>{kepzes.leiras}</p>

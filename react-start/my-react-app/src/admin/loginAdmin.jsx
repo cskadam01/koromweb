@@ -16,7 +16,7 @@ function LoginAdmin() {
         setErrorMessage('');
 
         try {
-            const response = await axios.post("http://zsukoromtest.duckdns.org:5000/api/login", {
+            const response = await axios.post("http://localhost:5000/api/login", {
                 username: username.trim(),
                 password: password
             });

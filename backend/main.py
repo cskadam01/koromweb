@@ -15,7 +15,8 @@ import time
 app = Flask(__name__)
 
 # Flask-CORS konfiguráció
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
+
 
 
 UPLOAD_FOLDER = 'uploads'
@@ -32,8 +33,8 @@ def get_db_connection():
     if 'db' not in g:
         g.db = mysql.connector.connect(
             host="localhost",  # A MySQL a szerveren fut
-            user="csadax",  # Az új felhasználó neve
-            password="Vettem2tejet!",  # A MySQL-hez beállított jelszó
+            user="root",  # Az új felhasználó neve
+            password="",  # A MySQL-hez beállított jelszó
             database="zsuzsakorom"
         )
     return g.db
@@ -54,6 +55,7 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
     return response
+
 
 #region Email küldés
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Használhatsz más SMTP szervert is
