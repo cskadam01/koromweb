@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Nov 12. 11:51
+-- Létrehozás ideje: 2025. Ápr 10. 10:20
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -38,48 +38,74 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_Id`, `adminName`, `adminPass`) VALUES
-(1, '[Zsuzsa]', '[123456]');
+(1, 'Zsuzsa', '$2b$12$w0aNIJR3HRE.ucjhmqgV6uIgjDSnTIZYRHv2CvLFP26uzRuI9jUKG');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `appointment`
+-- Tábla szerkezet ehhez a táblához `foglalasok`
 --
 
-CREATE TABLE `appointment` (
-  `foglalId` int(11) NOT NULL,
+CREATE TABLE `foglalasok` (
+  `id` int(11) NOT NULL,
+  `idopont_id` int(11) NOT NULL,
+  `user_nev` varchar(100) NOT NULL,
+  `user_email` varchar(100) NOT NULL,
+  `user_telefon` varchar(20) NOT NULL,
+  `statusz` enum('pending','confirmed','cancelled') DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `foglalasok`
+--
+
+INSERT INTO `foglalasok` (`id`, `idopont_id`, `user_nev`, `user_email`, `user_telefon`, `statusz`) VALUES
+(12, 6, 'Szandi', 'ritteralexandra92@gmail.com', '+36206666666', 'confirmed');
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `idopontok`
+--
+
+CREATE TABLE `idopontok` (
+  `id` int(11) NOT NULL,
   `datum` date NOT NULL,
-  `kezdIdo` varchar(255) NOT NULL,
-  `vegIdo` varchar(255) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `megerosit` tinyint(1) NOT NULL
+  `kezdes_ido` time DEFAULT NULL,
+  `vege_ido` time DEFAULT NULL,
+  `max_ferohely` int(11) NOT NULL,
+  `idopont_tipus` varchar(255) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `idopontok`
+--
+
+INSERT INTO `idopontok` (`id`, `datum`, `kezdes_ido`, `vege_ido`, `max_ferohely`, `idopont_tipus`) VALUES
+(6, '2025-03-30', NULL, NULL, 20, 'Glitter Ombre'),
+(7, '2025-03-08', NULL, NULL, 123, 'asdasd'),
+(8, '2025-03-13', NULL, NULL, 23432, 'asddassdsda');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `service`
+-- Tábla szerkezet ehhez a táblához `kepzesek`
 --
 
-CREATE TABLE `service` (
-  `szolgalId` int(11) NOT NULL,
-  `szolgalPrice` int(11) NOT NULL,
-  `szolgalName` varchar(255) NOT NULL,
-  `foglalID` int(11) NOT NULL
+CREATE TABLE `kepzesek` (
+  `id` int(11) NOT NULL,
+  `cim` varchar(255) NOT NULL,
+  `leiras` text NOT NULL,
+  `kep` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
--- --------------------------------------------------------
-
 --
--- Tábla szerkezet ehhez a táblához `users`
+-- A tábla adatainak kiíratása `kepzesek`
 --
 
-CREATE TABLE `users` (
-  `userId` int(11) NOT NULL,
-  `userName` varchar(255) NOT NULL COMMENT 'Felhasználónév',
-  `userEmail` varchar(255) NOT NULL COMMENT 'Felhasználó email címe',
-  `userPhone` varchar(255) NOT NULL COMMENT 'Felhasználó telefonszáma'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+INSERT INTO `kepzesek` (`id`, `cim`, `leiras`, `kep`) VALUES
+(2, 'Képzés', 'HEHEHAHAHA', 'brush.png'),
+(3, 'Francia Köröm', 'Ezen a képzésen megtanulhatsz Francia körmöt építeni stb stb stb', 'korom.jpg');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -92,26 +118,23 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`admin_Id`);
 
 --
--- A tábla indexei `appointment`
+-- A tábla indexei `foglalasok`
 --
-ALTER TABLE `appointment`
-  ADD PRIMARY KEY (`foglalId`),
-  ADD KEY `userId` (`userId`);
+ALTER TABLE `foglalasok`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idopont_id` (`idopont_id`);
 
 --
--- A tábla indexei `service`
+-- A tábla indexei `idopontok`
 --
-ALTER TABLE `service`
-  ADD PRIMARY KEY (`szolgalId`),
-  ADD KEY `foglalID` (`foglalID`);
+ALTER TABLE `idopontok`
+  ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `users`
+-- A tábla indexei `kepzesek`
 --
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`userId`),
-  ADD UNIQUE KEY `userEmail` (`userEmail`),
-  ADD UNIQUE KEY `userPhone` (`userPhone`);
+ALTER TABLE `kepzesek`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -124,32 +147,32 @@ ALTER TABLE `admin`
   MODIFY `admin_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `appointment`
+-- AUTO_INCREMENT a táblához `foglalasok`
 --
-ALTER TABLE `appointment`
-  MODIFY `foglalId` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `foglalasok`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT a táblához `service`
+-- AUTO_INCREMENT a táblához `idopontok`
 --
-ALTER TABLE `service`
-  MODIFY `szolgalId` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `idopontok`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT a táblához `kepzesek`
+--
+ALTER TABLE `kepzesek`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Megkötések a kiírt táblákhoz
 --
 
 --
--- Megkötések a táblához `appointment`
+-- Megkötések a táblához `foglalasok`
 --
-ALTER TABLE `appointment`
-  ADD CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Megkötések a táblához `service`
---
-ALTER TABLE `service`
-  ADD CONSTRAINT `service_ibfk_1` FOREIGN KEY (`foglalID`) REFERENCES `appointment` (`foglalId`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `foglalasok`
+  ADD CONSTRAINT `foglalasok_ibfk_1` FOREIGN KEY (`idopont_id`) REFERENCES `idopontok` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
